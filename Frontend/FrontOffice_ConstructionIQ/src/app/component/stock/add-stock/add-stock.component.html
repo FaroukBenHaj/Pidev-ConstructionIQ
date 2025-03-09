@@ -12,9 +12,11 @@
     <label for="projetID">ID du Projet</label>
     <input type="number" id="projetID" name="projetID" [(ngModel)]="newStock.projetID" required>
 
-    <label for="materialID">ID du Matériau</label>
-    <input type="number" id="materialID" name="materialID" [(ngModel)]="newStock.materialID" required>
-
+    <label for="materialID">Sélectionner les Matériaux</label>
+    <select id="materialID" name="materialID" [(ngModel)]="newStock.materialIDs" multiple required>
+      <option *ngFor="let material of materials" [value]="material.materialID">{{ material.materialName }}</option>
+    </select>
+    
     <button type="submit" [disabled]="!stockForm.form.valid">Ajouter</button>
 
     <!-- Affichage des messages d'erreur ou de succès -->

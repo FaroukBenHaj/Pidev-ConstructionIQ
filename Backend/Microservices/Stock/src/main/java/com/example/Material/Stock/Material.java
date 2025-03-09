@@ -1,25 +1,24 @@
 package com.example.Material.Stock;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Entity
 public class Material {
 
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long materialID;
 
     private String materialName;
-    private float cost;
-
-    @Enumerated(EnumType.STRING)
-    private  UnitOfMeasure   materialUnit;
 
     public Long getMaterialID() {
         return materialID;
@@ -45,11 +44,31 @@ public class Material {
         this.cost = cost;
     }
 
-    public UnitOfMeasure  getMaterialUnit() {
+    public UnitOfMeasure getMaterialUnit() {
         return materialUnit;
     }
 
-    public void setMaterialUnit(UnitOfMeasure  materialUnit) {
+    public void setMaterialUnit(UnitOfMeasure materialUnit) {
         this.materialUnit = materialUnit;
     }
+
+    public List<Stock> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
+    }
+
+    private float cost;
+
+    @Enumerated(EnumType.STRING)
+    private UnitOfMeasure materialUnit;
+
+    // Liste des stocks associés à ce matériau (relation Many-to-Many)
+    @ManyToMany(mappedBy = "materials")
+    @JsonIgnore
+    private List<Stock> stocks;
+
+    // Getters et setters pour les autres propriétés
 }

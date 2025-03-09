@@ -1,40 +1,41 @@
 package com.example.Material.Stock;
 
-
-
-
-
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 public class Stock {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stockID;
     private Long projetID;
-
-
-
-    private Long materialID;
     private int availableQuantity;
+
     // Vérifie que la date est dans le passé
     private LocalDate dateReceived;
 
+    // Liste des matériaux associés
+    @ManyToMany
+    @JoinTable(
+            name = "stock_material",
+            joinColumns = @JoinColumn(name = "stockID"),
+            inverseJoinColumns = @JoinColumn(name = "materialID")
+    )
+    private List<Material> materials;// Liste des matériaux associés à ce stock
 
-    @Version
-    private Long version = 0L;  // Assurez-vous que la version a une valeur initiale
-
-    public Long getProjetID() {
-        return projetID;
+    // Méthode pour obtenir les IDs des matériaux associés
+    public List<Long> getMaterialIDs() {
+        return materials.stream()
+                .map(Material::getMaterialID)
+                .toList(); // Récupère les IDs des matériaux
     }
 
-    public void setProjetID(Long projetID) {
-        this.projetID = projetID;
-    }
-    // Getters and Setters
+    // Getters et setters
     public Long getStockID() {
         return stockID;
     }
@@ -43,12 +44,12 @@ public class Stock {
         this.stockID = stockID;
     }
 
-    public Long getMaterialID() {
-        return materialID;
+    public Long getProjetID() {
+        return projetID;
     }
 
-    public void setMaterialID(Long materialID) {
-        this.materialID = materialID;
+    public void setProjetID(Long projetID) {
+        this.projetID = projetID;
     }
 
     public int getAvailableQuantity() {
@@ -65,5 +66,17 @@ public class Stock {
 
     public void setDateReceived(LocalDate dateReceived) {
         this.dateReceived = dateReceived;
+    }
+
+    public List<Material> getMaterials() {
+        if (materials == null) {
+            materials = new ArrayList<>();
+        }
+        return materials;
+    }
+
+
+    public void setMaterials(List<Material> materials) {
+        this.materials = materials;
     }
 }

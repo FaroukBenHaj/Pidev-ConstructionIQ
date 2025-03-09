@@ -35,20 +35,34 @@ export class StockService {
   }
 
   createStock(stock: Stock): Observable<Stock> {
+    // Ne pas envoyer stockID lors de la création
+    stock.stockID = undefined; 
+  
     const url = `${this.apiUrl}/post`;  
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
   
-    console.log('Données envoyées au backend:', stock); // Assurez-vous que les données envoyées sont correctes
+    // Construire un tableau d'objets materials si nécessaire
+    const payload = {
+      availableQuantity: stock.availableQuantity,
+      dateReceived: stock.dateReceived,
+      projetID: stock.projetID,
+      materialIDs: stock.materialIDs,  // Toujours envoyer les IDs des matériaux
+      materials: stock.materials       // Assurez-vous d'envoyer les matériaux complets si nécessaire
+    };
   
-    return this.http.post<Stock>(url, stock, { headers }).pipe(
+    console.log('Données envoyées au backend:', payload); // Afficher ce qui est réellement envoyé
+  
+    return this.http.post<Stock>(url, payload, { headers }).pipe(
       catchError(error => {
         console.error('Erreur lors de la création du stock', error);
         return throwError(() => new Error('Erreur lors de l\'ajout du stock'));
       })
     );
   }
+    
+  
   
 
   // Méthode pour supprimer un stock par ID

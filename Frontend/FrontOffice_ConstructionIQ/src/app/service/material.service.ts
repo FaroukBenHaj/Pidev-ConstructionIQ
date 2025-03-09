@@ -8,7 +8,7 @@ import { Material } from '../material.model';
 })
 export class MaterialService {
 
-  private baseUrl: string = 'http://localhost:8073/materials'; // URL de l'API Spring Boot
+  private baseUrl: string = 'http://localhost:8072/materials'; // URL de l'API Spring Boot
 
   constructor(private http: HttpClient) { }
 

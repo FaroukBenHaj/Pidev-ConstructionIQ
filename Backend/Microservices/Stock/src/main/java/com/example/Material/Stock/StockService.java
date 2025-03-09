@@ -14,6 +14,8 @@ import java.util.Optional;
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
+    @Autowired
+    private MaterialRepository materialRepository;
 //    @Autowired
 //    StockInterface stockInterface;
 //
@@ -66,4 +68,11 @@ public class StockService {
     public void deleteStock(Long id) {
         stockRepository.deleteById(id);
     }
+
+
+    // Récupérer une liste de matériaux à partir de leurs IDs
+
+    // Récupérer une liste de matériaux à partir de leurs IDs
+
+
 }

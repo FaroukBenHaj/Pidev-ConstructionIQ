@@ -1,46 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StockService } from 'src/app/service/stock.service';
+import { MaterialService } from 'src/app/service/material.service';
 import { Stock } from 'src/app/models/stock.model';
 import { Router } from '@angular/router';
+import { Material } from 'src/app/material.model';
 
 @Component({
   selector: 'app-add-stock',
   templateUrl: './add-stock.component.html',
   styleUrls: ['./add-stock.component.css']
 })
-export class AddStockComponent {
+export class AddStockComponent implements OnInit {
   newStock: Stock = {
     availableQuantity: 0,
     dateReceived: '',
-    stockID: 0,     // stockID peut être généré côté backend
-    projetID: 0,    // ID du projet, ajuster selon votre logique
-    materialID: 0   // ID du matériau
+    stockID: undefined,  // Ne pas envoyer stockID lors de la création
+    projetID: 0,
+    materialIDs: [],  // Liste des IDs des matériaux
+    materials: [] // Liste des objets Material
   };
 
-  errorMessage: string = '';  // Variable pour afficher un message d'erreur
-  successMessage: string = '';  // Variable pour afficher un message de succès
-  isSubmitting: boolean = false; // Variable pour désactiver le bouton pendant la soumission
+  materials: Material[] = [];
+  errorMessage: string = '';
+  successMessage: string = '';
+  isSubmitting: boolean = false;
 
-  constructor(private stockService: StockService, private router: Router) {}
+  constructor(private stockService: StockService, 
+              private materialService: MaterialService, 
+              private router: Router) {}
 
-  // Méthode appelée lors de la soumission du formulaire
+  ngOnInit(): void {
+    // Récupérer la liste des matériaux
+    this.materialService.getAllMaterials().subscribe(
+      (data) => {
+        this.materials = data;
+      },
+      (error) => {
+        this.errorMessage = 'Erreur lors de la récupération des matériaux.';
+        console.error(error);
+      }
+    );
+  }
+
   onSubmit(): void {
-    this.errorMessage = ''; // Réinitialiser l'erreur à chaque soumission
-    this.successMessage = ''; // Réinitialiser le message de succès
+    this.errorMessage = '';
+    this.successMessage = '';
 
-    // Vérification des données avant l'envoi
     if (this.isValidForm()) {
-      this.isSubmitting = true; // Indiquer que la soumission est en cours
+      this.isSubmitting = true;
+
+      // Récupérer les objets Material complets à partir des IDs sélectionnés
+      this.newStock.materials = this.materials.filter(material => this.newStock.materialIDs.includes(material.materialID));
 
       // Appel du service pour ajouter le stock
       this.stockService.createStock(this.newStock).subscribe(
         (data) => {
-          console.log('Stock ajouté avec succès', data);
           this.successMessage = 'Le stock a été ajouté avec succès.';
-          this.router.navigate(['/stocks']); // Redirection après ajout
+          this.router.navigate(['/stock']); // Redirection après ajout
         },
         (error) => {
-          this.isSubmitting = false; // Réinitialiser le bouton une fois la soumission terminée
+          this.isSubmitting = false;
           this.handleError(error);
         }
       );
@@ -49,19 +68,16 @@ export class AddStockComponent {
     }
   }
 
-  // Vérification que le formulaire est valide
   isValidForm(): boolean {
     return (
       this.newStock.availableQuantity > 0 &&
       this.newStock.dateReceived !== '' &&
-      this.newStock.materialID > 0
+      this.newStock.materialIDs.length > 0
     );
   }
 
-  // Fonction pour gérer les erreurs
   handleError(error: any): void {
-    this.errorMessage = ''; // Réinitialiser l'erreur
-
+    this.errorMessage = '';
     if (error.status === 500) {
       this.errorMessage = 'Une erreur interne est survenue. Veuillez réessayer plus tard.';
     } else if (error.status === 400) {
