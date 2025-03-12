@@ -14,7 +14,8 @@ import { InvoiceComponent } from './component/invoice/invoice.component';
 import { ShowBudgetComponent } from './component/budget/show-budget/show-budget.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CommandeComponent } from './component/commande/commande.component';  
+import { CommandeComponent } from './component/commande/commande.component';
+import { ShowCommandeComponent } from './component/commande/show-commande/show-commande.component';  
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CommandeComponent } from './component/commande/commande.component';
     PaymentComponent,
     InvoiceComponent,
     ShowBudgetComponent,
-    CommandeComponent
+    CommandeComponent,
+    ShowCommandeComponent
   ],
   imports: [
     BrowserModule,

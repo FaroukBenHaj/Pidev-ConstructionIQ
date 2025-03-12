@@ -1,14 +1,12 @@
 package tn.esprit.finance.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,25 +16,28 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private BigDecimal montant;
 
+    @Column(nullable = false)
+    private LocalDateTime dateEmission;
+    @PrePersist
+    protected void onCreate() {
+        this.dateEmission = LocalDateTime.now();
+    }
 
-    @OneToOne
-    private Projet projectId;
-    @OneToOne
-    private User userId;
-    private double montant;
+    @ManyToOne
+    @JoinColumn(name = "commande_id")
+    private Commande commande ;
 
     @Enumerated(EnumType.STRING)
-    private InvoiceStatus status;
+    private StatutInvoice statut;
 
-    private LocalDateTime dateEmission;
-    private Date dateEcheance;
+    @OneToMany(mappedBy = "invoice")
+    @JsonBackReference
+    private List<Payment> payments;
 
-
-    public enum InvoiceStatus{
-        En_Attente,
-        Payee,
-        Rejetee,
+    public enum StatutInvoice {
+        EN_ATTENTE, PAYE, ANNULE
     }
 }
-

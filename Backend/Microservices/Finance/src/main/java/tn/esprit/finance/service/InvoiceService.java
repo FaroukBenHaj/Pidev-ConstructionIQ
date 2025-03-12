@@ -1,37 +1,40 @@
 package tn.esprit.finance.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.finance.entity.Invoice;
-import tn.esprit.finance.entity.Projet;
 import tn.esprit.finance.repository.InvoiceRepository;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class InvoiceService {
-    @Autowired
-    private  InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
 
     public Invoice createInvoice(Invoice invoice) {
-        invoice.setStatus(Invoice.InvoiceStatus.En_Attente);
-        invoice.setDateEmission(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
         return invoiceRepository.save(invoice);
     }
 
-    public List<Invoice> getInvoicesByProject(Projet projectId) {
-        return invoiceRepository.findByProjectId(projectId);
+    public Optional<Invoice> getInvoiceById(Long id) {
+        return invoiceRepository.findById(id);
     }
 
-    public Invoice updateInvoiceStatus(Long id, Invoice.InvoiceStatus status) {
-        Invoice invoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Facture non trouvée"));
-        invoice.setStatus(status);
-        return invoiceRepository.save(invoice);
+    public List<Invoice> getAllInvoices() {
+        return invoiceRepository.findAll();
+    }
+
+    public Invoice updateInvoice(Long id, Invoice updatedInvoice) {
+        return invoiceRepository.findById(id).map(existingInvoice -> {
+            existingInvoice.setMontant(updatedInvoice.getMontant());
+            existingInvoice.setStatut(updatedInvoice.getStatut());
+            existingInvoice.setDateEmission(updatedInvoice.getDateEmission());
+            return invoiceRepository.save(existingInvoice);
+        }).orElseThrow(() -> new IllegalArgumentException("Facture non trouvée !"));
+    }
+
+    public void deleteInvoice(Long id) {
+        invoiceRepository.deleteById(id);
     }
 }
-

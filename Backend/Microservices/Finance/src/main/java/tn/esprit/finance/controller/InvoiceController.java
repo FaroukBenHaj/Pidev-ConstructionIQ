@@ -1,33 +1,47 @@
 package tn.esprit.finance.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.finance.entity.Invoice;
 import tn.esprit.finance.service.InvoiceService;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/invoices")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class InvoiceController {
-    @Autowired
-    private InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
-//    @PostMapping
-//    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
-//        return ResponseEntity.ok(invoiceService.createInvoice(invoice));
-//    }
-@PostMapping
-public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
-    Invoice newInvoice = invoiceService.createInvoice(invoice);
-    return ResponseEntity.status(HttpStatus.CREATED).body(newInvoice);
-}
+    @PostMapping
+    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
+        Invoice savedInvoice = invoiceService.createInvoice(invoice);
+        return ResponseEntity.ok(savedInvoice);
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Invoice> getInvoiceById(@PathVariable Long id) {
+        Optional<Invoice> invoice = invoiceService.getInvoiceById(id);
+        return invoice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Invoice> updateStatus(@PathVariable Long id, @RequestParam Invoice.InvoiceStatus status) {
-        return ResponseEntity.ok(invoiceService.updateInvoiceStatus(id, status));
+    @GetMapping
+    public ResponseEntity<List<Invoice>> getAllInvoices() {
+        List<Invoice> invoices = invoiceService.getAllInvoices();
+        return ResponseEntity.ok(invoices);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Invoice> updateInvoice(@PathVariable Long id, @RequestBody Invoice updatedInvoice) {
+        Invoice invoice = invoiceService.updateInvoice(id, updatedInvoice);
+        return ResponseEntity.ok(invoice);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInvoice(@PathVariable Long id) {
+        invoiceService.deleteInvoice(id);
+        return ResponseEntity.noContent().build();
     }
 }
-

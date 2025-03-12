@@ -1,84 +1,49 @@
 package tn.esprit.finance.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.finance.entity.Budget;
 import tn.esprit.finance.service.BudgetService;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-import java.util.Optional;
-
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//import tn.esprit.finance.entity.Budget;
-//import tn.esprit.finance.service.BudgetService;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RestController
-//@RequestMapping("/api/budgets")
-//public class BudgetController {
-//
-//    @Autowired
-//    private BudgetService budgetService;
-//
-//    @GetMapping
-//    public List<Budget> getAllBudgets() {
-//        return budgetService.getAllBudgets();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Budget> getBudgetById(@PathVariable Long id) {
-//        Optional<Budget> budget = budgetService.getBudgetById(id);
-//        return budget.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//    }
-//
-//    @PostMapping
-//    public Budget createBudget(@RequestBody Budget budget) {
-//        return budgetService.createBudget(budget);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Budget> updateBudget(@PathVariable Long id, @RequestBody Budget budgetDetails) {
-//        return ResponseEntity.ok(budgetService.updateBudget(id, budgetDetails));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBudget(@PathVariable Long id) {
-//        budgetService.deleteBudget(id);
-//        return ResponseEntity.noContent().build();
-//    }
 @RestController
-@RequestMapping("/api/budgets")
+@RequestMapping("/budgets")
+@RequiredArgsConstructor
 public class BudgetController {
     private final BudgetService budgetService;
 
-    @Autowired
-    public BudgetController(BudgetService budgetService) {
-        this.budgetService = budgetService;
-    }
-
-//    @PostMapping
-//    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget) {
-//        return ResponseEntity.ok(budgetService.createBudget(budget));
-//    }
-
     @PostMapping
-    public ResponseEntity<Budget> createBudget(@Valid @RequestBody Budget budget) {
-        Budget newBudget = budgetService.createBudget(budget);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newBudget);
+    public ResponseEntity<String> createBudget(@Valid @RequestBody Budget budget, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Retourner une réponse avec les erreurs de validation
+            StringBuilder errors = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errors.append(error.getDefaultMessage()).append("\n"));
+            return ResponseEntity.badRequest().body(errors.toString());
+        }
+
+        // Logic to save the budget
+        return ResponseEntity.ok("Budget created successfully");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Budget> getBudgetById(@PathVariable Long id) {
+        return budgetService.getBudgetById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-    @GetMapping("/{projectId}")
-    public ResponseEntity<Optional<Budget>> getBudget(@PathVariable String projectId) {
-        return ResponseEntity.ok(budgetService.findByProjectId(projectId));
+    @GetMapping
+    public ResponseEntity<List<Budget>> getAllBudgets() {
+        return ResponseEntity.ok(budgetService.getAllBudgets());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBudget(@PathVariable Long id) {
+        budgetService.deleteBudget(id);
+        return ResponseEntity.noContent().build();
     }
 }
-
-

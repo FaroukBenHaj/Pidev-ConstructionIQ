@@ -1,6 +1,6 @@
 package tn.esprit.finance.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.finance.entity.Budget;
 import tn.esprit.finance.repository.BudgetRepository;
@@ -9,32 +9,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BudgetService {
+    private final BudgetRepository budgetRepository;
 
-    @Autowired
-    private BudgetRepository budgetRepository;
-
-    public List<Budget> getAllBudgets() {
-        return budgetRepository.findAll();
+    public Budget createBudget(Budget budget) {
+        return budgetRepository.save(budget);
     }
 
     public Optional<Budget> getBudgetById(Long id) {
         return budgetRepository.findById(id);
     }
 
-    public Budget createBudget(Budget budget) {
-        return budgetRepository.save(budget);
-
-    }
-    public Optional <Budget> findByProjectId(String projectId){
-        return budgetRepository.findByProjectId(projectId);
+    public List<Budget> getAllBudgets() {
+        return budgetRepository.findAll();
     }
 
-    public Budget updateBudget(Long id, Budget budgetDetails) {
+    public Budget updateBudget(Long id, Budget updatedBudget) {
         return budgetRepository.findById(id).map(budget -> {
-            budget.setMontantRestant(budgetDetails.getMontantRestant());
+            budget.setMontantTotal(updatedBudget.getMontantTotal());
+            budget.setMontantRestant(updatedBudget.getMontantRestant());
             return budgetRepository.save(budget);
-        }).orElseThrow(() -> new RuntimeException("Budget not found"));
+        }).orElseThrow(() -> new IllegalArgumentException("Budget non trouvé !"));
     }
 
     public void deleteBudget(Long id) {

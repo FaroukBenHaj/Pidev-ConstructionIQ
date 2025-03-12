@@ -1,37 +1,42 @@
 package tn.esprit.finance.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-
-import java.time.LocalDateTime;
-
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Le montant total ne peut pas être nul")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Le montant total doit être supérieur à zéro")
+    private BigDecimal montantTotal;
 
-    private String projectId;  // Référence au projet
+    private BigDecimal montantRestant;
 
-    @Positive(message = "Le montant total doit être un nombre positif")
-    private double montantTotal;
+    @OneToOne
+    @JoinColumn(name = "projet_id", nullable = false)
+    private Projet projet; // Projet est une entité statique
 
-    @PositiveOrZero(message = "Le montant restant ne peut pas être négatif")
-    private double montantRestant;
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Commande> commandes;
 
-    private LocalDateTime dateCreation;
-
-    @AssertTrue(message = "Le montant total doit être supérieur au montant restant")
-    public boolean isMontantTotalValid() {
-        return montantTotal >= montantRestant;
+    @AssertTrue(message = "Le montant restant doit être inférieur au montant total.")
+    public boolean isMontantRestantValide() {
+        if (montantTotal == null || montantRestant == null) {
+            return true; // Si l'un des montants est nul, la validation sera gérée par @NotNull
+        }
+        return montantRestant.compareTo(montantTotal) < 0;
     }
 }
-
