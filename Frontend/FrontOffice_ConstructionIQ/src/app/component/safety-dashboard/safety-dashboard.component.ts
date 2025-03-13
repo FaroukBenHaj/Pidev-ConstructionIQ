@@ -5,7 +5,9 @@ import { ComplianceChecklist, ChecklistStatus } from 'src/models/compliance-chec
 import { InspectionService } from 'src/app/services/inspection.service';
 import { IncidentService } from 'src/app/services/incident.service';
 import { ComplianceChecklistService } from 'src/app/services/compliance-checklist.service';
-
+import * as L from 'leaflet';
+import { firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-safety-dashboard',
   templateUrl: './safety-dashboard.component.html',
@@ -28,14 +30,21 @@ export class SafetyDashboardComponent implements OnInit {
   openIncidents: number = 0;
   investigatingIncidents: number = 0;
   closedIncidents: number = 0;
-
+  leafletMap: L.Map | null =null;
   constructor(
     private inspectionService: InspectionService,
     private incidentService: IncidentService,
-    private complianceChecklistService: ComplianceChecklistService
+    private complianceChecklistService: ComplianceChecklistService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'assets/img/marker-icon-2x.png',
+      iconUrl: 'assets/img/marker-icon.png',
+      shadowUrl: 'assets/img/marker-shadow.png'
+    });
+
     this.loadInspections();
     this.loadIncidents();
     this.loadComplianceChecklists();
@@ -57,11 +66,57 @@ export class SafetyDashboardComponent implements OnInit {
       (data: Incident[]) => {
         this.incidents = data;
         this.aggregateIncidentStats();
+        this.initializeMap();
       },
       error => {
         console.error('Error loading incidents', error);
       }
     );
+  }
+  async initializeMap(): Promise<void> {
+    // If the map already exists, remove it before creating a new one.
+    if (this.leafletMap) {
+      this.leafletMap.remove();
+    }
+
+    // Create the map instance using the map container id.
+    this.leafletMap = L.map('incidentMap').setView([0, 0], 2);
+
+    // Add OpenStreetMap tiles.
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.leafletMap);
+
+    // Loop through incidents and add markers.
+    for (const incident of this.incidents) {
+      if (incident.location) {
+        try {
+          const coords = await this.fetchCoordinates(incident.location);
+          if (coords) {
+            L.marker([coords.lat, coords.lon])
+              .addTo(this.leafletMap)
+              .bindPopup(`<b>${incident.description}</b><br>${incident.location}`);
+          }
+        } catch (error) {
+          console.error('Geocoding error for location:', incident.location, error);
+        }
+      }
+    }
+  }
+
+  // Use the Nominatim API to fetch coordinates for a location string.
+  async fetchCoordinates(location: string): Promise<{ lat: number; lon: number } | null> {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`;
+    try {
+      const response: any = await firstValueFrom(this.http.get(url));
+      if (Array.isArray(response) && response.length > 0) {
+        const result = response[0];
+        return { lat: parseFloat(result.lat), lon: parseFloat(result.lon) };
+      }
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+    }
+    return null;
   }
 
   loadComplianceChecklists(): void {
