@@ -15,7 +15,7 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Define routes where header/footer should be hidden
-        this.hideHeaderFooter = ['/login', '/signup' , '/activate-account'].includes(event.url);
+        this.hideHeaderFooter = ['/login', '/register' , '/activate-account'].includes(event.url);
       }
     });
   }

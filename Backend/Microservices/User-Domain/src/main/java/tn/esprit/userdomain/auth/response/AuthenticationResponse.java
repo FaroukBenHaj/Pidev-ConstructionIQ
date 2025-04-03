@@ -1,4 +1,4 @@
-package tn.esprit.userdomain.auth;
+package tn.esprit.userdomain.auth.response;
 
 import lombok.Builder;
 import lombok.Getter;

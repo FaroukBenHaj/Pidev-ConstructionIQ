@@ -1,4 +1,4 @@
-package tn.esprit.userdomain.auth;
+package tn.esprit.userdomain.auth.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

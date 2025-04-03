@@ -26,6 +26,11 @@ public CommandLineRunner runner(RoleRepository roleRepository) {
 						.roleName("Role_USER")
 						.build());
 			}
+			if (roleRepository.findByRoleName("ROLE_ADMIN").isEmpty()) {
+				roleRepository.save(Role.builder()
+						.roleName("ROLE_ADMIN")
+						.build());
+			}
 		};
 	}
 }

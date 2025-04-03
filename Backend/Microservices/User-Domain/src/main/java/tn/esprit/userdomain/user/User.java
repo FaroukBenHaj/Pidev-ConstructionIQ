@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @Table(name = "_user")
 @EntityListeners(AuditingEntityListener.class)
 @Builder
+// User implémente UserDetails (pour Spring Security) et Principal (pour représenter un utilisateur).
 public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +66,7 @@ public class User implements UserDetails, Principal {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles
                 .stream()
+                // Transforme chaque rôle en une autorité simple.
                 .map(r -> new SimpleGrantedAuthority(r.getRoleName()))
                 .collect(Collectors.toList());
     }

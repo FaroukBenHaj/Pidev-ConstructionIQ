@@ -1,17 +1,18 @@
-package tn.esprit.userdomain.auth;
+package tn.esprit.userdomain.auth.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tn.esprit.userdomain.auth.request.AuthenticationRequest;
+import tn.esprit.userdomain.auth.request.RegistrationRequest;
+import tn.esprit.userdomain.auth.response.AuthenticationResponse;
 import tn.esprit.userdomain.email.EmailService;
-import tn.esprit.userdomain.email.EmailTemplate;
 import tn.esprit.userdomain.roles.RoleRepository;
 import tn.esprit.userdomain.security.JwtService;
 import tn.esprit.userdomain.user.Token;
@@ -24,7 +25,6 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class AuthentificationService {
 
     public void registerUser(RegistrationRequest request) throws MessagingException {
         // Get the "ROLE_USER" role from the database
-        var userRole = roleRepository.findByRoleName("ROLE_USER")
+        var userRole = roleRepository.findByRoleName("Role_USER")
                 .orElseThrow(() -> new IllegalStateException("Role not found"));
 
         // Create a new user
