@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req.requestMatchers(
                         //Authorize all the methodes that are in the this list
                         "/auth/**",
+                        "/user/**",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",

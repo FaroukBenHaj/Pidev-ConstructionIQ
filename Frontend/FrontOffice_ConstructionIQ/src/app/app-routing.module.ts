@@ -8,7 +8,7 @@ import {ActivateAccountComponent} from "./Pages/activate-account/activate-accoun
 const routes: Routes = [
 
   { path : 'home' , component:HomePageComponent},
-  { path : '' , component: HomePageComponent },
+  { path : '' , component: LoginComponent },
   { path : 'login' , component:LoginComponent},
   { path : 'register' , component:RegisterComponent},
   { path : 'activate-account' , component:ActivateAccountComponent},

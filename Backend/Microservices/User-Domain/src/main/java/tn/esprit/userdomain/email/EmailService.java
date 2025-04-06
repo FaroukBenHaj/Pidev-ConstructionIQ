@@ -58,4 +58,28 @@ public class EmailService {
         mailSender.send(message);
 
     }
+
+
+    @Async
+    public void sendResetPasswordEmail(String to, String username, String resetLink) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("username", username);
+        context.setVariable("resetLink", resetLink);
+
+        String emailContent = templateEngine.process("reset_password", context);
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(
+                message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+
+        messageHelper.setTo(to);
+        messageHelper.setSubject("Réinitialisation de votre mot de passe");
+        messageHelper.setText(emailContent, true);
+
+        mailSender.send(message);
+    }
+
 }

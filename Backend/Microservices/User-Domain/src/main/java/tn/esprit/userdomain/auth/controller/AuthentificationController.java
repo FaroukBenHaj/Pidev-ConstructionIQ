@@ -3,10 +3,12 @@ package tn.esprit.userdomain.auth.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.userdomain.auth.request.ResetPasswordRequest;
 import tn.esprit.userdomain.auth.service.AuthentificationService;
 import tn.esprit.userdomain.auth.request.AuthenticationRequest;
 import tn.esprit.userdomain.auth.request.RegistrationRequest;
@@ -19,6 +21,7 @@ import tn.esprit.userdomain.user.UserRepository;
 @RestController
 @RequestMapping("auth")
 @Tag(name="Authentification")
+@RequiredArgsConstructor
 public class AuthentificationController {
     @Autowired
     private final AuthentificationService authentificationService;
@@ -29,11 +32,6 @@ public class AuthentificationController {
     @Autowired
     private final RoleRepository roleRepository;
 
-    public AuthentificationController(AuthentificationService authentificationService, UserRepository userRepository, RoleRepository roleRepository) {
-        this.authentificationService = authentificationService;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -67,8 +65,6 @@ public class AuthentificationController {
 
         return ResponseEntity.ok("L'utilisateur a été promu ADMIN avec succès !");
     }
-
-  
 
 
 
