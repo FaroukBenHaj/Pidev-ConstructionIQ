@@ -1,6 +1,7 @@
 package tn.esprit.userdomain.handlerr;
 
 import jakarta.mail.MessagingException;
+import lombok.Builder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,7 +19,9 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static tn.esprit.userdomain.handlerr.BussinessErrorCode.*;
 
 @RestControllerAdvice
+@Builder
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<ExceptionResponse> handleException(LockedException exp){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -48,8 +51,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(
                         ExceptionResponse.builder()
-                                .businessErrorCode(BAD_CREDENTIAL.getCode())
-                                .businessErrorMessage(BAD_CREDENTIAL.getDescription())
+                                .businessErrorCode(BAD_CREDENTIALS.getCode())
+                                .businessErrorMessage(BAD_CREDENTIALS.getDescription())
                                 .error(exp.getMessage())
                                 .build()
                         );

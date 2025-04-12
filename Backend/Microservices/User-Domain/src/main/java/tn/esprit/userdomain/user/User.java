@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "_user")
-@EntityListeners(AuditingEntityListener.class)
+//@Table(name = "_user")
+//@EntityListeners(AuditingEntityListener.class)
 @Builder
 // User implémente UserDetails (pour Spring Security) et Principal (pour représenter un utilisateur).
 public class User implements UserDetails, Principal {

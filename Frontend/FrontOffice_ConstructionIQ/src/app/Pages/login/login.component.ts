@@ -1,26 +1,32 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthenticationRequest} from "../../services/models/authentication-request";
 import {register} from "../../services/fn/authentification/register";
 import {Router} from "@angular/router";
 import {AuthentificationService} from "../../services/services/authentification.service";
 import {AuthenticationResponse} from "../../services/models/authentication-response";
 import {TokenService} from "../../services/token/token.service";
+import {KeycloakService} from "../../services/keycloak/keycloak.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-authRequest: AuthenticationRequest = { email: '' , password: ''};
-errorMsg: Array<string> = [];
+export class LoginComponent  implements OnInit{
+//authRequest: AuthenticationRequest = { email: '' , password: ''};
+//errorMsg: Array<string> = [];
 
 constructor(
-  private router: Router,
-  private authService: AuthentificationService,
-  private tokenService: TokenService
+  private keycloakService : KeycloakService
 ) {}
 
+  async ngOnInit(): Promise<void> {
+    await this.keycloakService.init();
+    await this.keycloakService.login();
+  }
+
+
+/**
   login() {
   this.errorMsg=[];
   this.authService.authenticate({
@@ -42,9 +48,8 @@ constructor(
   });
   }
 
-  protected readonly register = register;
+  protected readonly register = register; */
 
-  register_user() {
-this.router.navigate(['register'])
-  }
+
+
 }

@@ -16,10 +16,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 // Extends OncePerRequestFilter pour que ce filtre soit exécuté une seule fois par requête.
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtFilter{ /*} extends OncePerRequestFilter {
     private final  JwtService jwtService;
 
     private final UserDetailServiceIImpl userDetailServiceIImpl;
@@ -62,5 +62,5 @@ public class JwtFilter extends OncePerRequestFilter {
         }
     }
     filterChain.doFilter(request, response);
-    }
+    }**/
 }

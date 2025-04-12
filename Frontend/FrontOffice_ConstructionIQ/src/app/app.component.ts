@@ -8,7 +8,6 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class AppComponent {
   title = 'FrontOffice_ConstructionIQ';
-
   hideHeaderFooter = false;
 
   constructor(private router: Router) {

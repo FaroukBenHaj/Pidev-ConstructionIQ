@@ -8,7 +8,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   //Checks if the user's token is expired
   const  keycloakService : KeycloakService = inject(KeycloakService);
   const router: Router = inject(Router);
-  if(keycloakService.Keycloak?.isTokenExpired()){
+  if(keycloakService.keycloak?.isTokenExpired()){
     router.navigate(['login']);
     return false;
   }

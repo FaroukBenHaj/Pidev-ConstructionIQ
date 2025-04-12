@@ -14,7 +14,7 @@ import java.util.function.Function;
 import io.jsonwebtoken.Claims;
 
 
-@Service
+//@Service
 public class JwtService {
 
     @Value("${application.security.jwt.expiration}")

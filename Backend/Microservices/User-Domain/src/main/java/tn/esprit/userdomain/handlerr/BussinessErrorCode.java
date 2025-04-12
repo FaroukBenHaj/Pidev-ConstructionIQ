@@ -6,13 +6,15 @@ import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.*;
 
 public enum BussinessErrorCode {
-    NO_CODE(0 , NOT_IMPLEMENTED , "No code"),
-    INCORRECT_CURRENT_PASSWORD(300 , BAD_REQUEST , "Incorrect password"),
-    NEW_PASSWORD_DOES_NOT_MATCH(301 , BAD_REQUEST , "New  password does not match "),
-    ACCOUNT_LOCKED(302 , FORBIDDEN , "User account is Locked"),
-    ACCOUNT_DISABLED(303 , FORBIDDEN , "User account is Disabled"),
-    BAD_CREDENTIAL(304 , FORBIDDEN , "login / Password is incorrect")
+
+    NO_CODE(0, NOT_IMPLEMENTED, "No code"),
+    INCORRECT_CURRENT_PASSWORD(300, BAD_REQUEST, "Current password is incorrect"),
+    NEW_PASSWORD_DOES_NOT_MATCH(301, BAD_REQUEST, "The new password does not match"),
+    ACCOUNT_LOCKED(302, FORBIDDEN, "User account is locked"),
+    ACCOUNT_DISABLED(303, FORBIDDEN, "User account is disabled"),
+    BAD_CREDENTIALS(304, FORBIDDEN, "Login and / or Password is incorrect"),
     ;
+
     @Getter
         private final  int code ;
     @Getter

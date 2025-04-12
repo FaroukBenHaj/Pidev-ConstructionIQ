@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: false
     properties:
       hibernate:
@@ -28,15 +28,12 @@ spring:
         connection-timeout: 5000
         timeout: 3000
         write-timeout: 5000
-
-application:
   security:
-    jwt:
-      secret-key: "aBcDeFgHiJkLmNoPqRsTuVwXyZ0123456789+abcdefghijk="
-      expiration: 8640000
-  mailing:
-    frontend:
-      activation-url: http://localhost:4200/activate-account
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9090/realms/Pidev-ConstructionIQ"
+application:
 server:
   port : 8088
 

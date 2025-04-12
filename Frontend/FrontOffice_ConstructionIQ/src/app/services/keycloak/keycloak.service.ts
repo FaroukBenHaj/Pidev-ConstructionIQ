@@ -1,52 +1,63 @@
 import { Injectable } from '@angular/core';
 import Keycloak from "keycloak-js";
 import {UserProfile} from "./user-profile";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KeycloakService {
-
   private _keycloak: Keycloak | undefined;
   private _profile: UserProfile | undefined;
 
-  get Keycloak(){
-    // a singletoon pattern
+  constructor(private router: Router) {}
+
+  get keycloak() {
     if(!this._keycloak){
-      this._keycloak = new Keycloak(
-        {
-          url:'http://localhost:9090',
-          realm:'Pidev-ConstructionIQ',
-          clientId:'Pidev-ConstructionIQ'
-        }
-      )
+      this._keycloak = new Keycloak({
+        url:'http://localhost:9090',
+        realm:'Pidev-ConstructionIQ',
+        clientId:'Pidev-ConstructionIQ'
+      });
     }
-    return this._keycloak
+    return this._keycloak;
   }
 
-  get profile(): UserProfile | undefined{
+  get profile(): UserProfile | undefined {
     return this._profile;
   }
 
-  constructor() { }
+  async init(): Promise<boolean> {
+    try {
+      console.log('Authenticating the user...');
+      const authenticated = await this.keycloak.init({
+        onLoad: 'login-required',
+        pkceMethod: 'S256',
+        checkLoginIframe: false
+      });
 
-  async init(){
-    console.log('Authentication the user ...')
-    const authenticated = await this.Keycloak?.init({
-      onLoad:'login-required'
-    });
-
-    if ( authenticated){
-      this._profile =(await this.Keycloak?.loadUserProfile()) as UserProfile;
-      this._profile.token = this.Keycloak?.token; // tokenPasred = > to get all informations
+      if (authenticated) {
+        this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
+        this._profile.token = this.keycloak.token;
+        return true;
+      } else {
+        this.keycloak.login();
+        return false;
+      }
+    } catch (error) {
+      console.error('Keycloak initialization failed:', error);
+      this.router.navigate(['/login']);
+      return false;
     }
   }
 
-  login(){
-    return this.Keycloak?.login();
+  login() {
+    return this.keycloak?.login();
   }
 
-  logout(){
-    return this.Keycloak?.logout({redirectUri: 'http:localhost:4200'});
+  logout() {
+    return this.keycloak?.logout({
+      redirectUri: window.location.origin
+    });
   }
 }

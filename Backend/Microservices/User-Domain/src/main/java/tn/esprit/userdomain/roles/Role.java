@@ -13,11 +13,11 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @AllArgsConstructor
 @NoArgsConstructor // Lombok annotation for no-args constructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -18,19 +18,19 @@ public class UserDomainApplication {
 		SpringApplication.run(UserDomainApplication.class, args);
 	}
 
-@Bean
-public CommandLineRunner runner(RoleRepository roleRepository) {
-		return args -> {
-			if (roleRepository.findByRoleName("Role_USER").isEmpty()) {
-				roleRepository.save(Role.builder()
-						.roleName("Role_USER")
-						.build());
-			}
-			if (roleRepository.findByRoleName("ROLE_ADMIN").isEmpty()) {
-				roleRepository.save(Role.builder()
-						.roleName("ROLE_ADMIN")
-						.build());
-			}
-		};
-	}
+//@Bean
+//public CommandLineRunner runner(RoleRepository roleRepository) {
+//		return args -> {
+//			if (roleRepository.findByRoleName("Role_USER").isEmpty()) {
+//				roleRepository.save(Role.builder()
+//						.roleName("Role_USER")
+//						.build());
+//			}
+//			if (roleRepository.findByRoleName("ROLE_ADMIN").isEmpty()) {
+//				roleRepository.save(Role.builder()
+//						.roleName("ROLE_ADMIN")
+//						.build());
+//			}
+//		};
+//	}
 }

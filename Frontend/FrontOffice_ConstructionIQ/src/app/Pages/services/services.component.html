@@ -1,0 +1,32 @@
+<section id="services-section" class="wprt-section services-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="wprt-spacer" data-desktop="70" data-mobi="60" data-smobi="60"></div>
+        <h2 class="text-center margin-bottom-10">HOW WE BUILD</h2>
+        <div class="wprt-lines style-2 custom-1">
+          <div class="line-1"></div>
+        </div>
+        <div class="wprt-spacer" data-desktop="32" data-mobi="32" data-smobi="32"></div>
+      </div><!-- /.col-md-12 -->
+
+      <div class="col-md-6" *ngFor="let services of services" >
+        <div class="wprt-image-box left clearfix">
+          <div class="image-wrap" >
+            <img src="{{services.image}}">
+          </div>
+          <div class="content-wrap">
+            <h3 class="dd-title font-size-18"><a href="{{services.link}}">{{services.title}}</a></h3>
+            <p> {{services.description}}</p>
+            <div class="dd-link"><a href="{{services.link}}">READ MORE</a></div>
+          </div>
+        </div>
+        <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
+      </div><!-- /.col-md-6 -->
+
+      <div class="col-md-12">
+        <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+      </div><!-- /.col-md-12 -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</section>

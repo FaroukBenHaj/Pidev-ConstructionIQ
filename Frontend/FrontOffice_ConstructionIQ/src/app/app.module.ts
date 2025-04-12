@@ -13,6 +13,9 @@ import { RegisterComponent } from './Pages/register/register.component';
 import { ActivateAccountComponent } from './Pages/activate-account/activate-account.component';
 import {CodeInputModule} from "angular-code-input";
 import {KeycloakService} from "./services/keycloak/keycloak.service";
+import { HeroSectionComponent } from './Pages/hero-section/hero-section.component';
+import { DivisionsComponent } from './Pages/divisions/divisions.component';
+import { ServicesComponent } from './Pages/services/services.component';
 
 export function kcFactory (kcService: KeycloakService) {
 return () => kcService.init();
@@ -25,7 +28,10 @@ return () => kcService.init();
     HomePageComponent,
     LoginComponent,
     RegisterComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
+    HeroSectionComponent,
+    DivisionsComponent,
+    ServicesComponent,
   ],
   imports: [
     BrowserModule,

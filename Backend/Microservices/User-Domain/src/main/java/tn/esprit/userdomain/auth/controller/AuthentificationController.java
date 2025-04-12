@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.userdomain.auth.request.ResetPasswordRequest;
 import tn.esprit.userdomain.auth.service.AuthentificationService;
@@ -19,53 +20,61 @@ import tn.esprit.userdomain.user.User;
 import tn.esprit.userdomain.user.UserRepository;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("auth/")
 @Tag(name="Authentification")
 @RequiredArgsConstructor
 public class AuthentificationController {
-    @Autowired
-    private final AuthentificationService authentificationService;
 
-    @Autowired
-    private final UserRepository userRepository;
-
-    @Autowired
-    private final RoleRepository roleRepository;
+    @GetMapping("admin/hello")
+    public ResponseEntity<String> getAdminData()
+    { return new ResponseEntity<>("Admin Data", HttpStatus.OK); }
 
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequest request) throws MessagingException {
-        authentificationService.registerUser(request);
-        return ResponseEntity.accepted().build();
-    }
-
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody  @Valid AuthenticationRequest request){
-        return ResponseEntity.ok(authentificationService.authenticate(request));
-    }
-
-    // Get mapping = > to activate an account
-    @GetMapping("/activate-account")
-    public void confirm( @RequestParam   String token) throws MessagingException {
-        authentificationService.activateAccount(token);
-    }
-
-
-    @PutMapping("/make-admin/{userId}")
-    public ResponseEntity<String> makeAdmin(@PathVariable Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-
-        Role adminRole = roleRepository.findByRoleName("ROLE_ADMIN")
-                .orElseThrow(() -> new RuntimeException("Rôle ADMIN introuvable"));
-
-        user.getRoles().add(adminRole);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("L'utilisateur a été promu ADMIN avec succès !");
+    @GetMapping("/dashboard")
+    public String showDashboard() {
+        return "admin-dashboard"; // Shows admin-dashboard.html
     }
 
 
 
+//    private final AuthentificationService authentificationService;
+//
+//    private final UserRepository userRepository;
+//
+//    private final RoleRepository roleRepository;
+//
+//
+//    @PostMapping("/register")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequest request) throws MessagingException {
+//        authentificationService.registerUser(request);
+//        return ResponseEntity.accepted().build();
+//    }
+//
+//    @PostMapping("/authenticate")
+//    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody  @Valid AuthenticationRequest request){
+//        return ResponseEntity.ok(authentificationService.authenticate(request));
+//    }
+//
+//    // Get mapping = > to activate an account
+//    @GetMapping("/activate-account")
+//    public void confirm( @RequestParam   String token) throws MessagingException {
+//        authentificationService.activateAccount(token);
+//    }
+//
+//
+//    @PutMapping("/make-admin/{userId}")
+//    public ResponseEntity<String> makeAdmin(@PathVariable Long userId) {
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+//
+//        Role adminRole = roleRepository.findByRoleName("ROLE_ADMIN")
+//                .orElseThrow(() -> new RuntimeException("Rôle ADMIN introuvable"));
+//
+//        user.getRoles().add(adminRole);
+//        userRepository.save(user);
+//
+//        return ResponseEntity.ok("L'utilisateur a été promu ADMIN avec succès !");
+//    }
+//
 }
