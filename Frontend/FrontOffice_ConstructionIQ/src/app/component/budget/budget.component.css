@@ -1,11 +1,28 @@
-.navbar {
-    position: relative !important;
+.form {
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
-  .container {
-    margin-top: 100px; /* Ajuste cette valeur selon ton besoin */
+  
+  input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
-  .card {
-    position: relative;
-    z-index: 10;
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
   }
-      
+  
+  button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+  

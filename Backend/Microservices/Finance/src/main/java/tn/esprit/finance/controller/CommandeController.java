@@ -31,6 +31,12 @@ public class CommandeController {
         return ResponseEntity.ok(commandeService.getAllCommandes());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Commande> updateCommande(@PathVariable Long id, @RequestBody Commande updatedCommande) {
+        return ResponseEntity.ok(commandeService.updateCommande(id, updatedCommande));
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCommande(@PathVariable Long id) {
         commandeService.deleteCommande(id);

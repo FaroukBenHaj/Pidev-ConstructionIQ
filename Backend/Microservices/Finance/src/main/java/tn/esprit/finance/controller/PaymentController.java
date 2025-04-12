@@ -1,6 +1,7 @@
 package tn.esprit.finance.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.finance.entity.Payment;
@@ -10,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping(value = "/api/payments", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class PaymentController {
     private final PaymentService paymentService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
         Payment savedPayment = paymentService.createPayment(payment);
         return ResponseEntity.ok(savedPayment);
@@ -33,7 +34,7 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Payment> updatePayment(@PathVariable Long id, @RequestBody Payment updatedPayment) {
         Payment payment = paymentService.updatePayment(id, updatedPayment);
         return ResponseEntity.ok(payment);

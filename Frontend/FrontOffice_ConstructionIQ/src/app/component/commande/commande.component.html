@@ -1,70 +1,18 @@
-<div class="container mt-4">
-    <div class="card shadow p-4">
-      <h3 class="text-center text-primary mb-4">Ajouter une Commande</h3>
-      <form [formGroup]="commandeForm" (ngSubmit)="onSubmit()">
-        
-        <div class="row">
-          <!-- ID du Projet -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="projetId" class="form-label">ID du Projet</label>
-              <input type="number" class="form-control" id="projetId" formControlName="projetId" required>
-            </div>
-          </div>
-  
-          <!-- ID de l'Utilisateur -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="userId" class="form-label">ID de l'Utilisateur</label>
-              <input type="number" class="form-control" id="userId" formControlName="userId" required>
-            </div>
-          </div>
-        </div>
-  
-        <div class="row">
-          <!-- Statut de la Commande -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="status" class="form-label">Statut</label>
-              <select class="form-control" id="status" formControlName="status" required>
-                <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
-              </select>
-            </div>
-          </div>
-  
-          <!-- Montant Total -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="totalAmount" class="form-label">Montant Total (€)</label>
-              <input type="number" class="form-control" id="totalAmount" formControlName="totalAmount" required>
-            </div>
-          </div>
-        </div>
-  
-        <div class="row">
-          <!-- Date de la Commande -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="orderDate" class="form-label">Date de la Commande</label>
-              <input type="datetime-local" class="form-control" id="orderDate" formControlName="orderDate" required>
-            </div>
-          </div>
-  
-          <!-- Date de Livraison -->
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="deliveryDate" class="form-label">Date de Livraison Estimée</label>
-              <input type="datetime-local" class="form-control" id="deliveryDate" formControlName="deliveryDate" required>
-            </div>
-          </div>
-        </div>
-  
-        <div class="text-center mt-3">
-          <button type="submit" class="btn btn-success px-4" [disabled]="!commandeForm.valid">
-            <i class="fas fa-save"></i> Enregistrer la Commande
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
+<h2>Commandes</h2>
+
+<form [formGroup]="commandeForm" (ngSubmit)="createCommande()">
+  <input formControlName="fournisseur" placeholder="Fournisseur">
+  <input formControlName="montant" placeholder="Montant" type="number">
+  <select formControlName="status">
+    <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+  </select>
+  <input formControlName="budgetId" placeholder="Budget ID" type="number">
+  <button type="submit">Ajouter Commande</button>
+</form>
+
+<ul>
+  <li *ngFor="let commande of commandes">
+    {{ commande.fournisseur }} - {{ commande.montant }} - {{ commande.status }}
+    <button (click)="deleteCommande(commande.id)">Supprimer</button>
+  </li>
+</ul>

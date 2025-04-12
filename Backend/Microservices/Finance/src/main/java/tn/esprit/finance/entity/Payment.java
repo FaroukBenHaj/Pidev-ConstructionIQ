@@ -1,6 +1,6 @@
 package tn.esprit.finance.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,20 +20,21 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "invoice_id")
-    @JsonManagedReference
+    @JsonIgnoreProperties("payments")
     private Invoice invoice;
 
     @Column(nullable = false)
     private BigDecimal montant;
 
     private LocalDateTime datePaiement;
+
     @PrePersist
     protected void onCreate() {
         this.datePaiement = LocalDateTime.now();
     }
 
     @Enumerated(EnumType.STRING)
-    private Payment.TypePiement type;
+    private TypePiement type;
 
     public enum TypePiement {
         CHEQUE, CATE_BANQUAIRE, ESPECE

@@ -26,13 +26,21 @@ public class CommandeService {
     }
 
     public Commande updateCommande(Long id, Commande updatedCommande) {
-        return commandeRepository.findById(id).map(existingCommande -> {
-            existingCommande.setStatus(updatedCommande.getStatus());
-            existingCommande.setMontant(updatedCommande.getMontant());
-            existingCommande.setDateCommande(updatedCommande.getDateCommande());
-            return commandeRepository.save(existingCommande);
-        }).orElseThrow(() -> new IllegalArgumentException("Commande non trouvée !"));
+        Commande existingCommande = commandeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
+
+        // Mettre à jour seulement les champs modifiables
+        existingCommande.setFournisseur(updatedCommande.getFournisseur());
+        existingCommande.setMontant(updatedCommande.getMontant());
+        existingCommande.setStatus(updatedCommande.getStatus());
+        existingCommande.setMatiere(updatedCommande.getMatiere());
+        existingCommande.setQuantiteDemandee(updatedCommande.getQuantiteDemandee());
+
+
+        return commandeRepository.save(existingCommande);
     }
+
+
 
     public void deleteCommande(Long id) {
         commandeRepository.deleteById(id);

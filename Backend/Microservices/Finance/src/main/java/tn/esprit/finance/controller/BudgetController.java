@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.finance.entity.Budget;
 import tn.esprit.finance.service.BudgetService;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
@@ -25,9 +24,24 @@ public class BudgetController {
             return ResponseEntity.badRequest().body(errors.toString());
         }
 
-        // Logic to save the budget
+        // ✅ Enregistrement effectif dans la base :
+        budgetService.createBudget(budget);
+
         return ResponseEntity.ok("Budget created successfully");
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateBudget(@PathVariable Long id, @Valid @RequestBody Budget updatedBudget, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errors = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errors.append(error.getDefaultMessage()).append("\n"));
+            return ResponseEntity.badRequest().body(errors.toString());
+        }
+
+        return ResponseEntity.ok(budgetService.updateBudget(id, updatedBudget));
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Budget> getBudgetById(@PathVariable Long id) {

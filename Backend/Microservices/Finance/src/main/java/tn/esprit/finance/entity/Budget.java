@@ -28,10 +28,6 @@ public class Budget {
     @JoinColumn(name = "projet_id", nullable = false)
     private Projet projet; // Projet est une entité statique
 
-    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Commande> commandes;
-
     @AssertTrue(message = "Le montant restant doit être inférieur au montant total.")
     public boolean isMontantRestantValide() {
         if (montantTotal == null || montantRestant == null) {

@@ -1,6 +1,6 @@
 package tn.esprit.finance.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -21,6 +21,7 @@ public class Invoice {
 
     @Column(nullable = false)
     private LocalDateTime dateEmission;
+
     @PrePersist
     protected void onCreate() {
         this.dateEmission = LocalDateTime.now();
@@ -28,13 +29,13 @@ public class Invoice {
 
     @ManyToOne
     @JoinColumn(name = "commande_id")
-    private Commande commande ;
+    private Commande commande;
 
     @Enumerated(EnumType.STRING)
     private StatutInvoice statut;
 
     @OneToMany(mappedBy = "invoice")
-    @JsonBackReference
+    @JsonIgnoreProperties("invoice")
     private List<Payment> payments;
 
     public enum StatutInvoice {

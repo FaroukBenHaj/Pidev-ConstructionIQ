@@ -1,6 +1,5 @@
 package tn.esprit.finance.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,13 +27,16 @@ public class Commande {
     @Enumerated(EnumType.STRING)
     private CommandeStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "budget_id")
-    @JsonBackReference
-    private Budget budget;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Matiere matiere;
 
+    @Column(nullable = false)
+    private int quantiteDemandee;
 
+    @Column(nullable = false)
     private LocalDateTime dateCommande;
+
     @PrePersist
     protected void onCreate() {
         this.dateCommande = LocalDateTime.now();
@@ -42,5 +44,15 @@ public class Commande {
 
     public enum CommandeStatus {
         PENDING, APPROVED, REJECTED, DELIVERED
+    }
+
+    public enum Matiere {
+        BETON,
+        BRIQUES,
+        PARPAINGS,
+        ACIER,
+        AGRÉGATS, // sable, gravier, gravillons
+        COFFRAGE, // bois, panneaux et carton de coffrage
+        PLATRES
     }
 }
