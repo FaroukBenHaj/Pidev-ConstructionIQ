@@ -1,5 +1,6 @@
 package tn.esprit.project_domain.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -39,8 +40,13 @@ public class Task {
     @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters")
     private String description;
 
+    private Integer progress = 0;
+
+
+
     @ManyToOne
     @JoinColumn(name = "project_name", referencedColumnName = "name")
+    @JsonBackReference
     private Project project;
 
 
@@ -109,7 +115,13 @@ public class Task {
         this.name = name;
     }
 
+    public Integer getProgress() {
+        return progress;
+    }
 
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
     public Project getProject() {
         return project;
     }
@@ -127,8 +139,23 @@ public class Task {
         taskDTO.setDuration(task.getDuration());
         taskDTO.setPriority(task.getPriority());
         taskDTO.setDescription(task.getDescription());
-        taskDTO.setProjectName(task.getProject().getName());
+        taskDTO.setProjectName(task.getProject() != null ? task.getProject().getName() : null);
+        taskDTO.setProgress(task.getProgress());
+
         return taskDTO;
+    }
+
+    public static Task fromDTO(TaskDTO dto) {
+        Task task = new Task();
+        task.setName(dto.getName());
+        task.setDescription(dto.getDescription());
+        task.setStartDate(dto.getStartDate());
+        task.setEndDate(dto.getEndDate());
+        task.setStatus(TaskStatus.valueOf(dto.getStatus()));
+        task.setPriority(dto.getPriority());
+        task.setDuration(dto.getDuration());
+        task.setProgress(dto.getProgress() != null ? dto.getProgress() : 0);
+        return task;
     }
 
 

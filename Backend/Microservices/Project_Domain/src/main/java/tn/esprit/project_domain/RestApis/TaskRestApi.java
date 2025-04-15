@@ -15,11 +15,15 @@ public class TaskRestApi {
     @Autowired
     private TaskService taskService;
 
+
     @PostMapping("/{projectName}")
-    public TaskDTO createTask(@RequestBody Task task, @PathVariable String projectName) {
+    public TaskDTO createTask(@RequestBody TaskDTO taskDTO, @PathVariable String projectName) {
+        System.out.println("Received task: " + taskDTO);
+        Task task = Task.fromDTO(taskDTO);
         Task createdTask = taskService.createTask(task, projectName);
         return Task.toDTO(createdTask);
     }
+
     @GetMapping("/{id}")
     public TaskDTO getTaskById(@PathVariable Long id) {
         Task task = taskService.getTaskById(id);

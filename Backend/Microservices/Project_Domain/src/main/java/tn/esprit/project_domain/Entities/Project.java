@@ -1,13 +1,17 @@
 package tn.esprit.project_domain.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.FutureOrPresent;
+
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@ValidDateRange
 @Entity
 public class Project {
     @Id
@@ -24,6 +28,7 @@ public class Project {
     private String description;
 
     @NotNull(message = "Start date is required")
+    @FutureOrPresent(message = "Start date must be in the present or future")
     private Date startDate;
 
     @NotNull(message = "End date is required")
@@ -35,6 +40,8 @@ public class Project {
 
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+
     private List<Task> tasks = new ArrayList<>();
 
 
@@ -96,4 +103,14 @@ public class Project {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+    public void addTask(Task task) {
+        tasks.add(task);
+        task.setProject(this);
+    }
+
+    /*public void removeTask(Task task) {
+        tasks.remove(task);
+        task.setProject(null);
+    }*/
 }

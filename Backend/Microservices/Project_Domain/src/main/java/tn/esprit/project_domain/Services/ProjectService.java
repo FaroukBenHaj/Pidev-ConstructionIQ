@@ -1,5 +1,8 @@
 package tn.esprit.project_domain.Services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import tn.esprit.project_domain.Entities.Project;
 import tn.esprit.project_domain.Repositories.ProjectRepository;
 
@@ -118,6 +121,14 @@ public class ProjectService {
 
     public Project findByName(String name){
         return  projectRepository.findByName(name);
+    }
+    public List<Project> searchProjectsByName(String name) {
+        return projectRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public Page<Project> getProjectswithpaginator(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return projectRepository.findAll(pageable);
     }
 
 }

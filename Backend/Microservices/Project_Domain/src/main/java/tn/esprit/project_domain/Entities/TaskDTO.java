@@ -12,6 +12,15 @@ public class TaskDTO {
     private String priority;
     private String description;
     private String projectName;
+    private Integer progress;
+
+    public Integer getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
 
     public Long getId() {
         return id;
