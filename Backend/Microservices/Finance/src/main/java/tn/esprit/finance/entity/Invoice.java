@@ -1,8 +1,11 @@
 package tn.esprit.finance.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,13 +32,14 @@ public class Invoice {
 
     @ManyToOne
     @JoinColumn(name = "commande_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Commande commande;
 
     @Enumerated(EnumType.STRING)
     private StatutInvoice statut;
 
     @OneToMany(mappedBy = "invoice")
-    @JsonIgnoreProperties("invoice")
+    @JsonIgnoreProperties({"invoice", "hibernateLazyInitializer", "handler"})
     private List<Payment> payments;
 
     public enum StatutInvoice {

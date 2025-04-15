@@ -1,19 +1,38 @@
 package tn.esprit.finance.service;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.finance.dto.InvoiceDTO;
+import tn.esprit.finance.entity.Commande;
 import tn.esprit.finance.entity.Invoice;
+import tn.esprit.finance.repository.CommandeRepository;
 import tn.esprit.finance.repository.InvoiceRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class InvoiceService {
-    private final InvoiceRepository invoiceRepository;
+    @Autowired
+    private InvoiceRepository invoiceRepository;
 
-    public Invoice createInvoice(Invoice invoice) {
+    @Autowired
+    private CommandeRepository commandeRepository;
+
+    @Transactional
+    public Invoice createInvoice(InvoiceDTO invoiceDTO) {
+        Invoice invoice = new Invoice();
+        invoice.setMontant(invoiceDTO.getMontant());
+        invoice.setStatut(invoiceDTO.getStatut());
+
+        if (invoiceDTO.getCommandeId() != null) {
+            Commande commande = commandeRepository.findById(invoiceDTO.getCommandeId())
+                    .orElseThrow(() -> new RuntimeException("Commande not found with id " + invoiceDTO.getCommandeId()));
+
+            invoice.setCommande(commande);
+        }
+
         return invoiceRepository.save(invoice);
     }
 
@@ -25,13 +44,22 @@ public class InvoiceService {
         return invoiceRepository.findAll();
     }
 
-    public Invoice updateInvoice(Long id, Invoice updatedInvoice) {
-        return invoiceRepository.findById(id).map(existingInvoice -> {
-            existingInvoice.setMontant(updatedInvoice.getMontant());
-            existingInvoice.setStatut(updatedInvoice.getStatut());
-            existingInvoice.setDateEmission(updatedInvoice.getDateEmission());
-            return invoiceRepository.save(existingInvoice);
-        }).orElseThrow(() -> new IllegalArgumentException("Facture non trouvée !"));
+    @Transactional
+    public Invoice updateInvoice(Long id, InvoiceDTO invoiceDTO) {
+        Invoice existingInvoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+
+        existingInvoice.setMontant(invoiceDTO.getMontant());
+        existingInvoice.setStatut(invoiceDTO.getStatut());
+
+        if (invoiceDTO.getCommandeId() != null) {
+            Commande commande = commandeRepository.findById(invoiceDTO.getCommandeId())
+                    .orElseThrow(() -> new RuntimeException("Commande not found with id " + invoiceDTO.getCommandeId()));
+
+            existingInvoice.setCommande(commande);
+        }
+
+        return invoiceRepository.save(existingInvoice);
     }
 
     public void deleteInvoice(Long id) {
