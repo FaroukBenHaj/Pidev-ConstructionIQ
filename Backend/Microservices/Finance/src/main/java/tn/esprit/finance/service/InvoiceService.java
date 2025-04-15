@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class InvoiceService {
+
     @Autowired
     private InvoiceRepository invoiceRepository;
 
@@ -26,10 +27,10 @@ public class InvoiceService {
         invoice.setMontant(invoiceDTO.getMontant());
         invoice.setStatut(invoiceDTO.getStatut());
 
+        // Vérifier si l'identifiant de la commande est présent
         if (invoiceDTO.getCommandeId() != null) {
             Commande commande = commandeRepository.findById(invoiceDTO.getCommandeId())
                     .orElseThrow(() -> new RuntimeException("Commande not found with id " + invoiceDTO.getCommandeId()));
-
             invoice.setCommande(commande);
         }
 
@@ -47,15 +48,15 @@ public class InvoiceService {
     @Transactional
     public Invoice updateInvoice(Long id, InvoiceDTO invoiceDTO) {
         Invoice existingInvoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+                .orElseThrow(() -> new RuntimeException("Invoice not found with id " + id));
 
         existingInvoice.setMontant(invoiceDTO.getMontant());
         existingInvoice.setStatut(invoiceDTO.getStatut());
 
+        // Mettre à jour l'association avec la commande si nécessaire
         if (invoiceDTO.getCommandeId() != null) {
             Commande commande = commandeRepository.findById(invoiceDTO.getCommandeId())
                     .orElseThrow(() -> new RuntimeException("Commande not found with id " + invoiceDTO.getCommandeId()));
-
             existingInvoice.setCommande(commande);
         }
 

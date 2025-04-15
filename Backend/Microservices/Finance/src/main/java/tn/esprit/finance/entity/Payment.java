@@ -33,6 +33,11 @@ public class Payment {
         this.datePaiement = LocalDateTime.now();
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "budget_id") // Colonne dans la table Payment
+    private Budget budget;
+
+
     @Enumerated(EnumType.STRING)
     private TypePiement type;
 

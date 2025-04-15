@@ -30,17 +30,17 @@ public class Invoice {
         this.dateEmission = LocalDateTime.now();
     }
 
+
     @ManyToOne
     @JoinColumn(name = "commande_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Commande commande;
 
+
     @Enumerated(EnumType.STRING)
     private StatutInvoice statut;
 
-    @OneToMany(mappedBy = "invoice")
-    @JsonIgnoreProperties({"invoice", "hibernateLazyInitializer", "handler"})
-    private List<Payment> payments;
+
 
     public enum StatutInvoice {
         EN_ATTENTE, PAYE, ANNULE

@@ -14,4 +14,6 @@ public class PaymentDTO {
     private BigDecimal montant;
     private Payment.TypePiement type;
     private Long invoiceId;
+    private Long budgetId;
+
 }
