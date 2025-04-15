@@ -73,6 +73,7 @@
     </table>
 
     
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
     <div *ngIf="projects.length === 0" class="no-projects">
       No projects found.

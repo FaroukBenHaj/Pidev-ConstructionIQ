@@ -1,11 +1,13 @@
 export interface Task {
-    id: number;
+    id?: number; 
     name: string;
     description: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: Date | string;  
+    endDate: Date | string;
     status: string;
     duration: number;
     priority: string;
-    projectName: string;
+    projectName?: string;
+    progress?: number;        
+
   }

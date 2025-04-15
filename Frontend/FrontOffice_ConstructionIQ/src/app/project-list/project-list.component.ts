@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Project } from '../models/project.model';
 import { ProjectService } from '../Services/project.service';
 import { Router } from '@angular/router';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-project-list',
@@ -14,9 +15,11 @@ export class ProjectListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'startDate', 'endDate', 'budget', 'actions'];
   searchQuery: string = '';
   filteredProjects: Project[] = [];
+  dataSource = new MatTableDataSource<Project>(); 
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private projectService: ProjectService, private router: Router) {}
-
   ngOnInit(): void {
     this.loadProjects();
   }
@@ -26,11 +29,17 @@ export class ProjectListComponent implements OnInit {
       (response: Project[]) => {
         console.log('Projects from backend:', response); 
         this.projects = response; 
+        this.dataSource.data = this.projects; 
+        this.filteredProjects = this.projects;
       },
       (error) => {
         console.error('Error loading projects', error);
       }
     );
+
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
   onSearch() {
     if (this.searchQuery) {
@@ -40,6 +49,7 @@ export class ProjectListComponent implements OnInit {
     } else {
       this.filteredProjects = this.projects; 
     }
+    this.dataSource.data = this.filteredProjects;
   }
 
   onProjectSelected(event: any) {

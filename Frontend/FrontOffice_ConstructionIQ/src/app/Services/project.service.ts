@@ -31,6 +31,8 @@ export class ProjectService {
   searchProjects(query: string): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}/search?name=${query}`);
   }
-
+  getProjectByName(name: string): Observable<Project> {
+    return this.http.get<Project>(`${this.apiUrl}/name/${name}`);
+  }
   
 }

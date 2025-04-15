@@ -1,0 +1,264 @@
+<div class="dashboard-container">
+  <div class="back-button">
+    <button mat-icon-button (click)="goToHome()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+    <div class="page-header">
+    <h2 class="page-title">Project Timeline</h2>
+    <button pButton 
+            icon="pi pi-plus" 
+            label="Add Task" 
+            (click)="showAddTaskDialog()"
+            class="p-button-success"></button>
+  </div>
+  
+ <!-- Filters Section -->
+<div class="filters-section">
+  <div class="filters-card">
+    <div class="card-header">
+      <h3 class="filters-title"><i class="pi pi-filter"></i> Filters</h3>
+    </div>
+    <div class="card-body">
+      <div class="filter-grid">
+        <div class="filter-item">
+          <div class="filter-field">
+            <label for="project" class="filter-label">
+              <i class="pi pi-folder"></i> Project
+            </label>
+            <p-dropdown [options]="projects" [(ngModel)]="selectedProject" 
+                      optionLabel="name" (onChange)="onProjectChange()"
+                      [filter]="true" filterPlaceholder="Search projects..."
+                      [showClear]="true" placeholder="Select Project"
+                      appendTo="body" class="filter-dropdown">
+              <ng-template pTemplate="dropdownicon">
+                <i class="pi pi-chevron-down"></i>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="filter-item">
+          <div class="filter-field">
+            <label for="year" class="filter-label">
+              <i class="pi pi-calendar"></i> Year
+            </label>
+            <p-dropdown [options]="years" [(ngModel)]="selectedYear" 
+                      (onChange)="onYearChange()" placeholder="Select Year"
+                      appendTo="body" class="filter-dropdown">
+              <ng-template pTemplate="dropdownicon">
+                <i class="pi pi-chevron-down"></i>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Calendar section -->
+  <div class="calendar-section">
+    <div class="calendar-card">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+</div>
+
+<!-- Add Task Dialog -->
+<p-dialog header="Create New Task" [(visible)]="displayTaskDialog" [style]="{width: '50vw'}" 
+          [modal]="true" [draggable]="false" [resizable]="false" 
+          styleClass="task-dialog">
+  <form [formGroup]="taskForm" (ngSubmit)="onTaskSubmit()">
+    <div class="form-container">
+      <div class="form-field">
+        <label for="name">Task Name*</label>
+        <input id="name" type="text" pInputText formControlName="name" />
+        <small *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched" 
+              class="form-error">
+          Task name is required (3-50 characters)
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="description">Description*</label>
+        <textarea id="description" pInputTextarea formControlName="description" rows="3"></textarea>
+        <small *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched" 
+              class="form-error">
+          Description is required (10-500 characters)
+        </small>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="startDate">Start Date*</label>
+          <p-calendar id="startDate" formControlName="startDate" [showIcon]="true" [showTime]="true"></p-calendar>
+          <small *ngIf="taskForm.get('startDate')?.invalid && taskForm.get('startDate')?.touched" 
+                class="form-error">
+            Start date is required
+          </small>
+        </div>
+        <div class="form-field">
+          <label for="endDate">End Date*</label>
+          <p-calendar id="endDate" formControlName="endDate" [showIcon]="true" [showTime]="true"></p-calendar>
+          <small *ngIf="taskForm.get('endDate')?.invalid && taskForm.get('endDate')?.touched" 
+                class="form-error">
+            End date is required
+          </small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="status">Status*</label>
+          <p-dropdown id="status" [options]="statusOptions" formControlName="status" optionLabel="label" optionValue="value"></p-dropdown>
+        </div>
+        <div class="form-field">
+          <label for="priority">Priority*</label>
+          <p-dropdown id="priority" [options]="priorityOptions" formControlName="priority" optionLabel="label" optionValue="value"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="progress">Progress (%)</label>
+          <p-inputNumber id="progress" formControlName="progress" 
+                        [min]="0" [max]="100" suffix="%"></p-inputNumber>
+        </div>
+        <div class="form-field">
+          <label for="projectName">Project*</label>
+          <p-dropdown id="projectName" [options]="projects" formControlName="projectName" 
+                    optionLabel="name" placeholder="Select Project"></p-dropdown>
+          <small *ngIf="taskForm.get('projectName')?.invalid && taskForm.get('projectName')?.touched" 
+                class="form-error">
+            Project is required
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button pButton type="button" label="Cancel" icon="pi pi-times" 
+              (click)="displayTaskDialog = false" class="p-button-text"></button>
+      <button pButton type="submit" label="Save" icon="pi pi-check" 
+              class="p-button-success" [disabled]="taskForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Edit Task Dialog -->
+<p-dialog 
+  header="Edit Task" 
+  [(visible)]="displayEditTaskDialog" 
+  [modal]="true" 
+  [style]="{width: '50vw'}" 
+  [draggable]="false" 
+  [resizable]="false"
+  styleClass="task-dialog">
+
+  <form [formGroup]="taskForm" (ngSubmit)="onTaskUpdate()">
+    <div class="form-container">
+      <!-- Name Field -->
+      <div class="form-field">
+        <label for="name">Task Name</label>
+        <input id="name" type="text" pInputText formControlName="name">
+        <small *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched" class="form-error">
+          Name is required (3-50 characters).
+        </small>
+      </div>
+
+      <!-- Description Field -->
+      <div class="form-field">
+        <label for="description">Description</label>
+        <textarea id="description" pInputTextarea formControlName="description" rows="3"></textarea>
+        <small *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched" class="form-error">
+          Description is required (10-500 characters).
+        </small>
+      </div>
+
+      <!-- Project Field -->
+      <div class="form-field">
+        <label for="project">Project</label>
+        <p-dropdown
+          id="project"
+          [options]="projects"
+          formControlName="projectName"
+          optionLabel="name"
+          placeholder="Select a Project"
+          [showClear]="true">
+        </p-dropdown>
+        <small *ngIf="taskForm.get('projectName')?.invalid && taskForm.get('projectName')?.touched" class="form-error">
+          Project is required.
+        </small>
+      </div>
+
+      <!-- Date Range Fields -->
+      <div class="form-row">
+        <div class="form-field">
+          <label for="startDate">Start Date</label>
+          <p-calendar id="startDate" formControlName="startDate" [showTime]="true" [showButtonBar]="true"></p-calendar>
+          <small *ngIf="taskForm.get('startDate')?.invalid && taskForm.get('startDate')?.touched" class="form-error">
+            Start date is required.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label for="endDate">End Date</label>
+          <p-calendar id="endDate" formControlName="endDate" [showTime]="true" [showButtonBar]="true"></p-calendar>
+          <small *ngIf="taskForm.get('endDate')?.invalid && taskForm.get('endDate')?.touched" class="form-error">
+            End date is required.
+          </small>
+        </div>
+      </div>
+
+      <!-- Status and Priority Field -->
+      <div class="form-row">
+        <div class="form-field">
+          <label for="status">Status</label>
+          <p-dropdown 
+            id="status" 
+            [options]="statusOptions" 
+            formControlName="status" 
+            placeholder="Select Status">
+          </p-dropdown>
+        </div>
+
+        <div class="form-field">
+          <label for="priority">Priority</label>
+          <p-dropdown 
+            id="priority" 
+            [options]="priorityOptions" 
+            formControlName="priority" 
+            placeholder="Select Priority">
+          </p-dropdown>
+        </div>
+      </div>
+
+      <!-- Progress Field - Updated to use inputNumber for better editing -->
+      <div class="form-field">
+        <label for="progress">Progress (%)</label>
+        <p-inputNumber 
+          id="progress" 
+          formControlName="progress" 
+          [min]="0" 
+          [max]="100" 
+          [showButtons]="true"
+          mode="decimal"
+          suffix="%">
+        </p-inputNumber>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button pButton type="button" label="Cancel" icon="pi pi-times" 
+              (click)="displayEditTaskDialog=false" class="p-button-text"></button>
+      <button pButton type="submit" label="Save" icon="pi pi-check" 
+              class="p-button-success"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Confirmation Dialog Component -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-toast></p-toast>

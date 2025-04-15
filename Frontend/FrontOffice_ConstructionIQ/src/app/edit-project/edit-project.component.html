@@ -1,47 +1,55 @@
 <div class="edit-project-container">
-    <h2>Edit Project</h2>
-    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input id="name" formControlName="name" type="text" class="form-control">
-        <div *ngIf="editForm.get('name')?.invalid && editForm.get('name')?.touched" class="error-message">
-          Name is required and must contain only letters and spaces.
-        </div>
+  <h2>Edit Project</h2>
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" formControlName="name" type="text" class="form-control">
+      <div *ngIf="editForm.get('name')?.invalid && editForm.get('name')?.touched" class="error-message">
+        Name is required and must contain only letters and spaces.
       </div>
-  
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" formControlName="description" class="form-control"></textarea>
-        <div *ngIf="editForm.get('description')?.invalid && editForm.get('description')?.touched" class="error-message">
-          Description is required and must contain only letters, numbers, and special characters.
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" class="form-control"></textarea>
+      <div *ngIf="editForm.get('description')?.invalid && editForm.get('description')?.touched" class="error-message">
+        Description is required and must contain only letters, numbers, and special characters.
       </div>
-  
-      <div class="form-group">
-        <label for="startDate">Start Date</label>
-        <input id="startDate" formControlName="startDate" type="date" class="form-control">
-        <div *ngIf="editForm.get('startDate')?.invalid && editForm.get('startDate')?.touched" class="error-message">
-          Start Date is required.
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <input id="startDate" formControlName="startDate" type="date" class="form-control">
+      <div *ngIf="editForm.get('startDate')?.hasError('required') && editForm.get('startDate')?.touched" class="error-message">
+        Start Date is required.
       </div>
-  
-      <div class="form-group">
-        <label for="endDate">End Date</label>
-        <input id="endDate" formControlName="endDate" type="date" class="form-control">
-        <div *ngIf="editForm.get('endDate')?.invalid && editForm.get('endDate')?.touched" class="error-message">
-          End Date is required.
-        </div>
+      <div *ngIf="editForm.get('startDate')?.hasError('pastDate')" class="error-message">
+        Start date must be today or in the future.
       </div>
-  
-      <div class="form-group">
-        <label for="budget">Budget</label>
-        <input id="budget" formControlName="budget" type="number" class="form-control">
-        <div *ngIf="editForm.get('budget')?.invalid && editForm.get('budget')?.touched" class="error-message">
-          Budget is required and must be a positive number.
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="endDate">End Date</label>
+      <input id="endDate" formControlName="endDate" type="date" class="form-control">
+      <div *ngIf="editForm.get('endDate')?.hasError('required') && editForm.get('endDate')?.touched" class="error-message">
+        End Date is required.
       </div>
-  
-      <button type="submit" [disabled]="editForm.invalid" class="btn btn-primary">Save Changes</button>
-      <button type="button" (click)="router.navigate(['/project-list'])" class="btn btn-secondary">Cancel</button>
-    </form>
-  </div>
+    </div>
+    
+    <!-- Date range validation error -->
+    <div *ngIf="dateError" class="error-message">
+      {{ dateError }}
+    </div>
+
+    <div class="form-group">
+      <label for="budget">Budget</label>
+      <input id="budget" formControlName="budget" type="number" class="form-control">
+      <div *ngIf="editForm.get('budget')?.invalid && editForm.get('budget')?.touched" class="error-message">
+        Budget is required and must be a positive number.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="editForm.invalid || dateError" class="btn btn-primary">Save Changes</button>
+    <button type="button" (click)="router.navigate(['/project-list'])" class="btn btn-secondary">Cancel</button>
+  </form>
+</div>

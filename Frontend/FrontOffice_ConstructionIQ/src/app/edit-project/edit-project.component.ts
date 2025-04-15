@@ -12,6 +12,7 @@ import { Project } from '../models/project.model';
 export class EditProjectComponent implements OnInit {
   editForm: FormGroup;
   projectId!: number;
+  dateError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -25,21 +26,83 @@ export class EditProjectComponent implements OnInit {
         Validators.required,
         Validators.pattern("^[a-zA-Z0-9À-ÿ\\s*+\\-\\/&']+$")
       ]],
-      startDate: ['', Validators.required],
+      startDate: ['', [Validators.required, this.futureOrPresentValidator]],
       endDate: ['', Validators.required],
       budget: ['', [Validators.required, Validators.pattern("^[0-9]+$"), Validators.min(1)]]
-    });
+    }, { validator: this.dateRangeValidator });
   }
 
   ngOnInit(): void {
     this.projectId = +this.route.snapshot.paramMap.get('id')!;
     this.loadProject();
+    
+    this.editForm.get('startDate')?.valueChanges.subscribe(() => {
+      this.validateDates();
+    });
+    this.editForm.get('endDate')?.valueChanges.subscribe(() => {
+      this.validateDates();
+    });
+  }
+
+  futureOrPresentValidator(control: any) {
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      return { pastDate: true };
+    }
+    return null;
+  }
+
+  // Custom validator for date range
+  dateRangeValidator(group: FormGroup) {
+    const startDate = group.get('startDate')?.value;
+    const endDate = group.get('endDate')?.value;
+
+    if (!startDate || !endDate) {
+      return null;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    return end >= start ? null : { dateRange: true };
+  }
+
+  validateDates() {
+    const startDate = this.editForm.get('startDate')?.value;
+    const endDate = this.editForm.get('endDate')?.value;
+
+    if (!startDate || !endDate) {
+      this.dateError = null;
+      return;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (start < today) {
+      this.dateError = 'Start date must be today or in the future';
+    } else if (end < start) {
+      this.dateError = 'End date must be after start date';
+    } else {
+      this.dateError = null;
+    }
   }
 
   loadProject() {
     this.projectService.getProjectById(this.projectId).subscribe(
       (project: Project) => {
-        this.editForm.patchValue(project);
+        const formattedProject = {
+          ...project,
+          startDate: this.formatDate(project.startDate),
+          endDate: this.formatDate(project.endDate)
+        };
+        this.editForm.patchValue(formattedProject);
+        this.validateDates(); // Validate dates after loading
       },
       (error: any) => {
         console.error('Error loading project', error);
@@ -47,8 +110,18 @@ export class EditProjectComponent implements OnInit {
     );
   }
 
+  formatDate(date: string | Date): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
   onSubmit() {
-    if (this.editForm.valid) {
+    this.validateDates(); 
+    
+    if (this.editForm.valid && !this.dateError) {
       const updatedProject = this.editForm.value;
       this.projectService.updateProject(this.projectId, updatedProject).subscribe(
         () => {

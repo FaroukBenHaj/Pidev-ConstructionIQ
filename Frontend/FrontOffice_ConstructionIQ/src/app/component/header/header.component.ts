@@ -12,4 +12,8 @@ export class HeaderComponent {
   goToHome() {
     this.router.navigate(['/home']);
   }
+
+  goToUploadProject() {
+    this.router.navigate(['/upload-project']);
+  }
 }
