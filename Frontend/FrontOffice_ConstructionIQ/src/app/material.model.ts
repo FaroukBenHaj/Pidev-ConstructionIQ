@@ -3,4 +3,6 @@ export interface Material {
   materialName: string;
   cost: number;
   materialUnit: string;
+  selectedQuantity: number;
+  selectedQuantityToStore: number ;  
 }

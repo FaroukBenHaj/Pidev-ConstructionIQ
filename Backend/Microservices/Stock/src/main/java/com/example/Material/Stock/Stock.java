@@ -79,4 +79,24 @@ public class Stock {
     public void setMaterials(List<Material> materials) {
         this.materials = materials;
     }
+    // ...
+
+
+
+    // ✅ Méthode pour calculer le coût total du stock
+    public float getTotalCost() {
+        if (materials == null || materials.isEmpty()) {
+            return 0;
+        }
+
+        float total = 0;
+        for (Material material : materials) {
+            total += material.getCost() * material.getSelectedQuantity();
+        }
+
+        return total;
+    }
+
 }
+
+

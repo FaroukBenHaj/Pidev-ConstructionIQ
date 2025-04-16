@@ -3,34 +3,33 @@
 
   <!-- Formulaire de soumission -->
   <form (ngSubmit)="onSubmit()" #stockForm="ngForm">
-    <label for="availableQuantity">Quantité Disponible</label>
-    <input type="number" id="availableQuantity" name="availableQuantity" [(ngModel)]="newStock.availableQuantity" required>
-
-    <label for="dateReceived">Date de Réception</label>
-    <input type="date" id="dateReceived" name="dateReceived" [(ngModel)]="newStock.dateReceived" required>
-
-    <label for="projetID">ID du Projet</label>
-    <input type="number" id="projetID" name="projetID" [(ngModel)]="newStock.projetID" required>
-
     <label for="materialID">Sélectionner les Matériaux</label>
-    <select id="materialID" name="materialID" [(ngModel)]="newStock.materialIDs" multiple required>
+    <select id="materialID" name="materialID" [(ngModel)]="newStock.materialIDs" multiple required (change)="onMaterialSelect()">
       <option *ngFor="let material of materials" [value]="material.materialID">{{ material.materialName }}</option>
     </select>
-    
+  
+    <label for="availableQuantity">Quantité Disponible</label>
+    <input type="number" id="availableQuantity" name="availableQuantity" [(ngModel)]="newStock.availableQuantity" [readonly]="true">
+  
+    <label for="dateReceived">Date de Réception</label>
+    <input type="date" id="dateReceived" name="dateReceived" [(ngModel)]="newStock.dateReceived" required>
+  
+    <label for="projetID">ID du Projet</label>
+    <input type="number" id="projetID" name="projetID" [(ngModel)]="newStock.projetID" required>
+  
     <button type="submit" [disabled]="!stockForm.form.valid">Ajouter</button>
-
-    <!-- Affichage des messages d'erreur ou de succès -->
+  
     <div *ngIf="errorMessage" style="color: red; margin-top: 10px;">
       <p>{{ errorMessage }}</p>
     </div>
-
+  
     <div *ngIf="successMessage" style="color: green; margin-top: 10px;">
       <p>{{ successMessage }}</p>
     </div>
-
-    <!-- Message d'erreur lorsque le formulaire est invalide -->
+  
     <div *ngIf="stockForm.invalid && stockForm.touched" style="color: red;">
       <p>Tous les champs sont requis et doivent être valides</p>
     </div>
   </form>
+  
 </div>

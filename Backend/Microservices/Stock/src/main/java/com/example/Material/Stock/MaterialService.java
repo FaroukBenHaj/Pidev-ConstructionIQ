@@ -1,5 +1,6 @@
 package com.example.Material.Stock;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,8 @@ import java.util.Optional;
 
 @Service
 public class MaterialService {
+    @Autowired
+    private StockRepository stockRepository  ;
     @Autowired
     private MaterialRepository materialRepository;
     public Optional<Material> findByMaterialName( String materialName ) {
@@ -25,8 +28,29 @@ public class MaterialService {
         return materialRepository.save(material);
     }
 
-    public void deleteMaterial(Long materialID) {
-        materialRepository.deleteById(materialID);
+    @Transactional
+    public void deleteMaterial(Long materialId) {
+        Optional<Material> materialOpt = materialRepository.findById(materialId);
+
+        if (materialOpt.isPresent()) {
+            Material material = materialOpt.get();
+
+            // Supprimer le lien entre le matériel et les stocks
+            for (Stock stock : material.getStocks()) {
+                stock.getMaterials().remove(material);
+
+                if (stock.getMaterials().isEmpty()) {
+                    // Supprimer le stock si aucun matériel ne reste
+                    stockRepository.delete(stock);
+                } else {
+                    // Sinon, juste mettre à jour le stock
+                    stockRepository.save(stock);
+                }
+            }
+
+            // Supprimer le matériel
+            materialRepository.delete(material);
+        }
     }
 
     public Material updateMaterial(Long materialID, Material updatedMaterial) {
@@ -40,6 +64,7 @@ public class MaterialService {
         }
         return null; // Ou vous pouvez lancer une exception si l'objet n'existe pas
     }
+
 
     public Optional<Material> getMaterialByName(String materialName) {
         return materialRepository.findByMaterialName(materialName);

@@ -2,11 +2,13 @@ package com.example.Material.Stock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/stocks")
@@ -62,4 +64,18 @@ public class StockController {
     public void deleteStock(@PathVariable Long id) {
         stockService.deleteStock(id);
     }
+
+    @GetMapping("/{id}/cost")
+    public ResponseEntity<Float> getStockTotalCost(@PathVariable Long id) {
+        Optional<Stock> stockOpt = stockService.getStockById(id);
+
+        if (stockOpt.isPresent()) {
+            float totalCost = stockOpt.get().getTotalCost();
+            return ResponseEntity.ok(totalCost);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
+

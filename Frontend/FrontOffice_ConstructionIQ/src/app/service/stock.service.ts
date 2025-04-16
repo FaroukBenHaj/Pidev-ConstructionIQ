@@ -63,6 +63,14 @@ export class StockService {
   }
     
   
+  getStockTotalCost(stockId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${stockId}/cost`);
+  }
+  // Dans votre service (ex: stock.service.ts)
+generatePdfReport(stockId: number): Observable<any> {
+  const url = `http://localhost:5000/api/generate-pdf/${stockId}`;
+  return this.http.get(url, { responseType: 'blob' });
+}
   
 
   // Méthode pour supprimer un stock par ID

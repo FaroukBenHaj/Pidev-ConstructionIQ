@@ -1,7 +1,57 @@
-/* CSS pour le message d'erreur */
-.error-message {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  
+.material-form-container {
+  max-width: 500px;
+  margin: 160px auto 50px auto; /* ⬆️ augmente ici */
+  padding: 2rem;
+  border-radius: 15px;
+  background-color: #f7f9fc;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  scroll-margin-top: 150px; /* ajuste aussi pour les ancres */
+}
+
+
+.material-form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2e3a59;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #444;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  background-color: #42a5f5;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #2196f3;
+}

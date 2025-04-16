@@ -1,19 +1,218 @@
-.stock-list {
-    margin: 20px;
+/* Style global unifié et professionnel */
+.stock-details {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 2rem auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet de bordure décorative */
+.stock-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #6a11cb, #2575fc);
+}
+
+/* Titres avec dégradé de couleur */
+.stock-details h3 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+}
+
+.stock-details h3::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+.stock-details h4 {
+  color: #3d4e60;
+  font-size: 1.3rem;
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.stock-details h4::before {
+  content: '▹';
+  color: #6a11cb;
+  margin-right: 10px;
+  font-size: 1.1em;
+}
+
+/* Textes et paragraphes */
+.stock-details p {
+  color: #5a6b7c;
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.stock-details strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Liste des matériaux - style moderne */
+.stock-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.stock-details li {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.stock-details li:hover {
+  background-color: rgba(106, 17, 203, 0.03);
+  transform: translateX(5px);
+}
+
+.stock-details li:last-child {
+  border-bottom: none;
+}
+
+/* Section coût total - mise en valeur */
+.stock-details div[class*="p-mt-2"] {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-top: 1.5rem !important;
+  font-size: 1.15rem;
+  border-left: 4px solid #6a11cb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.stock-details div[class*="p-mt-2"] strong {
+  font-size: 1.1em;
+}
+
+/* Boutons - Design premium */
+.stock-details .p-button {
+  margin-right: 1rem;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+}
+
+.stock-details .p-button-help {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+}
+
+.stock-details .p-button-help:hover {
+  background: linear-gradient(135deg, #5a0db5 0%, #1a6ae6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(106, 17, 203, 0.2);
+}
+
+.stock-details .p-button-secondary {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #4a5568 !important;
+}
+
+.stock-details .p-button-secondary:hover {
+  background: linear-gradient(135deg, #e6ebf1 0%, #b8c4d9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(195, 207, 226, 0.3);
+}
+
+/* Lien de téléchargement - style cohérent */
+.stock-details .pdf-download-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  color: white !important;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.stock-details .pdf-download-link:hover {
+  background: linear-gradient(135deg, #5a0db5 0%, #1a6ae6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(106, 17, 203, 0.2);
+}
+
+.stock-details .pdf-download-link i {
+  margin-right: 0.75rem;
+  font-size: 1.1em;
+}
+
+/* Groupe de boutons */
+.stock-details .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stock-details {
+    padding: 1.5rem;
+    margin: 1rem;
   }
   
-  table {
+  .stock-details .button-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .stock-details .p-button,
+  .stock-details .pdf-download-link {
     width: 100%;
-    border-collapse: collapse;
+    margin-right: 0;
+    justify-content: center;
   }
   
-  th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
+  .stock-details h3 {
+    font-size: 1.5rem;
   }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
+}
+
+/* Animation subtile */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stock-details {
+  animation: fadeIn 0.6s ease-out forwards;
+}

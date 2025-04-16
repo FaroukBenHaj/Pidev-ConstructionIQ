@@ -1,96 +1,115 @@
-<div class="flex justify-content-between flex-column sm:flex-row">
-  <!-- Champ de recherche global -->
-  <span class="p-input-icon-left mb-2">
-    <i class="pi pi-search"></i>
-    <input 
-      pInputText 
-      type="text" 
-      [(ngModel)]="searchName" 
-      (input)="onGlobalFilter(dt1, $event)" 
-      placeholder="Search Material" 
-      class="w-full"
-    />
-  </span>
   
-  <!-- Filtre pour l'unité -->
-  <span class="p-input-icon-left mb-2" >
-    <i class="pi pi-filter"></i>
-    <p-dropdown
-    styleClass="dropdown1"
+  <div class="material-list-container">
+  <div class="flex justify-content-between flex-column sm:flex-row">
+    <!-- Champ de recherche global -->
+    <span class="p-input-icon-left mb-2">
+      <i class="pi pi-search"></i>
+      <input 
+        pInputText 
+        type="text" 
+        [(ngModel)]="searchName" 
+        (input)="onGlobalFilter(dt1, $event)" 
+        placeholder="Search Material" 
+        class="w-full"
+      />
+    </span>
+    
+    <!-- Filtre pour l'unité -->
+    <span class="p-input-icon-left mb-2" >
+      <i class="pi pi-filter"></i>
+      <p-dropdown
+      styleClass="dropdown1"
 
-      [options]="unitOptions" 
-      [(ngModel)]="selectedUnit"
-      (onChange)="filterByUnit(dt1)"
-      placeholder="Filter by Unit"
-      [showClear]="true"
-      [filter]="true"
-      filterPlaceholder="Search by unit"
-    ></p-dropdown>
-  </span>
+        [options]="unitOptions" 
+        [(ngModel)]="selectedUnit"
+        (onChange)="filterByUnit(dt1)"
+        placeholder="Filter by Unit"
+        [showClear]="true"
+        [filter]="true"
+        filterPlaceholder="Search by unit"
+      ></p-dropdown>
+    </span>
+    <span class="mb-2">
+      <button 
+        pButton 
+        type="button" 
+        icon="pi pi-plus" 
+        label="Ajouter Matériau" 
+        class="p-button-success p-button-rounded p-button-outlined"
+        (click)="navigateToAddMaterial()"
+      ></button>
+    </span>
+  </div>
+
+  <p-table #dt1 [value]="materials" [loading]="loading" [rows]="5" [paginator]="true" [globalFilterFields]="['materialName', 'cost', 'materialUnit']" responsiveLayout="scroll">
+    <!-- En-tête de la table avec filtres par colonne -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 12rem" pSortableColumn="materialName">
+          <div class="flex justify-content-between align-items-center">
+            Material Name
+            <p-sortIcon field="materialName"></p-sortIcon> <!-- Ajouter l'icône de tri -->
+          </div>
+        </th>
+        <th style="min-width: 12rem" pSortableColumn="cost">
+          <div class="flex justify-content-between align-items-center">
+            Cost
+            <p-sortIcon field="cost"></p-sortIcon> <!-- Ajouter l'icône de tri -->
+          </div>
+        </th>
+        <th style="min-width: 12rem" pSortableColumn="materialUnit">
+          <div class="flex justify-content-between align-items-center">
+            Unit
+            <p-sortIcon field="materialUnit"></p-sortIcon> <!-- Ajouter l'icône de tri -->
+          </div>
+        </th>
+        <th style="min-width: 12rem">Actions</th> <!-- Nouvelle colonne pour les actions -->
+      </tr>
+    </ng-template>
+
+    <!-- Corps de la table avec les données -->
+    <ng-template pTemplate="body" let-material>
+      <tr>
+        <td>{{ material.materialName }}</td>
+        <td>{{ material.cost | currency:'USD' }}</td>
+        <td>{{ material.materialUnit }}</td>
+        <td>
+          <!-- Bouton de suppression -->
+          <button 
+            pButton 
+            icon="pi pi-trash" 
+            class="p-button-danger p-button-rounded p-button-outlined"
+            (click)="deleteMaterial(material.materialID)"
+            aria-label="Delete Material"
+          >
+            Delete
+          </button>
+          
+          <!-- Bouton de modification -->
+          <button 
+            pButton 
+            icon="pi pi-pencil" 
+            class="p-button-warning p-button-rounded p-button-outlined"
+            (click)="editMaterial(material)"
+            aria-label="Edit Material"
+          >
+            Edit
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Message vide si aucun matériau n'est trouvé -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">No materials found.</td> <!-- Mise à jour pour prendre en compte la nouvelle colonne -->
+      </tr>
+    </ng-template>
+  </p-table>
+  <!-- Après le tableau p-table -->
+<div class="p-mt-4">
+  <app-chart-material [materials]="materials"></app-chart-material>
 </div>
 
-<p-table #dt1 [value]="materials" [loading]="loading" [rows]="5" [paginator]="true" [globalFilterFields]="['materialName', 'cost', 'materialUnit']" responsiveLayout="scroll">
-  <!-- En-tête de la table avec filtres par colonne -->
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="min-width: 12rem" pSortableColumn="materialName">
-        <div class="flex justify-content-between align-items-center">
-          Material Name
-          <p-sortIcon field="materialName"></p-sortIcon> <!-- Ajouter l'icône de tri -->
-        </div>
-      </th>
-      <th style="min-width: 12rem" pSortableColumn="cost">
-        <div class="flex justify-content-between align-items-center">
-          Cost
-          <p-sortIcon field="cost"></p-sortIcon> <!-- Ajouter l'icône de tri -->
-        </div>
-      </th>
-      <th style="min-width: 12rem" pSortableColumn="materialUnit">
-        <div class="flex justify-content-between align-items-center">
-          Unit
-          <p-sortIcon field="materialUnit"></p-sortIcon> <!-- Ajouter l'icône de tri -->
-        </div>
-      </th>
-      <th style="min-width: 12rem">Actions</th> <!-- Nouvelle colonne pour les actions -->
-    </tr>
-  </ng-template>
+</div>
 
-  <!-- Corps de la table avec les données -->
-  <ng-template pTemplate="body" let-material>
-    <tr>
-      <td>{{ material.materialName }}</td>
-      <td>{{ material.cost | currency:'USD' }}</td>
-      <td>{{ material.materialUnit }}</td>
-      <td>
-        <!-- Bouton de suppression -->
-        <button 
-          pButton 
-          icon="pi pi-trash" 
-          class="p-button-danger p-button-rounded p-button-outlined"
-          (click)="deleteMaterial(material.materialID)"
-          aria-label="Delete Material"
-        >
-          Delete
-        </button>
-        
-        <!-- Bouton de modification -->
-        <button 
-          pButton 
-          icon="pi pi-pencil" 
-          class="p-button-warning p-button-rounded p-button-outlined"
-          (click)="editMaterial(material)"
-          aria-label="Edit Material"
-        >
-          Edit
-        </button>
-      </td>
-    </tr>
-  </ng-template>
-
-  <!-- Message vide si aucun matériau n'est trouvé -->
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="4">No materials found.</td> <!-- Mise à jour pour prendre en compte la nouvelle colonne -->
-    </tr>
-  </ng-template>
-</p-table>

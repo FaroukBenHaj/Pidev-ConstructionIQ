@@ -1,5 +1,5 @@
 <div class="flex justify-content-between flex-column sm:flex-row">
-  <!-- Champ de recherche global -->
+  <!-- Champ de recherche -->
   <span class="p-input-icon-left mb-2">
     <i class="pi pi-search"></i>
     <input 
@@ -13,8 +13,8 @@
   </span>
 </div>
 
-<p-table #dt1 [value]="stocks" [loading]="loading" [rows]="10" [paginator]="true" [globalFilterFields]="['availableQuantity', 'dateReceived']" responsiveLayout="scroll">
-  <!-- En-tête de la table avec filtres par colonne -->
+<p-table #dt1 [value]="stocks" [loading]="loading" [rows]="10" [paginator]="true" 
+         [globalFilterFields]="['availableQuantity', 'dateReceived']" responsiveLayout="scroll">
   <ng-template pTemplate="header">
     <tr>
       <th style="min-width: 12rem" pSortableColumn="availableQuantity">
@@ -29,17 +29,16 @@
           <p-sortIcon field="dateReceived"></p-sortIcon>
         </div>
       </th>
-      <th style="min-width: 12rem">Actions</th> <!-- Nouvelle colonne pour les actions -->
+      <th style="min-width: 12rem">Actions</th>
+      <th style="min-width: 12rem">Détails</th> <!-- ✅ Nouvelle colonne -->
     </tr>
   </ng-template>
 
-  <!-- Corps de la table avec les données -->
   <ng-template pTemplate="body" let-stock>
     <tr>
       <td>{{ stock.availableQuantity }}</td>
       <td>{{ stock.dateReceived | date:'shortDate' }}</td>
       <td>
-        <!-- Bouton de suppression -->
         <button 
           pButton 
           icon="pi pi-trash" 
@@ -49,8 +48,7 @@
         >
           Delete
         </button>
-        
-        <!-- Bouton de modification -->
+
         <button 
           pButton 
           icon="pi pi-pencil" 
@@ -61,16 +59,80 @@
           Edit
         </button>
       </td>
+      <td>
+        <button 
+          pButton 
+          icon="pi pi-eye" 
+          label="Afficher" 
+          class="p-button-info p-button-rounded p-button-outlined"
+          (click)="viewStockDetails(stock)"
+        ></button>
+      </td>
     </tr>
   </ng-template>
 
-  <!-- Message vide si aucun stock n'est trouvé -->
   <ng-template pTemplate="emptymessage">
     <tr>
-      <td colspan="3">No stocks found.</td> <!-- Mise à jour pour prendre en compte la nouvelle colonne -->
+      <td colspan="4">No stocks found.</td>
     </tr>
   </ng-template>
 </p-table>
 
-<!-- Ajouter un nouveau stock -->
-<button routerLink="/add-stock" pButton icon="pi pi-plus" label="Add New Stock" class="p-button-success p-button-rounded p-button-outlined"></button>
+<!-- ✅ Ajouter un nouveau stock -->
+<button 
+  routerLink="/add-stock" 
+  pButton 
+  icon="pi pi-plus" 
+  label="Add New Stock" 
+  class="p-button-success p-button-rounded p-button-outlined p-mt-3">
+</button>
+
+<!-- ✅ Panneau de détails -->
+
+
+  <div *ngIf="selectedStock" id="stockDetails" class="stock-details p-mt-3 p-p-3 p-shadow-2 border-round surface-card">
+    <h3>Détails du Stock</h3>
+    <p><strong>Date :</strong> {{ selectedStock.dateReceived | date:'shortDate' }}</p>
+    <p><strong>Quantité Totale :</strong> {{ selectedStock.availableQuantity }}</p>
+  
+    <div *ngIf="stockMaterials.length > 0">
+      <h4>Matériaux :</h4>
+      <ul class="p-pl-3">
+        <li *ngFor="let material of stockMaterials">
+          {{ material.materialName }} — {{ material.selectedQuantity }} x {{ material.cost }} €
+        </li>
+      </ul>
+    </div>
+  
+    <div *ngIf="stockCost !== null" class="p-mt-2">
+      <strong>💰 Coût total :</strong> {{ stockCost }} €
+    </div>
+  
+    <!-- ✅ Bouton Imprimer -->
+    <button 
+      pButton 
+      label="Imprimer PDF" 
+      icon="pi pi-print" 
+      class="p-button-help p-mr-2"
+      (click)="printDetails()"
+    ></button>
+<!-- Dans votre template -->
+<a 
+  [attr.href]="'http://localhost:5000/api/generate-pdf/' + selectedStock?.stockID" 
+  class="p-button p-button-help p-mr-2 pdf-download-link"
+  target="_blank"
+>
+  <i class="pi pi-download p-mr-2"></i>
+  RapportStock 
+</a>
+  
+    <button 
+      pButton 
+      label="Fermer" 
+      icon="pi pi-times" 
+      class="p-button-secondary p-button-sm p-mt-2"
+      (click)="selectedStock = null"
+    ></button>
+  </div>
+  
+

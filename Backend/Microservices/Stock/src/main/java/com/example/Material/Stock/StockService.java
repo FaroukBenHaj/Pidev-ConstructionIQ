@@ -75,4 +75,7 @@ public class StockService {
     // Récupérer une liste de matériaux à partir de leurs IDs
 
 
+
+
+
 }

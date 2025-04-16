@@ -14,23 +14,25 @@ export class AddStockComponent implements OnInit {
   newStock: Stock = {
     availableQuantity: 0,
     dateReceived: '',
-    stockID: undefined,  // Ne pas envoyer stockID lors de la création
+    stockID: undefined,
     projetID: 0,
-    materialIDs: [],  // Liste des IDs des matériaux
-    materials: [] // Liste des objets Material
+    materialIDs: [],
+    materials: []
   };
 
   materials: Material[] = [];
   errorMessage: string = '';
   successMessage: string = '';
   isSubmitting: boolean = false;
+  totalCost: number | null = null;  // ➕ Ajout du coût total
 
-  constructor(private stockService: StockService, 
-              private materialService: MaterialService, 
-              private router: Router) {}
+  constructor(
+    private stockService: StockService,
+    private materialService: MaterialService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Récupérer la liste des matériaux
     this.materialService.getAllMaterials().subscribe(
       (data) => {
         this.materials = data;
@@ -49,14 +51,21 @@ export class AddStockComponent implements OnInit {
     if (this.isValidForm()) {
       this.isSubmitting = true;
 
-      // Récupérer les objets Material complets à partir des IDs sélectionnés
-      this.newStock.materials = this.materials.filter(material => this.newStock.materialIDs.includes(material.materialID));
+      // Récupérer les objets Material à partir des IDs
+      this.newStock.materials = this.materials.filter(material =>
+        this.newStock.materialIDs.includes(material.materialID)
+      );
 
-      // Appel du service pour ajouter le stock
       this.stockService.createStock(this.newStock).subscribe(
         (data) => {
           this.successMessage = 'Le stock a été ajouté avec succès.';
-          this.router.navigate(['/stock']); // Redirection après ajout
+          this.router.navigate(['/stock']);
+          // ➕ Appel pour récupérer le coût total
+          if (data.stockID) {
+            this.loadTotalCost(data.stockID);
+          }
+          // Optionnel : Rediriger après quelques secondes
+          // this.router.navigate(['/stock']);
         },
         (error) => {
           this.isSubmitting = false;
@@ -66,6 +75,16 @@ export class AddStockComponent implements OnInit {
     } else {
       this.errorMessage = 'Veuillez remplir tous les champs correctement.';
     }
+  }
+
+  loadTotalCost(stockId: number): void {
+    this.stockService.getStockTotalCost(stockId).subscribe({
+      next: (cost) => this.totalCost = cost,
+      error: () => {
+        this.totalCost = null;
+        console.error('Erreur lors du calcul du coût total.');
+      }
+    });
   }
 
   isValidForm(): boolean {
@@ -86,5 +105,17 @@ export class AddStockComponent implements OnInit {
       this.errorMessage = 'Une erreur inconnue est survenue.';
     }
     console.error(this.errorMessage);
+  }
+
+  onMaterialSelect() {
+    if (this.newStock.materialIDs.length === 1) {
+      const selectedId = this.newStock.materialIDs[0];
+      const selectedMaterial = this.materials.find(mat => mat.materialID === selectedId);
+      this.newStock.availableQuantity = selectedMaterial?.selectedQuantity || 0;
+    } else {
+      this.newStock.availableQuantity = this.materials
+        .filter(mat => this.newStock.materialIDs.includes(mat.materialID))
+        .reduce((total, mat) => total + (mat.selectedQuantity || 0), 0);
+    }
   }
 }

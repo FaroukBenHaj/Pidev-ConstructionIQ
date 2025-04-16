@@ -10,6 +10,10 @@ import { Table } from 'primeng/table'; // Assurez-vous que Table est importé
   styleUrls: ['./liste-material.component.css']
 })
 export class ListeMaterialComponent implements OnInit {
+  navigateToAddMaterial(): void {
+    this.router.navigate(['/material']);
+  }
+  
   loading: boolean = true;
   materials: Material[] = []; // Tableau des matériaux
   searchName: string = ''; // Variable pour la recherche globale
@@ -39,13 +43,14 @@ export class ListeMaterialComponent implements OnInit {
     this.materialService.getAllMaterials().subscribe(
       (data: Material[]) => {
         this.materials = data;
+        console.log('✅ Matériaux chargés pour le graphique:', data);
       },
       (error) => {
         console.error('Erreur lors de la récupération des matériaux', error);
       }
     );
   }
-
+  
   // Fonction pour rediriger vers le formulaire de modification
   editMaterial(material: Material): void {
     this.router.navigate(['/material', material.materialID]);
@@ -73,4 +78,5 @@ export class ListeMaterialComponent implements OnInit {
   onGlobalFilter(table: Table, event: any): void {
     table.filterGlobal(event.target.value, 'contains');
   }
+  
 }

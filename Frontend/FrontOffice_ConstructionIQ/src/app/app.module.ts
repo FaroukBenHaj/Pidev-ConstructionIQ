@@ -26,6 +26,8 @@ import { StockService } from './service/stock.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddStockComponent } from './component/stock/add-stock/add-stock.component'; // Assurez-vous d'importer cela
 
+import { ChartMaterialComponent } from './chart-material/chart-material.component';
+
 
 
 
@@ -38,7 +40,8 @@ import { AddStockComponent } from './component/stock/add-stock/add-stock.compone
     MaterialComponent,
     ListeMaterialComponent,
     StockComponent,
-    AddStockComponent
+    AddStockComponent,
+    ChartMaterialComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { AddStockComponent } from './component/stock/add-stock/add-stock.compone
     DropdownModule,
     ProgressBarModule,
     BrowserAnimationsModule
+    
  
   ],
   providers: [StockService],

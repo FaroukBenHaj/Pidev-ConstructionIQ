@@ -61,6 +61,15 @@ public class Material {
     }
 
     private float cost;
+    private float selectedQuantity = 0;
+
+    public float getSelectedQuantity() {
+        return selectedQuantity;
+    }
+
+    public void setSelectedQuantity(float selectedQuantity) {
+        this.selectedQuantity = selectedQuantity;
+    }
 
     @Enumerated(EnumType.STRING)
     private UnitOfMeasure materialUnit;

@@ -1,40 +1,16 @@
-/* Espacement entre les boutons */
-.p-button {
-    margin-right: 10px; /* Espacement entre les boutons */
-  }
-  
-  /* Styles pour le bouton Delete */
-  .p-button-danger {
-    background-color: #f44336; /* Rouge vif */
-    color: white;
-  }
-  
-  .p-button-danger:hover {
-    background-color: #d32f2f; /* Couleur au survol */
-  }
-  
-  /* Styles pour le bouton Edit */
-  .p-button-warning {
-    background-color: #ff9800; /* Orange vif */
-    color: white;
-  }
-  
-  .p-button-warning:hover {
-    background-color: #f57c00; /* Couleur au survol */
-  }
-  /* Ajouter des bordures aux colonnes de la table */
-.p-table th, .p-table td {
-    border: 1px solid #ddd;
-    padding: 10px; /* Ajouter de l'espace dans chaque cellule */
-    text-align: center;
-  }
-  
-  /* Styles pour les cellules d'actions */
-  .p-table td {
-    display: flex;
-    justify-content: space-between; /* Espacement entre les boutons Delete et Edit */
-  }
+.material-list-container {
+  margin-top: 180px;
+  opacity: 0;
+  animation: fadeInDown 0.5s ease-out forwards;
+}
 
-  :host ::ng-deep .p-dropdown-panel {
-    background-color: chocolate;
- }
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

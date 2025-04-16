@@ -8,4 +8,7 @@
     background-color: #f1f1f1; /* Fond gris clair pour le header */
     padding: 10px 0; /* Ajouter du padding pour espacer les éléments du header */
   }
+  body {
+    padding-top: 80px; /* ou 100px selon la hauteur du header */
+  }
   
