@@ -38,6 +38,7 @@ public class Project {
     @Min(value = 1, message = "Budget must be greater than 0")
     private Double budget;
 
+    @NotBlank(message = "City is required")
     private String ville;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

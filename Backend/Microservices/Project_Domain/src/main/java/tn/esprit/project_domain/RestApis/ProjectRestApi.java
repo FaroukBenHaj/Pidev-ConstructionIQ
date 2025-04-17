@@ -15,6 +15,7 @@ import tn.esprit.project_domain.Services.WeatherService;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -157,7 +158,7 @@ public class ProjectRestApi {
         }
     }
 
-    @GetMapping("/test/weather-notification")
+   /* @GetMapping("/test/weather-notification")
     public ResponseEntity<String> testWeatherAndNotification(
             @RequestParam Long projectId,
             @RequestParam String email) {
@@ -189,8 +190,67 @@ public class ProjectRestApi {
             return ResponseEntity.internalServerError()
                     .body("Erreur: " + e.getMessage());
         }
+    }*/
+   @GetMapping("/test/weather-notification")
+   public ResponseEntity<String> testWeatherAndNotification(
+           @RequestParam Long projectId,
+           @RequestParam(required = false) String email) {
+
+       try {
+           Project project = projectRepository.findById(projectId)
+                   .orElseThrow(() -> new RuntimeException("Project not found"));
+
+           String weatherData = weatherService.getPrevisions(project.getVille());
+           boolean hasRain = weatherData != null && weatherData.toLowerCase().contains("rain");
+
+           String recipientEmail = email != null ? email : "daghfous.zeineb@esprit.tn";
+
+           String messageContent = hasRain
+                   ? "Rain is forecasted at " + project.getVille()
+                   : "No rain forecasted at " + project.getVille();
+
+           boolean sent = notificationService.envoyerMail(
+                   recipientEmail,
+                   "Weather's effect for project's progress " + project.getName(),
+                   messageContent + "\n\nWeather details:\n" + weatherData
+           );
+
+           if (!sent) {
+               throw new RuntimeException("Email sending failed");
+           }
+
+           return ResponseEntity.ok("Notification sent successfully. Check your email.");
+
+       } catch (Exception e) {
+           return ResponseEntity.internalServerError()
+                   .body("Error: " + e.getMessage());
+       }
+   }
+
+    @PostMapping("/{id}/alert-settings")
+    public ResponseEntity<?> updateAlertSettings(
+            @PathVariable Long id) {
+        try {
+            Project project = projectService.getProjectById(id);
+
+            Project updatedProject = projectService.updateProject(id, project);
+            return ResponseEntity.ok(updatedProject);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"message\": \"Error updating alert settings\"}");
+        }
     }
 
+    @GetMapping("/{id}/alert-settings")
+    public ResponseEntity<?> getAlertSettings(@PathVariable Long id) {
+        try {
+            Project project = projectService.getProjectById(id);
+            Map<String, Object> settings = new HashMap<>();
+
+            return ResponseEntity.ok(settings);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"message\": \"Error retrieving alert settings\"}");
+        }
+    }
 }
 
 

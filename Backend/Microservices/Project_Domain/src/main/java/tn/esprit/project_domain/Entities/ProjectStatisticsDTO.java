@@ -13,14 +13,63 @@ public class ProjectStatisticsDTO {
     private double budgetUtilization;
     private int overdueTasks;
     private int tasksDueSoon;
+    private double budgetAllocationRate;
+    private Double budgetEfficiency;
+    private double projectHealthScore;
+    private String projectName;
+    private Double progressConfidence;
+
+
 
     // Getters and Setters
+
+    public Double getProgressConfidence() {
+        return progressConfidence;
+    }
+
+    public void setProgressConfidence(Double progressConfidence) {
+        this.progressConfidence = progressConfidence;
+    }
+
     public int getTotalTasks() {
         return totalTasks;
     }
 
     public void setTotalTasks(int totalTasks) {
         this.totalTasks = totalTasks;
+    }
+
+
+    public Double getBudgetEfficiency() {
+        return budgetEfficiency;
+    }
+
+    public void setBudgetEfficiency(Double budgetEfficiency) {
+        this.budgetEfficiency = budgetEfficiency;
+    }
+
+    public double getProjectHealthScore() {
+        return projectHealthScore;
+    }
+
+    public void setProjectHealthScore(double projectHealthScore) {
+        this.projectHealthScore = projectHealthScore;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public double getBudgetAllocationRate() {
+        return budgetAllocationRate;
+    }
+
+    public void setBudgetAllocationRate(double budgetAllocationRate) {
+        this.budgetAllocationRate = budgetAllocationRate;
     }
 
     public int getCompletedTasks() {

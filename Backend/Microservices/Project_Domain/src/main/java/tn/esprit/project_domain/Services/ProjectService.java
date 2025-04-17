@@ -78,6 +78,7 @@ public class ProjectService {
         project.setStartDate(parseDate(extractField(pdfText, "Date de début:")));
         project.setEndDate(parseDate(extractField(pdfText, "Date de fin:")));
         project.setBudget(Double.parseDouble(extractField(pdfText, "Budget:")));
+
         return project;
     }
 
@@ -154,14 +155,38 @@ public class ProjectService {
         stats.setInProgressTasks((int) tasks.stream().filter(t -> t.getStatus() == TaskStatus.IN_PROGRESS).count());
         stats.setNotStartedTasks((int) tasks.stream().filter(t -> t.getStatus() == TaskStatus.NOT_STARTED).count());
 
-        double totalWeight = tasks.stream().mapToLong(Task::getDuration).sum();
-        if (totalWeight > 0) {
-            double weightedProgress = tasks.stream()
-                    .mapToDouble(t -> t.getProgress() * t.getDuration())
+        if (!tasks.isEmpty()) {
+            long completedCount = tasks.stream().filter(t -> t.getStatus() == TaskStatus.COMPLETED).count();
+            long inProgressCount = tasks.stream().filter(t -> t.getStatus() == TaskStatus.IN_PROGRESS).count();
+            long totalTasks = tasks.size();
+
+            double inProgressContribution = tasks.stream()
+                    .filter(t -> t.getStatus() == TaskStatus.IN_PROGRESS)
+                    .mapToDouble(t -> t.getProgress() != null ? t.getProgress() : 50) // default to 50% if null
                     .sum();
-            stats.setOverallProgress(weightedProgress / totalWeight);
+
+            double overallProgress = ((completedCount * 100) + inProgressContribution) / totalTasks;
+
+            stats.setOverallProgress(overallProgress);
         } else {
             stats.setOverallProgress(0);
+        }
+
+        if (project.getBudget() > 0) {
+            double totalBudgetAllocated = tasks.stream()
+                    .mapToDouble(t -> t.getBudgetAllocation() != null ? t.getBudgetAllocation() : 0)
+                    .sum();
+
+            double budgetUsed = tasks.stream()
+                    .mapToDouble(t -> (t.getProgress() != null ? t.getProgress() / 100.0 : 0) *
+                            (t.getBudgetAllocation() != null ? t.getBudgetAllocation() : 0))
+                    .sum();
+
+            stats.setBudgetUtilization(budgetUsed);
+            stats.setBudgetAllocationRate(totalBudgetAllocated / project.getBudget());
+        } else {
+            stats.setBudgetUtilization(0);
+            stats.setBudgetAllocationRate(0);
         }
 
         stats.setTasksByPriority(tasks.stream()
@@ -169,16 +194,6 @@ public class ProjectService {
 
         stats.setTasksByStatus(tasks.stream()
                 .collect(Collectors.groupingBy(t -> t.getStatus().toString(), Collectors.counting())));
-
-
-        if (project.getBudget() > 0) {
-            double budgetUsed = tasks.stream()
-                    .mapToDouble(t -> (t.getProgress() / 100.0) * (t.getBudgetAllocation() != null ? t.getBudgetAllocation() : 0))
-                    .sum();
-            stats.setBudgetUtilization(budgetUsed);
-        } else {
-            stats.setBudgetUtilization(0);
-        }
 
         Date now = new Date();
         stats.setOverdueTasks((int) tasks.stream()
@@ -196,7 +211,6 @@ public class ProjectService {
 
         return stats;
     }
-
     public Map<Long, ProjectStatisticsDTO> getAllProjectsStatistics() {
         List<Project> projects = projectRepository.findAll();
         return projects.stream()
@@ -254,4 +268,5 @@ public class ProjectService {
                 task.getNiveauRisque()
         );
     }
+
 }
