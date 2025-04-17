@@ -13,7 +13,6 @@
             class="p-button-success"></button>
   </div>
   
- <!-- Filters Section -->
 <div class="filters-section">
   <div class="filters-card">
     <div class="card-header">
@@ -48,8 +47,11 @@
                       appendTo="body" class="filter-dropdown">
               <ng-template pTemplate="dropdownicon">
                 <i class="pi pi-chevron-down"></i>
+
               </ng-template>
+
             </p-dropdown>
+            
           </div>
         </div>
       </div>
@@ -57,7 +59,7 @@
   </div>
 </div>
 
-  <!-- Calendar section -->
+
   <div class="calendar-section">
     <div class="calendar-card">
       <full-calendar #calendar [options]="calendarOptions"></full-calendar>
@@ -65,7 +67,6 @@
   </div>
 </div>
 
-<!-- Add Task Dialog -->
 <p-dialog header="Create New Task" [(visible)]="displayTaskDialog" [style]="{width: '50vw'}" 
           [modal]="true" [draggable]="false" [resizable]="false" 
           styleClass="task-dialog">
@@ -135,6 +136,33 @@
           </small>
         </div>
       </div>
+
+      <!-- New Fields Section -->
+      <div class="form-row">
+        <div class="form-field">
+          <label for="type">Task Type*</label>
+          <p-dropdown id="type" [options]="typeOptions" formControlName="type" 
+                    placeholder="Select Type"></p-dropdown>
+          <small *ngIf="taskForm.get('type')?.invalid && taskForm.get('type')?.touched" 
+                class="form-error">
+            Valid task type is required
+          </small>
+        </div>
+        <div class="form-field">
+          <label for="budgetAllocation">Budget Allocation*</label>
+          <p-inputNumber id="budgetAllocation" formControlName="budgetAllocation" 
+                       mode="currency" currency="USD" [min]="0"></p-inputNumber>
+          <small *ngIf="taskForm.get('budgetAllocation')?.invalid && taskForm.get('budgetAllocation')?.touched" 
+                class="form-error">
+            Budget must be positive
+          </small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="niveauRisque">Risk Level</label>
+        <p-dropdown id="niveauRisque" [options]="risqueOptions" formControlName="niveauRisque"></p-dropdown>
+      </div>
     </div>
 
     <div class="form-actions">
@@ -146,7 +174,6 @@
   </form>
 </p-dialog>
 
-<!-- Edit Task Dialog -->
 <p-dialog 
   header="Edit Task" 
   [(visible)]="displayEditTaskDialog" 
@@ -158,7 +185,6 @@
 
   <form [formGroup]="taskForm" (ngSubmit)="onTaskUpdate()">
     <div class="form-container">
-      <!-- Name Field -->
       <div class="form-field">
         <label for="name">Task Name</label>
         <input id="name" type="text" pInputText formControlName="name">
@@ -167,7 +193,6 @@
         </small>
       </div>
 
-      <!-- Description Field -->
       <div class="form-field">
         <label for="description">Description</label>
         <textarea id="description" pInputTextarea formControlName="description" rows="3"></textarea>
@@ -176,7 +201,6 @@
         </small>
       </div>
 
-      <!-- Project Field -->
       <div class="form-field">
         <label for="project">Project</label>
         <p-dropdown
@@ -192,7 +216,6 @@
         </small>
       </div>
 
-      <!-- Date Range Fields -->
       <div class="form-row">
         <div class="form-field">
           <label for="startDate">Start Date</label>
@@ -211,7 +234,6 @@
         </div>
       </div>
 
-      <!-- Status and Priority Field -->
       <div class="form-row">
         <div class="form-field">
           <label for="status">Status</label>
@@ -234,7 +256,6 @@
         </div>
       </div>
 
-      <!-- Progress Field - Updated to use inputNumber for better editing -->
       <div class="form-field">
         <label for="progress">Progress (%)</label>
         <p-inputNumber 
@@ -247,6 +268,27 @@
           suffix="%">
         </p-inputNumber>
       </div>
+      <!-- Add these fields to your task form dialog -->
+<div class="p-field">
+  <label for="type">Task Type</label>
+  <p-dropdown id="type" [options]="typeOptions" formControlName="type" placeholder="Select Type"></p-dropdown>
+  <small *ngIf="taskForm.get('type')?.invalid && taskForm.get('type')?.touched" class="p-error">
+      Valid task type is required
+  </small>
+</div>
+
+<div class="p-field">
+  <label for="budgetAllocation">Budget Allocation</label>
+  <p-inputNumber id="budgetAllocation" formControlName="budgetAllocation" mode="currency" currency="USD"></p-inputNumber>
+  <small *ngIf="taskForm.get('budgetAllocation')?.invalid && taskForm.get('budgetAllocation')?.touched" class="p-error">
+      Budget must be positive
+  </small>
+</div>
+
+<div class="p-field">
+  <label for="niveauRisque">Risk Level</label>
+  <p-dropdown id="niveauRisque" [options]="risqueOptions" formControlName="niveauRisque"></p-dropdown>
+</div>
     </div>
     
     <div class="form-actions">
@@ -258,7 +300,6 @@
   </form>
 </p-dialog>
 
-<!-- Confirmation Dialog Component -->
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
 <p-toast></p-toast>

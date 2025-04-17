@@ -102,7 +102,7 @@ export class EditProjectComponent implements OnInit {
           endDate: this.formatDate(project.endDate)
         };
         this.editForm.patchValue(formattedProject);
-        this.validateDates(); // Validate dates after loading
+        this.validateDates(); 
       },
       (error: any) => {
         console.error('Error loading project', error);

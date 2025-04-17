@@ -19,7 +19,7 @@ export class AppComponent {
       .subscribe((event: NavigationEnd) => {
         console.log('Current URL:', event.url); 
         this.showHeaderAndFooter = !(event.url.includes('/upload-project') || event.url.includes('/project-list')|| event.url.includes('/edit-project')
-        || event.url.includes('/gantt'));
+        || event.url.includes('/gantt')|| event.url.includes('/weather/1'));
         console.log('Show Header and Footer:', this.showHeaderAndFooter); 
       });
   }

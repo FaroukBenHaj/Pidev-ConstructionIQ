@@ -36,9 +36,16 @@ import { ToastModule } from 'primeng/toast';
 import { SliderModule } from 'primeng/slider';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { TableModule } from 'primeng/table';
+import { PanelModule } from 'primeng/panel';
+import { FieldsetModule } from 'primeng/fieldset';
+import { MessageModule } from 'primeng/message';
+import { WeatherInfoComponent } from './weather-info/weather-info.component';
 
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProjectStatisticsComponent } from './project-statistics/project-statistics.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -50,6 +57,8 @@ import { ConfirmationService } from 'primeng/api';
     ProjectListComponent,
     EditProjectComponent,
     GranttChartComponent,
+    WeatherInfoComponent,
+    ProjectStatisticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +89,21 @@ import { ConfirmationService } from 'primeng/api';
     ReactiveFormsModule,
     ToastModule,
     SliderModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TableModule,
+    PanelModule,
+    FieldsetModule,
+    MessageModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    ToastModule,
+    ConfirmDialogModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatProgressBarModule,
+    MatButtonModule
+
 
 
 

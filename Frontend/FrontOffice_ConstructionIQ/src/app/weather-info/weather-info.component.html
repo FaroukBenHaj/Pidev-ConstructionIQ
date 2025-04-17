@@ -1,0 +1,56 @@
+<div class="weather-container">
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-state">
+      Loading weather data...
+    </div>
+  
+    <!-- Error state -->
+    <div *ngIf="error && !loading" class="error-state">
+      ⚠️ {{ error }}
+      <button *ngIf="project" (click)="loadProject(project.id)" class="retry-btn">
+        Retry
+      </button>
+    </div>
+  
+    <!-- Weather content -->
+    <div *ngIf="project && !loading && !error">
+      <div class="header">
+        <h2>Weather for {{ project.name }}</h2>
+        <button (click)="loadWeatherData(project.ville!)" class="refresh-btn">
+          ↻ Refresh
+        </button>
+      </div>
+  
+      <div *ngIf="project.ville; else noCity">
+        <div *ngIf="weatherData" class="weather-content">
+          <div class="location">
+            📍 {{ project.ville }}
+          </div>
+  
+          <div class="weather-main">
+            <img *ngIf="weatherData.weather?.[0]?.icon" 
+                 [src]="getWeatherIconUrl(weatherData.weather[0].icon)" 
+                 [alt]="weatherData.weather[0]?.description || 'Weather icon'">
+            
+            <div class="temperature">
+              {{ weatherData.main?.temp != null ? (weatherData.main.temp | number:'1.0-0') + '°C' : 'N/A' }}
+            </div>
+            
+            <div class="description">
+              {{ weatherData.weather[0]?.description || 'Weather information' }}
+            </div>
+          </div>
+  
+          <div *ngIf="hasRainWarning()" class="rain-warning">
+            ⚠️ Rain expected - check task risks
+          </div>
+        </div>
+      </div>
+  
+      <ng-template #noCity>
+        <div class="no-city-warning">
+          🗺️ No city specified for weather data
+        </div>
+      </ng-template>
+    </div>
+  </div>

@@ -4,6 +4,9 @@ import { ProjectService } from '../Services/project.service';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ProjectStatisticsComponent } from '../project-statistics/project-statistics.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ProjectStatisticsDTO } from '../models/ProjectStaticsDto.model';
 
 @Component({
   selector: 'app-project-list',
@@ -12,18 +15,21 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
-  displayedColumns: string[] = ['name', 'description', 'startDate', 'endDate', 'budget', 'actions'];
+  displayedColumns: string[] = ['name', 'description', 'startDate', 'endDate', 'budget', 'actions','weather'];
   searchQuery: string = '';
   filteredProjects: Project[] = [];
   dataSource = new MatTableDataSource<Project>(); 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private projectService: ProjectService, private router: Router) {}
+  constructor(private projectService: ProjectService, private router: Router, private dialog: MatDialog
+  ) {}
   ngOnInit(): void {
     this.loadProjects();
   }
-
+  viewWeather(projectId: number): void {
+    this.router.navigate(['/weather', projectId]);
+  }
   loadProjects() {
     this.projectService.getProjects().subscribe(
       (response: Project[]) => {
@@ -80,5 +86,18 @@ export class ProjectListComponent implements OnInit {
     this.router.navigate(['/home']).then(() => {
       window.location.reload(); 
     });
+  }
+  onRowDoubleClick(project: Project): void {
+    this.projectService.getProjectStatistics(project.id).subscribe(
+      (stats: ProjectStatisticsDTO) => {  // Now using the properly imported type
+        this.dialog.open(ProjectStatisticsComponent, {
+          width: '800px',
+          data: stats
+        });
+      },
+      (error: any) => {
+        console.error('Error loading project statistics', error);
+      }
+    );
   }
 }

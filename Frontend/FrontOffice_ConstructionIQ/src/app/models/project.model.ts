@@ -7,6 +7,7 @@ export interface Project {
     endDate: Date;   
     budget: number;
     task?: Task[];
+    ville?: string;
 
 
   }

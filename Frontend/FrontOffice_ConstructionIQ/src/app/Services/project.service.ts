@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Project } from '../models/project.model';
+import { ProjectStatisticsDTO } from '../models/ProjectStaticsDto.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,4 +36,11 @@ export class ProjectService {
     return this.http.get<Project>(`${this.apiUrl}/name/${name}`);
   }
   
+  checkWeatherRisk(projectId: number): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/${projectId}/weather`);
+  }
+
+  getProjectStatistics(projectId: number): Observable<ProjectStatisticsDTO> {
+    return this.http.get<ProjectStatisticsDTO>(`${this.apiUrl}/${projectId}/statistics`);
+  }
 }

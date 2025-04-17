@@ -1,0 +1,48 @@
+.statistics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .stat-section {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: white;
+    border-radius: 4px;
+  }
+  
+  .stat-label {
+    font-weight: 500;
+  }
+  
+  .stat-value {
+    font-weight: bold;
+  }
+  
+  mat-progress-bar {
+    height: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+  }

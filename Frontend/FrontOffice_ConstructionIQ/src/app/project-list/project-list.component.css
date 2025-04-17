@@ -162,3 +162,62 @@ mat-form-field {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Button styling */
+.weather-button {
+  background-color: #FFC107 !important; /* Yellow */
+  color: #212121 !important; /* Dark gray */
+  border-radius: 28px; /* More rounded */
+  padding: 12px 20px; /* Increased padding for height */
+  min-width: 150px; /* Slightly wider */
+  height: 48px; /* Fixed height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* More space between icon and text */
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  border: 2px solid rgba(255, 213, 79, 0.3); /* Subtle border */
+  font-weight: 600; /* Bolder text */
+  font-size: 15px; /* Slightly larger text */
+  line-height: 1; /* Better text alignment */
+}
+
+/* Icon styling */
+.weather-icon {
+  color: #212121 !important;
+  font-size: 24px !important; /* Larger icon */
+  width: 24px !important;
+  height: 24px !important;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effects */
+.weather-button:hover {
+  background-color: #FFD54F !important; /* Lighter yellow */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+  border-color: rgba(255, 213, 79, 0.5);
+}
+
+/* Active state */
+.weather-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Focus state */
+.weather-button:focus {
+  outline: none;
+  border: 2px solid #212121;
+}
+
+/* Pulse animation (optional) */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.weather-button:hover .weather-icon {
+  animation: pulse 1.5s infinite;
+}

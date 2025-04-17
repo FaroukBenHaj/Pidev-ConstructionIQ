@@ -28,6 +28,7 @@
     "@fullcalendar/resource-timeline": "^6.1.9",
     "@fullcalendar/timeline": "^6.1.9",
     "@types/dhtmlxgantt": "^6.0.9",
+    "chart.js": "^4.4.9",
     "dhtmlx-gantt": "^9.0.5",
     "frappe-gantt": "^1.0.3",
     "ngx-file-drop": "^16.0.0",

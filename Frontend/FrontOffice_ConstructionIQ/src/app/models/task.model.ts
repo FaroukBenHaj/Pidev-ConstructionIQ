@@ -8,6 +8,9 @@ export interface Task {
     duration: number;
     priority: string;
     projectName?: string;
-    progress?: number;        
+    budgetAllocation?: number;
+    progress?: number;      
+    type?: string;
+    niveauRisque?: string;
 
   }

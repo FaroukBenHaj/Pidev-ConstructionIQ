@@ -5,6 +5,7 @@ import { UploadProjectComponent } from './upload-project/upload-project.componen
 import { ProjectListComponent } from './project-list/project-list.component';
 import { EditProjectComponent } from './edit-project/edit-project.component';
 import { GranttChartComponent } from './grantt-chart/grantt-chart.component';
+import { WeatherInfoComponent } from './weather-info/weather-info.component';
 const routes: Routes = [
   
   { path: 'home', component: HomePageComponent }, 
@@ -12,6 +13,8 @@ const routes: Routes = [
   { path: 'project-list', component: ProjectListComponent },
   { path: 'edit-project/:id', component: EditProjectComponent },
   { path: 'gantt', component: GranttChartComponent},
+ {path: 'weather/:projectId',
+  component: WeatherInfoComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
