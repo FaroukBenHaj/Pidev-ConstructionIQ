@@ -1,6 +1,8 @@
 package tn.esprit.project_domain.RestApis;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.project_domain.Entities.Task;
 import tn.esprit.project_domain.Entities.TaskDTO;
@@ -16,14 +18,23 @@ public class TaskRestApi {
     private TaskService taskService;
 
 
-    @PostMapping("/{projectName}")
+   /* @PostMapping("/{projectName}")
     public TaskDTO createTask(@RequestBody TaskDTO taskDTO, @PathVariable String projectName) {
         System.out.println("Received task: " + taskDTO);
         Task task = Task.fromDTO(taskDTO);
         Task createdTask = taskService.createTask(task, projectName);
         return Task.toDTO(createdTask);
+    }*/
+    @PostMapping("/{projectName}")
+    public ResponseEntity<Task> createTask(@RequestBody Task task,
+                                           @PathVariable String projectName) {
+        try {
+            Task createdTask = taskService.createTask(task, projectName);
+            return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
     @GetMapping("/{id}")
     public TaskDTO getTaskById(@PathVariable Long id) {
         Task task = taskService.getTaskById(id);

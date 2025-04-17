@@ -1,10 +1,15 @@
 package tn.esprit.project_domain.Services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import tn.esprit.project_domain.Entities.Project;
+import tn.esprit.project_domain.Entities.TaskStatus;
 import tn.esprit.project_domain.Repositories.ProjectRepository;
+import tn.esprit.project_domain.Entities.Task;
+import tn.esprit.project_domain.Entities.ProjectStatisticsDTO;
+
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -15,19 +20,26 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.project_domain.Repositories.TaskRepository;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private WeatherService weatherService;
+
+    @Autowired
+    private NotificationService notificationService;
+    @Autowired
+    private TaskRepository taskRepository;
 
     private final Validator validator;
 
@@ -131,4 +143,115 @@ public class ProjectService {
         return projectRepository.findAll(pageable);
     }
 
+    public ProjectStatisticsDTO getProjectStatistics(Long projectId) {
+        Project project = getProjectById(projectId);
+        List<Task> tasks = project.getTasks();
+
+        ProjectStatisticsDTO stats = new ProjectStatisticsDTO();
+
+        stats.setTotalTasks(tasks.size());
+        stats.setCompletedTasks((int) tasks.stream().filter(t -> t.getStatus() == TaskStatus.COMPLETED).count());
+        stats.setInProgressTasks((int) tasks.stream().filter(t -> t.getStatus() == TaskStatus.IN_PROGRESS).count());
+        stats.setNotStartedTasks((int) tasks.stream().filter(t -> t.getStatus() == TaskStatus.NOT_STARTED).count());
+
+        double totalWeight = tasks.stream().mapToLong(Task::getDuration).sum();
+        if (totalWeight > 0) {
+            double weightedProgress = tasks.stream()
+                    .mapToDouble(t -> t.getProgress() * t.getDuration())
+                    .sum();
+            stats.setOverallProgress(weightedProgress / totalWeight);
+        } else {
+            stats.setOverallProgress(0);
+        }
+
+        stats.setTasksByPriority(tasks.stream()
+                .collect(Collectors.groupingBy(Task::getPriority, Collectors.counting())));
+
+        stats.setTasksByStatus(tasks.stream()
+                .collect(Collectors.groupingBy(t -> t.getStatus().toString(), Collectors.counting())));
+
+
+        if (project.getBudget() > 0) {
+            double budgetUsed = tasks.stream()
+                    .mapToDouble(t -> (t.getProgress() / 100.0) * (t.getBudgetAllocation() != null ? t.getBudgetAllocation() : 0))
+                    .sum();
+            stats.setBudgetUtilization(budgetUsed);
+        } else {
+            stats.setBudgetUtilization(0);
+        }
+
+        Date now = new Date();
+        stats.setOverdueTasks((int) tasks.stream()
+                .filter(t -> t.getEndDate().before(now) && t.getStatus() != TaskStatus.COMPLETED)
+                .count());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        Date weekFromNow = calendar.getTime();
+
+        stats.setTasksDueSoon((int) tasks.stream()
+                .filter(t -> t.getEndDate().after(now) && t.getEndDate().before(weekFromNow))
+                .count());
+
+        return stats;
+    }
+
+    public Map<Long, ProjectStatisticsDTO> getAllProjectsStatistics() {
+        List<Project> projects = projectRepository.findAll();
+        return projects.stream()
+                .collect(Collectors.toMap(
+                        Project::getId,
+                        project -> getProjectStatistics(project.getId())
+                ));
+    }
+
+    @Transactional
+    public void verifierMeteoEtRisquePourProjet(Long projectId) {
+        Project projet = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Projet non trouvé"));
+
+        String json = weatherService.getPrevisions(projet.getVille());
+
+        if (json != null && json.contains("rain")) {
+            List<Task> tasksAtRisk = taskRepository.findWeatherSensitiveTasksByProject(projectId);
+
+            tasksAtRisk.forEach(task -> {
+                task.setNiveauRisque("élevé");
+                sendWeatherRiskNotification(projet, task);
+            });
+
+            taskRepository.saveAll(tasksAtRisk);
+        }
+    }
+    private void sendWeatherRiskNotification(Project project, Task task) {
+        String subject = "⚠️ Risque météo pour la tâche : " + task.getName();
+        String message = buildWeatherRiskMessage(project, task);
+
+        notificationService.envoyerMail(
+                "chef@exemple.com",
+                subject,
+                message
+        );
+    }
+
+    private String buildWeatherRiskMessage(Project project, Task task) {
+        return """
+        Des précipitations sont prévues à %s.
+        La tâche "%s" pourrait être retardée.
+        
+        Détails:
+        - Projet: %s
+        - Tâche: %s
+        - Type: %s
+        - Risque: %s
+        """.formatted(
+                project.getVille(),
+                task.getName(),
+                project.getName(),
+                task.getName(),
+                task.getType(),
+                task.getNiveauRisque()
+        );
+    }
 }

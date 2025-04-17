@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 
 import java.util.Date;
 
+
 @Entity
 public class Task {
     @Id
@@ -41,6 +42,15 @@ public class Task {
     private String description;
 
     private Integer progress = 0;
+    // Add to your Task class
+    @DecimalMin(value = "0.0", message = "Budget allocation must be positive")
+    private Double budgetAllocation;
+
+    @NotBlank(message = "Task type is required")
+    @Pattern(regexp = "^(bétonnage|extérieur|intérieur|gros œuvre|second œuvre)$", message = "Invalid task type")
+    private String type;
+    private String niveauRisque = "faible";
+
 
 
 
@@ -49,6 +59,18 @@ public class Task {
     @JsonBackReference
     private Project project;
 
+   /* @ManyToMany
+    @JoinTable(
+            name = "task_dependencies",
+            joinColumns = @JoinColumn(name = "dependent_task_id"),
+            inverseJoinColumns = @JoinColumn(name = "prerequisite_task_id")
+    )
+    @JsonBackReference(value = "prerequisiteTasks")
+    private Set<Task> prerequisiteTasks = new HashSet<>();
+
+    @ManyToMany(mappedBy = "prerequisiteTasks")
+    @JsonManagedReference(value = "prerequisiteTasks")
+    private Set<Task> dependentTasks = new HashSet<>();*/
 
 
 
@@ -126,9 +148,59 @@ public class Task {
         return project;
     }
 
+   /* public Set<Task> getPrerequisiteTasks() {
+        return prerequisiteTasks;
+    }
+
+    public void setPrerequisiteTasks(Set<Task> prerequisiteTasks) {
+        this.prerequisiteTasks = prerequisiteTasks;
+    }
+
+    public Set<Task> getDependentTasks() {
+        return dependentTasks;
+    }
+
+    public void setDependentTasks(Set<Task> dependentTasks) {
+        this.dependentTasks = dependentTasks;
+    }
+*/
+    // Add getters and setters
+    public Double getBudgetAllocation() {
+        return budgetAllocation;
+    }
+
+    public void setBudgetAllocation(Double budgetAllocation) {
+        this.budgetAllocation = budgetAllocation;
+    }
     public void setProject(Project project) {
         this.project = project;
     }
+
+   /* public void addPrerequisiteTask(Task task) {
+        this.prerequisiteTasks.add(task);
+        task.getDependentTasks().add(this);
+    }
+
+    public void removePrerequisiteTask(Task task) {
+        this.prerequisiteTasks.remove(task);
+        task.getDependentTasks().remove(this);
+    }
+*/
+   public String getType() {
+       return type;
+   }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    public String getNiveauRisque() {
+        return niveauRisque;
+    }
+
+    public void setNiveauRisque(String niveauRisque) {
+        this.niveauRisque = niveauRisque;
+    }
+
     public static TaskDTO toDTO(Task task) {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(task.getId());
@@ -141,6 +213,13 @@ public class Task {
         taskDTO.setDescription(task.getDescription());
         taskDTO.setProjectName(task.getProject() != null ? task.getProject().getName() : null);
         taskDTO.setProgress(task.getProgress());
+
+      /*  Set<Long> prerequisiteTaskIds = new HashSet<>();
+        for (Task prerequisiteTask : task.getPrerequisiteTasks()) {
+            prerequisiteTaskIds.add(prerequisiteTask.getId());
+        }
+        taskDTO.setPrerequisiteTaskIds(prerequisiteTaskIds);*/
+
 
         return taskDTO;
     }

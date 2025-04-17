@@ -1,6 +1,8 @@
 package tn.esprit.project_domain.Entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TaskDTO {
     private Long id;
@@ -13,6 +15,42 @@ public class TaskDTO {
     private String description;
     private String projectName;
     private Integer progress;
+    private Double budgetAllocation;
+    private String type;
+    private String niveauRisque;
+   // private Set<Long> prerequisiteTaskIds = new HashSet<>();
+
+  /*  public Set<Long> getPrerequisiteTaskIds() {
+        return prerequisiteTaskIds;
+    }
+
+    public void setPrerequisiteTaskIds(Set<Long> prerequisiteTaskIds) {
+        this.prerequisiteTaskIds = prerequisiteTaskIds;
+    }*/
+
+    public Double getBudgetAllocation() {
+        return budgetAllocation;
+    }
+
+    public void setBudgetAllocation(Double budgetAllocation) {
+        this.budgetAllocation = budgetAllocation;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getNiveauRisque() {
+        return niveauRisque;
+    }
+
+    public void setNiveauRisque(String niveauRisque) {
+        this.niveauRisque = niveauRisque;
+    }
 
     public Integer getProgress() {
         return progress;

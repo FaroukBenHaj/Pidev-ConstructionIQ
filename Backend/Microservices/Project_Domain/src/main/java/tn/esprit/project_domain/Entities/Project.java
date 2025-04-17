@@ -38,6 +38,7 @@ public class Project {
     @Min(value = 1, message = "Budget must be greater than 0")
     private Double budget;
 
+    private String ville;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -45,8 +46,13 @@ public class Project {
     private List<Task> tasks = new ArrayList<>();
 
 
+    public String getVille() {
+        return ville;
+    }
 
-
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
 
     public Long getId() {
         return id;
