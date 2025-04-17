@@ -38,4 +38,6 @@ public class KeycloakJWTAuthenticationConvertor implements Converter<Jwt, Abstra
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.replace("-", "_")))
                 .collect(Collectors.toSet());
     }
+
+
 }

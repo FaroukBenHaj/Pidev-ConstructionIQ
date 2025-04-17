@@ -1,17 +1,14 @@
 import {CanActivateFn, Router} from '@angular/router';
-import {KeycloakService} from "../keycloak/keycloak.service";
-import {inject} from "@angular/core";
+import {TokenService} from '../token/token.service';
+import {inject} from '@angular/core';
+import {KeycloakService} from '../keycloak/keycloak.service';
 
-//protects routes by checking authentication status before allowing access
-
-export const authGuard: CanActivateFn = (route, state) => {
-  //Checks if the user's token is expired
-  const  keycloakService : KeycloakService = inject(KeycloakService);
-  const router: Router = inject(Router);
-  if(keycloakService.keycloak?.isTokenExpired()){
+export const authGuard: CanActivateFn = () => {
+  const tokenService = inject(KeycloakService);
+  const router = inject(Router);
+  if (tokenService.keycloak.isTokenExpired()) {
     router.navigate(['login']);
     return false;
   }
   return true;
 };
-// this function is a standalone fn .

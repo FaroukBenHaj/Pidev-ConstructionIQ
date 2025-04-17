@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './Pages/header/header.component';
 import { FooterComponent } from './Pages/footer/footer.component';
 import { HomePageComponent } from './Pages/home-page/home-page.component';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './Pages/login/login.component';
 import {FormsModule} from "@angular/forms";
 import { RegisterComponent } from './Pages/register/register.component';
@@ -16,6 +16,7 @@ import {KeycloakService} from "./services/keycloak/keycloak.service";
 import { HeroSectionComponent } from './Pages/hero-section/hero-section.component';
 import { DivisionsComponent } from './Pages/divisions/divisions.component';
 import { ServicesComponent } from './Pages/services/services.component';
+import {HttpTokenInterceptor} from "./services/interceptors/http-token.interceptor";
 
 export function kcFactory (kcService: KeycloakService) {
 return () => kcService.init();
@@ -32,6 +33,7 @@ return () => kcService.init();
     HeroSectionComponent,
     DivisionsComponent,
     ServicesComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -41,12 +43,17 @@ return () => kcService.init();
     CodeInputModule
   ],
   providers: [
-    HttpClient ,
+    HttpClient,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
+      multi: true
+    },
     {
       provide: APP_INITIALIZER,
       deps: [KeycloakService],
       useFactory: kcFactory,
-      multi:true
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

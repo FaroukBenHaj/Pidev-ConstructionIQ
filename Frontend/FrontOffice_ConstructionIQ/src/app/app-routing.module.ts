@@ -13,7 +13,6 @@ const routes: Routes = [
   { path : 'activate-account' , component:ActivateAccountComponent},
   { path : '' , redirectTo:'home', pathMatch:'full'},//redirect to the entity
 
-
 ];
 
 @NgModule({

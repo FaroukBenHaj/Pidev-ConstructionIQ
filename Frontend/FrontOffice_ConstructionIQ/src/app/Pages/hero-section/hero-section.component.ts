@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
 export class HeroSectionComponent {
   // You can make these dynamic
   slides = [
-    { image: '../assets/img/slider/10.jpg' },
-    { image: 'assets/img/slider/11.jpg' },
-    { image: 'assets/img/slider/12.jpg' }
+    { image: '.assets/img/slider/7.jpg' },
+    { image: 'assets/img/slider/6.jpg' },
+    { image: 'assets/img/slider/1.jpg' }
   ];
 }

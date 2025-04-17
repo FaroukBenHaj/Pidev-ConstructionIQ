@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {KeycloakService} from "../../services/keycloak/keycloak.service";
 
 @Component({
   selector: 'app-header',
@@ -7,14 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private router : Router){}
+  constructor(
+    private router : Router,
+    private keycloak : KeycloakService
+  ){}
 
   goToHome() {
     this.router.navigate(['/home']);
   }
 
-  Login() {
-    this.router.navigate(['/login']);
-
+  logout() {
+    this.keycloak.logout();
   }
 }

@@ -15,14 +15,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 @Slf4j
 public class EmailService {
-    private final JavaMailSender mailSender;
-    private final SpringTemplateEngine templateEngine;
+    //private final JavaMailSender mailSender;
+   // private final SpringTemplateEngine templateEngine;
 
-    @Async
+    /*@Async
     public void sendEmail(String to,
                           String subject,
                           String username,
@@ -78,6 +78,6 @@ public class EmailService {
         messageHelper.setText(emailContent, true);
 
         mailSender.send(message);
-    }
+    }*/
 
 }
