@@ -15,6 +15,8 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./payment-create.component.css']
 })
 export class PaymentCreateComponent implements OnInit {
+  showNotification = false;
+  notificationMessage = '';
   paymentForm: FormGroup;
   loading = false;
   submitted = false;
@@ -85,7 +87,6 @@ export class PaymentCreateComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // Stop si le formulaire est invalide
     if (this.paymentForm.invalid) {
       return;
     }
@@ -102,7 +103,29 @@ export class PaymentCreateComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.router.navigate(['/paiements']);
+          // Récupérer le budget mis à jour
+          this.budgetService.getBudgetById(paymentData.budgetId)
+            .pipe(first())
+            .subscribe({
+              next: (updatedBudget) => {
+                // Afficher la notification
+                this.notificationMessage = 
+                  `<strong>Projet:</strong> ${updatedBudget.projet.nom}<br>
+                  <strong>Nouveau montant restant:</strong> ${updatedBudget.montantRestant} €`;
+                
+                this.showNotification = true;
+                
+                // Redirection après 5 secondes
+                setTimeout(() => {
+                  this.showNotification = false;
+                  this.router.navigate(['/paiements']);
+                }, 5000);
+              },
+              error: (error) => {
+                this.error = 'Erreur lors de la récupération du budget';
+                this.loading = false;
+              }
+            });
         },
         error: error => {
           this.error = error;

@@ -1,96 +1,201 @@
-.form-group {
-    margin-bottom: 20px;
-}
+/* payment-create.component.css */
 
-.form-control {
-    padding: 10px 15px;
-    border: 1px solid #e5e5e5;
-    width: 100%;
-    border-radius: 0;
-    background-color: #f7f7f7;
-}
-
-.form-control:focus {
-    border-color: #ffbc13;
-    outline: none;
-    box-shadow: none;
-}
-
-.is-invalid {
-    border-color: #dc3545;
-    padding-right: calc(1.5em + 0.75rem);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right calc(0.375em + 0.1875rem) center;
-    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
-}
-
-.invalid-feedback {
+/*** Notification Popup ***/
+.notification-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    z-index: 1000;
+    animation: fadeOut 5s forwards;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 400px;
+    transition: opacity 0.3s ease;
+  }
+  
+  .notification-popup::before {
+    content: '✓';
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .notification-popup .progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.3);
+    animation: progressBar 5s linear forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+  }
+  
+  @keyframes progressBar {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+  
+  /*** General Styles ***/
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-control {
     display: block;
     width: 100%;
-    margin-top: 0.25rem;
-    font-size: 80%;
-    color: #dc3545;
-}
-
-label {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.alert {
-    position: relative;
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
     border-radius: 0.25rem;
-}
-
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-.wprt-button.outline {
-    background-color: transparent;
-    border: 2px solid #ffbc13;
-    color: #ffbc13;
-    margin-left: 10px;
-}
-
-.wprt-button.outline:hover {
-    background-color: #ffbc13;
-    color: #fff;
-}
-
-.spinner-border {
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  /*** Validation Styles ***/
+  .is-invalid {
+    border-color: #dc3545 !important;
+  }
+  
+  .invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+  }
+  
+  /*** Loading Spinners ***/
+  .loading-spinner-sm {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6c757d;
+    padding: 0.5rem 0;
+  }
+  
+  .spinner-border {
     display: inline-block;
     width: 1rem;
     height: 1rem;
-    vertical-align: text-bottom;
-    border: 0.2em solid currentColor;
+    vertical-align: -0.125em;
+    border: 0.15em solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
-    animation: spinner-border .75s linear infinite;
-}
-
-.loading-spinner-sm {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 5px;
-    font-size: 0.875rem;
-    color: #6c757d;
-}
-
-.spinner-border-sm {
-    width: 0.8rem;
-    height: 0.8rem;
-    border-width: 0.1em;
-}
-
-@keyframes spinner-border {
+    animation: spinner-border 0.75s linear infinite;
+  }
+  
+  @keyframes spinner-border {
     to { transform: rotate(360deg); }
-}
+  }
+  
+  /*** Buttons ***/
+  .wprt-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .wprt-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+  }
+  
+  .wprt-button.outline {
+    background-color: transparent;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+    margin-left: 1rem;
+  }
+  
+  .wprt-button.outline:hover {
+    background-color: #f8f9fa;
+  }
+  
+  /*** Responsive Design ***/
+  @media (max-width: 768px) {
+    .col-md-8 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  
+    .notification-popup {
+      left: 20px;
+      right: 20px;
+      max-width: none;
+    }
+  
+    .form-control {
+      padding: 0.65rem 0.9rem;
+      font-size: 0.9rem;
+    }
+  
+    .wprt-button {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+  
+    .wprt-button.outline {
+      margin-left: 0;
+    }
+  }
+  
+  /*** Spacer Utility ***/
+  .wprt-spacer {
+    clear: both;
+    width: 100%;
+  }
+  
+  /*** Content Box ***/
+  .wprt-content-box.style-1 {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+  
+  /*** Typography ***/
+  .text-center {
+    text-align: center;
+  }
+  
+  h2 {
+    color: #2c3e50;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    display: block;
+  }

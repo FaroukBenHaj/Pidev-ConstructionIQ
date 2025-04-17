@@ -39,7 +39,7 @@
                 <div *ngIf="invoice" class="row">
                     <div class="col-md-8 offset-md-2">
                         <div class="wprt-content-box style-1">
-                            <h2 class="text-center">Facture #{{invoice.id}}</h2>
+                            <h2 class="text-center">Facture {{invoice.commande.matiere}}  N°: {{invoice.id}}</h2>
                             <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
                             
                             <!-- Contenu de la facture à convertir en PDF -->
