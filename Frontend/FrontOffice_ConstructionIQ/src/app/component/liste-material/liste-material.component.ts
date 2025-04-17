@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MaterialService } from 'src/app/service/material.service';
 import { Material } from 'src/app/material.model';
 import { Router } from '@angular/router';
-import { Table } from 'primeng/table'; // Assurez-vous que Table est importé
+import { Table } from 'primeng/table';
+import { utils, writeFileXLSX } from 'xlsx';
 
 @Component({
   selector: 'app-liste-material',
@@ -10,15 +11,13 @@ import { Table } from 'primeng/table'; // Assurez-vous que Table est importé
   styleUrls: ['./liste-material.component.css']
 })
 export class ListeMaterialComponent implements OnInit {
-  navigateToAddMaterial(): void {
-    this.router.navigate(['/material']);
-  }
+  @ViewChild('dt1') dt1!: Table; // Ajout du ! pour indiquer qu'elle sera initialisée
   
   loading: boolean = true;
-  materials: Material[] = []; // Tableau des matériaux
-  searchName: string = ''; // Variable pour la recherche globale
+  materials: Material[] = [];
+  filteredMaterials: Material[] = [];
+  searchName: string = '';
 
-  // Options de filtre pour 'Unit' - menu déroulant
   unitOptions: any[] = [
     { label: 'KG', value: 'KG' },
     { label: 'LITRE', value: 'LITRE' },
@@ -26,57 +25,89 @@ export class ListeMaterialComponent implements OnInit {
     { label: 'METRE', value: 'METRE' }
   ];
 
-  // Valeur sélectionnée pour l'unité
   selectedUnit: string | null = null;
 
   constructor(
     private materialService: MaterialService,
-    private router: Router // Ajout de Router dans le constructeur
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.loadMaterials(); // Charger les matériaux lors de l'initialisation du composant
+    this.loadMaterials();
   }
-
-  // Charger les matériaux depuis le service
-  loadMaterials(): void {
-    this.materialService.getAllMaterials().subscribe(
-      (data: Material[]) => {
-        this.materials = data;
-        console.log('✅ Matériaux chargés pour le graphique:', data);
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des matériaux', error);
-      }
-    );
-  }
+  exportToExcel(): void {
+    // Préparer les données
+    const excelData = this.materials.map(material => ({
+      'Nom': material.materialName,
+      'Coût (€)': material.cost,
+      'Unité': material.materialUnit,
+      'Quantité': material.selectedQuantity || 0
+    }));
   
-  // Fonction pour rediriger vers le formulaire de modification
-  editMaterial(material: Material): void {
-    this.router.navigate(['/material', material.materialID]);
+    // Créer et télécharger le fichier
+    const worksheet = utils.json_to_sheet(excelData);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Matériaux");
+    writeFileXLSX(workbook, "export_materiaux.xlsx");
+  }
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const a: HTMLAnchorElement = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = URL.createObjectURL(data);
+    a.download = `${fileName}_${new Date().getTime()}.xlsx`;
+    a.click();
+    document.body.removeChild(a);
   }
 
-  // Fonction pour supprimer un matériau
-  deleteMaterial(materialID: number): void {
-    if (materialID) {
-      this.materialService.deleteMaterial(materialID).subscribe(() => {
-        this.loadMaterials();  // Recharger les matériaux après la suppression
-      });
-    }
+
+  loadMaterials(): void {
+    this.loading = true;
+    this.materialService.getAllMaterials().subscribe({
+      next: (data: Material[]) => {
+        this.materials = data;
+        this.filteredMaterials = [...data];
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des matériaux', error);
+        this.loading = false;
+      }
+    });
   }
 
-  // Fonction pour filtrer la table par l'unité
+  updateFilteredMaterials(): void {
+    this.filteredMaterials = this.dt1?.filteredValue || this.materials;
+  }
+
+  onGlobalFilter(table: Table, event: any): void {
+    table.filterGlobal(event.target.value, 'contains');
+    this.updateFilteredMaterials();
+  }
+
   filterByUnit(table: Table): void {
     if (this.selectedUnit) {
       table.filter(this.selectedUnit, 'materialUnit', 'equals');
     } else {
-      table.clear();
+      table.filter(null, 'materialUnit', 'equals');
+    }
+    this.updateFilteredMaterials();
+  }
+
+  editMaterial(material: Material): void {
+    this.router.navigate(['/material', material.materialID]);
+  }
+
+  deleteMaterial(materialID: number): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce matériau ?')) {
+      this.materialService.deleteMaterial(materialID).subscribe({
+        next: () => this.loadMaterials(),
+        error: (err) => console.error('Erreur lors de la suppression', err)
+      });
     }
   }
 
-  // Fonction pour filtrer la table globalement
-  onGlobalFilter(table: Table, event: any): void {
-    table.filterGlobal(event.target.value, 'contains');
+  navigateToAddMaterial(): void {
+    this.router.navigate(['/material']);
   }
-  
 }

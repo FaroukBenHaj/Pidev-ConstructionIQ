@@ -60,6 +60,7 @@ public class MaterialService {
             material.setMaterialName(updatedMaterial.getMaterialName());
             material.setCost(updatedMaterial.getCost());
             material.setMaterialUnit(updatedMaterial.getMaterialUnit());
+            material.setSelectedQuantity(updatedMaterial.getSelectedQuantity());
             return materialRepository.save(material);
         }
         return null; // Ou vous pouvez lancer une exception si l'objet n'existe pas

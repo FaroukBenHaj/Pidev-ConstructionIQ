@@ -76,6 +76,48 @@ public class StockController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Stock> updateStock(
+            @PathVariable Long id,
+            @RequestBody StockDTO stockDTO) {
+
+        try {
+            // 1. Vérifier si le stock existe
+            Stock existingStock = stockService.getStockById(id)
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.NOT_FOUND, "Stock not found with id: " + id));
+
+            // 2. Récupérer les nouveaux matériaux si fournis
+            List<Material> materials = null;
+            if (stockDTO.getMaterialIDs() != null && !stockDTO.getMaterialIDs().isEmpty()) {
+                materials = materialService.getMaterialsByIds(stockDTO.getMaterialIDs());
+                if (materials.isEmpty()) {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "Materials not found for the provided IDs");
+                }
+            }
+
+            // 3. Mettre à jour le stock
+            Stock stockToUpdate = new Stock();
+            stockToUpdate.setAvailableQuantity(stockDTO.getAvailableQuantity());
+            stockToUpdate.setDateReceived(stockDTO.getDateReceived());
+            stockToUpdate.setProjetID(stockDTO.getProjetID());
+            if (materials != null) {
+                stockToUpdate.setMaterials(materials);
+            }
+
+            Stock updatedStock = stockService.updateStock(id, stockToUpdate);
+            return ResponseEntity.ok(updatedStock);
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error updating stock: " + e.getMessage(),
+                    e);
+        }
+    }
 
 }
 

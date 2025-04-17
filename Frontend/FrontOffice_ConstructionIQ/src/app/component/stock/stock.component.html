@@ -1,17 +1,32 @@
-<div class="flex justify-content-between flex-column sm:flex-row">
-  <!-- Champ de recherche -->
-  <span class="p-input-icon-left mb-2">
-    <i class="pi pi-search"></i>
-    <input 
-      pInputText 
-      type="text" 
-      [(ngModel)]="searchName" 
-      (input)="onGlobalFilter(dt1, $event)" 
-      placeholder="Search Stock" 
-      class="w-full"
-    />
-  </span>
+<div class="p-grid p-fluid">
+  <div class="p-col-12 p-md-4">
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-calendar"></i>
+      </span>
+      <p-calendar 
+        [(ngModel)]="selectedMonth" 
+        (onSelect)="filterByMonth()"
+        view="month" 
+        dateFormat="mm/yy"
+        placeholder="Sélectionnez un mois"
+        [monthNavigator]="true"
+        [yearNavigator]="true"
+        yearRange="2020:2030"
+      ></p-calendar>
+      <button 
+        *ngIf="selectedMonth"
+        pButton 
+        type="button" 
+        icon="pi pi-times" 
+        class="p-button-secondary" 
+        (click)="resetFilter()"
+        pTooltip="Réinitialiser le filtre"
+      ></button>
+    </div>
+  </div>
 </div>
+
 
 <p-table #dt1 [value]="stocks" [loading]="loading" [rows]="10" [paginator]="true" 
          [globalFilterFields]="['availableQuantity', 'dateReceived']" responsiveLayout="scroll">

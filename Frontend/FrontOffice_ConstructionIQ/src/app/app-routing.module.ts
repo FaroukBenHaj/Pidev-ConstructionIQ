@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'chart', component:ChartMaterialComponent },
 
   { path: 'material/:id', component: MaterialComponent },  // Route pour mettre à jour un matériau
-
+  { path: 'add-stock/:id', component: AddStockComponent },
   { path: 'stock', component: StockComponent }, // Route pour afficher les stocks
   { path: 'add-stock', component: AddStockComponent }, // Route pour ajouter un stock
   { path: '**', redirectTo: '/home' } // Si aucune route ne correspond, rediriger vers /home

@@ -66,11 +66,6 @@ export class StockService {
   getStockTotalCost(stockId: number): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/${stockId}/cost`);
   }
-  // Dans votre service (ex: stock.service.ts)
-generatePdfReport(stockId: number): Observable<any> {
-  const url = `http://localhost:5000/api/generate-pdf/${stockId}`;
-  return this.http.get(url, { responseType: 'blob' });
-}
   
 
   // Méthode pour supprimer un stock par ID
@@ -83,4 +78,33 @@ generatePdfReport(stockId: number): Observable<any> {
       })
     );
   }
+  updateStock(stock: Stock): Observable<Stock> {
+    if (!stock.stockID) {
+      return throwError(() => new Error('ID du stock requis pour la mise à jour'));
+    }
+
+    const url = `${this.apiUrl}/${stock.stockID}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const payload = {
+      stockID: stock.stockID,
+      availableQuantity: stock.availableQuantity,
+      dateReceived: stock.dateReceived,
+      projetID: stock.projetID,
+      materialIDs: stock.materialIDs,
+      materials: stock.materials
+    };
+
+    console.log('Données de mise à jour envoyées:', payload);
+
+    return this.http.put<Stock>(url, payload, { headers }).pipe(
+      catchError(error => {
+        console.error(`Erreur lors de la mise à jour du stock ID ${stock.stockID}`, error);
+        return throwError(() => new Error(`Erreur lors de la mise à jour du stock`));
+      })
+    );
+  }
+
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StockService } from 'src/app/service/stock.service';
 import { MaterialService } from 'src/app/service/material.service';
 import { Stock } from 'src/app/models/stock.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Material } from 'src/app/material.model';
 
 @Component({
@@ -11,70 +11,120 @@ import { Material } from 'src/app/material.model';
   styleUrls: ['./add-stock.component.css']
 })
 export class AddStockComponent implements OnInit {
-  newStock: Stock = {
+  stock: Stock = {
     availableQuantity: 0,
     dateReceived: '',
     stockID: undefined,
     projetID: 0,
     materialIDs: [],
-    materials: []
+    materials: [],
   };
 
   materials: Material[] = [];
   errorMessage: string = '';
   successMessage: string = '';
   isSubmitting: boolean = false;
-  totalCost: number | null = null;  // ➕ Ajout du coût total
+  totalCost: number | null = null;
+  isEditMode: boolean = false;
 
   constructor(
     private stockService: StockService,
     private materialService: MaterialService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.materialService.getAllMaterials().subscribe(
-      (data) => {
-        this.materials = data;
-      },
-      (error) => {
+    this.loadMaterials();
+    this.checkEditMode();
+  }
+
+  private loadMaterials(): void {
+    this.materialService.getAllMaterials().subscribe({
+      next: (data) => this.materials = data,
+      error: (error) => {
         this.errorMessage = 'Erreur lors de la récupération des matériaux.';
         console.error(error);
       }
-    );
+    });
+  }
+
+  private checkEditMode(): void {
+    const stockId = this.route.snapshot.paramMap.get('id');
+    if (stockId) {
+      this.isEditMode = true;
+      this.loadStockForEdit(+stockId);
+    }
+  }
+
+  private loadStockForEdit(stockId: number): void {
+    this.stockService.getStockById(stockId).subscribe({
+      next: (stock) => {
+        this.stock = stock;
+        this.stock.materialIDs = stock.materials?.map(m => m.materialID) || [];
+        this.loadTotalCost(stockId);
+      },
+      error: (err) => {
+        this.errorMessage = 'Erreur lors du chargement du stock.';
+        console.error(err);
+      }
+    });
   }
 
   onSubmit(): void {
+    if (this.isSubmitting) return;
+
     this.errorMessage = '';
     this.successMessage = '';
 
-    if (this.isValidForm()) {
-      this.isSubmitting = true;
-
-      // Récupérer les objets Material à partir des IDs
-      this.newStock.materials = this.materials.filter(material =>
-        this.newStock.materialIDs.includes(material.materialID)
-      );
-
-      this.stockService.createStock(this.newStock).subscribe(
-        (data) => {
-          this.successMessage = 'Le stock a été ajouté avec succès.';
-          this.router.navigate(['/stock']);
-          // ➕ Appel pour récupérer le coût total
-          if (data.stockID) {
-            this.loadTotalCost(data.stockID);
-          }
-          // Optionnel : Rediriger après quelques secondes
-          // this.router.navigate(['/stock']);
-        },
-        (error) => {
-          this.isSubmitting = false;
-          this.handleError(error);
-        }
-      );
-    } else {
+    if (!this.isValidForm()) {
       this.errorMessage = 'Veuillez remplir tous les champs correctement.';
+      return;
     }
+
+    this.isSubmitting = true;
+    this.prepareMaterials();
+
+    const operation = this.isEditMode 
+      ? this.stockService.updateStock(this.stock)
+      : this.stockService.createStock(this.stock);
+
+    operation.subscribe({
+      next: (data) => this.handleSuccess(data),
+      error: (error) => this.handleError(error)
+    });
+  }
+
+  private prepareMaterials(): void {
+    this.stock.materials = this.materials
+      .filter(m => this.stock.materialIDs.includes(m.materialID))
+      .map(m => ({ ...m }));
+  }
+
+  private handleSuccess(data: Stock): void {
+    this.successMessage = this.isEditMode 
+      ? 'Stock mis à jour avec succès.' 
+      : 'Stock créé avec succès.';
+    
+    if (data.stockID) {
+      this.loadTotalCost(data.stockID);
+    }
+    
+    setTimeout(() => this.router.navigate(['/stock']), 1500);
+  }
+
+  private handleError(error: any): void {
+    this.isSubmitting = false;
+    
+    if (error.status === 500) {
+      this.errorMessage = 'Erreur serveur. Veuillez réessayer plus tard.';
+    } else if (error.status === 400) {
+      this.errorMessage = 'Données invalides. Veuillez vérifier.';
+    } else {
+      this.errorMessage = 'Une erreur inconnue est survenue.';
+    }
+    
+    console.error(error);
   }
 
   loadTotalCost(stockId: number): void {
@@ -88,34 +138,21 @@ export class AddStockComponent implements OnInit {
   }
 
   isValidForm(): boolean {
-    return (
-      this.newStock.availableQuantity > 0 &&
-      this.newStock.dateReceived !== '' &&
-      this.newStock.materialIDs.length > 0
-    );
+    return this.stock.availableQuantity > 0 &&
+           this.stock.dateReceived !== '' &&
+           this.stock.materialIDs.length > 0;
   }
 
-  handleError(error: any): void {
-    this.errorMessage = '';
-    if (error.status === 500) {
-      this.errorMessage = 'Une erreur interne est survenue. Veuillez réessayer plus tard.';
-    } else if (error.status === 400) {
-      this.errorMessage = 'Erreur dans les données envoyées. Veuillez vérifier.';
-    } else {
-      this.errorMessage = 'Une erreur inconnue est survenue.';
-    }
-    console.error(this.errorMessage);
+  onMaterialSelect(): void {
+    const selectedMaterials = this.materials
+      .filter(m => this.stock.materialIDs.includes(m.materialID));
+    
+    this.stock.availableQuantity = selectedMaterials.length === 1 
+      ? selectedMaterials[0]?.selectedQuantity || 0
+      : selectedMaterials.reduce((total, m) => total + (m.selectedQuantity || 0), 0);
   }
 
-  onMaterialSelect() {
-    if (this.newStock.materialIDs.length === 1) {
-      const selectedId = this.newStock.materialIDs[0];
-      const selectedMaterial = this.materials.find(mat => mat.materialID === selectedId);
-      this.newStock.availableQuantity = selectedMaterial?.selectedQuantity || 0;
-    } else {
-      this.newStock.availableQuantity = this.materials
-        .filter(mat => this.newStock.materialIDs.includes(mat.materialID))
-        .reduce((total, mat) => total + (mat.selectedQuantity || 0), 0);
-    }
+  cancel(): void {
+    this.router.navigate(['/stock']);
   }
 }

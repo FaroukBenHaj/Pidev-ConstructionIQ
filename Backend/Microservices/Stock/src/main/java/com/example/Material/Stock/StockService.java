@@ -50,7 +50,24 @@ public class StockService {
 //
 //        return true; // L'affectation a réussi
 //    }
+@Transactional
+public Stock updateStock(Long id, Stock stockDetails) {
+    return stockRepository.findById(id)
+            .map(existingStock -> {
+                // Mise à jour des champs modifiables
+                existingStock.setAvailableQuantity(stockDetails.getAvailableQuantity());
+                existingStock.setDateReceived(stockDetails.getDateReceived());
+                existingStock.setProjetID(stockDetails.getProjetID());
 
+                // Si vous voulez aussi mettre à jour les matériaux
+                if (stockDetails.getMaterials() != null) {
+                    existingStock.setMaterials(stockDetails.getMaterials());
+                }
+
+                return stockRepository.save(existingStock);
+            })
+            .orElseThrow(() -> new RuntimeException("Stock not found with id: " + id));
+}
     public List<Stock> getAllStocks() {
         return stockRepository.findAll();
     }
@@ -68,6 +85,8 @@ public class StockService {
     public void deleteStock(Long id) {
         stockRepository.deleteById(id);
     }
+
+
 
 
     // Récupérer une liste de matériaux à partir de leurs IDs

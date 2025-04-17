@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddStockComponent } from './component/stock/add-stock/add-stock.component'; // Assurez-vous d'importer cela
 
 import { ChartMaterialComponent } from './chart-material/chart-material.component';
+import { CalendarModule } from 'primeng/calendar';
 
 
 
@@ -42,6 +43,7 @@ import { ChartMaterialComponent } from './chart-material/chart-material.componen
     StockComponent,
     AddStockComponent,
     ChartMaterialComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ import { ChartMaterialComponent } from './chart-material/chart-material.componen
     MultiSelectModule,
     DropdownModule,
     ProgressBarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CalendarModule
     
  
   ],
