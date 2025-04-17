@@ -1,9 +1,21 @@
+/* Base styles to ensure text visibility */
+body, input, textarea, select, [contenteditable="true"] {
+    color: #212529;
+    background-color: #ffffff;
+}
+
+input, textarea, select, [contenteditable="true"] {
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Original table styles with improvements */
 .table {
     width: 100%;
     margin-bottom: 1rem;
     color: #212529;
     border-collapse: collapse;
-    background-color: #fdfdfd; /* Fond éclairci */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .table th,
@@ -11,22 +23,22 @@
     padding: 0.75rem;
     vertical-align: middle;
     border-top: 1px solid #dee2e6;
-    background-color: transparent; /* Héritage cohérent */
 }
 
 .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #eee; /* Bordure plus claire */
-    background-color: #fcfcfc; /* Header éclairci */
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f1f1f1;
     font-weight: 600;
+    color: #333;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(250, 250, 250, 0.7); /* Alternance subtile */
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .table-bordered {
-    border: 1px solid #f0f0f0; /* Bordure externe atténuée */
+    border: 1px solid #dee2e6;
 }
 
 .table-bordered th,
@@ -40,6 +52,7 @@
     overflow-x: auto;
 }
 
+/* Status badges with improved contrast */
 .status-badge {
     display: inline-block;
     padding: 0.25em 0.6em;
@@ -55,27 +68,35 @@
 
 .status-pending {
     background-color: #ffc107;
+    color: #212529; /* Darker text on light background for better readability */
 }
 
-.status-paid {
+.status-approved {
     background-color: #28a745;
 }
 
-.status-canceled {
+.status-rejected {
     background-color: #dc3545;
 }
 
+.status-delivered {
+    background-color: #17a2b8;
+}
+
+/* Button styles with minor improvements */
 .btn-action {
     display: inline-block;
-    margin-right: 3px;
-    width: 34px;          /* Taille légèrement augmentée */
-    height: 34px;         /* Taille légèrement augmentée */
-    line-height: 34px;    /* Ajustement du line-height */
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     border-radius: 3px;
+    background-color: #f8f8f8;
+    color: #4b4b4b;
     border: none;
     cursor: pointer;
-    font-size: 14px;      /* Taille de police standardisée */
+    transition: background-color 0.2s ease;
 }
 
 .btn-view {
@@ -109,6 +130,7 @@
     white-space: nowrap;
 }
 
+/* Alert styles - kept original with minor improvements */
 .alert {
     position: relative;
     padding: 0.75rem 1.25rem;
@@ -129,6 +151,7 @@
     border-color: #bee5eb;
 }
 
+/* Spinner animation - kept original */
 .spinner-border {
     display: inline-block;
     width: 2rem;
@@ -150,12 +173,4 @@
 
 .text-right {
     text-align: right;
-}
-
-/* Ajout pour les labels sombres en gras */
-label {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    color: #2d2d2d;
 }

@@ -4,7 +4,7 @@
   <div id="featured-title-inner" class="container clearfix">
     <div class="featured-title-inner-wrap">
       <div class="featured-title-heading-wrap">
-        <h1 class="featured-title-heading">Liste des Commandes</h1>
+        <h1 class="featured-title-heading"></h1>
       </div>
       <div id="breadcrumbs">
         <div class="breadcrumbs-inner">
@@ -26,13 +26,14 @@
         <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
 
         <div class="wprt-content-box style-1">
-          <h2 class="mb-4">Vos Commandes</h2>
-
-          <!-- Barre d’actions -->
-          <div class="text-center mb-5">
-            <a routerLink="/commandes/create" class="wprt-button mr-3">Nouvelle Commande</a>
-            <a routerLink="/factures/create" class="wprt-button wprt-button-outline mr-3">Générer une Facture</a>
-            <a routerLink="/budgets/create" class="wprt-button wprt-button-dark">Définissez votre Budget</a>
+          <!-- Titre et bouton Nouvelle Commande -->
+          <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+              <h2>Vos Commandes</h2>
+            </div>
+            <div class="col-md-6 text-right">
+              <a routerLink="/commandes/create" class="wprt-button">Nouvelle Commande</a>
+            </div>
           </div>
 
           <!-- Barre de recherche avancée -->
@@ -120,6 +121,16 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <!-- Boutons Facturation et Budget sous le tableau -->
+          <div class="text-center mt-4">
+            <a routerLink="/factures/create" class="wprt-button wprt-button-outline mr-3">
+              Générer une Facture
+            </a>
+            <a routerLink="/budgets/create" class="wprt-button wprt-button-dark">
+              Définissez votre Budget
+            </a>
           </div>
 
         </div>

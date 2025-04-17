@@ -1,8 +1,21 @@
+/* Base styles to ensure text visibility */
+body, input, textarea, select, [contenteditable="true"] {
+    color: #212529;
+    background-color: #ffffff;
+}
+
+input, textarea, select, [contenteditable="true"] {
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Original table styles with improvements */
 .table {
     width: 100%;
     margin-bottom: 1rem;
     color: #212529;
     border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .table th,
@@ -15,8 +28,9 @@
 .table thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #dee2e6;
-    background-color: #f8f8f8;
+    background-color: #f1f1f1;
     font-weight: 600;
+    color: #333;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -38,6 +52,7 @@
     overflow-x: auto;
 }
 
+/* Status badges with improved contrast */
 .status-badge {
     display: inline-block;
     padding: 0.25em 0.6em;
@@ -53,6 +68,7 @@
 
 .status-pending {
     background-color: #ffc107;
+    color: #212529; /* Darker text on light background for better readability */
 }
 
 .status-approved {
@@ -67,6 +83,7 @@
     background-color: #17a2b8;
 }
 
+/* Button styles with minor improvements */
 .btn-action {
     display: inline-block;
     margin-right: 5px;
@@ -79,6 +96,7 @@
     color: #4b4b4b;
     border: none;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .btn-view {
@@ -112,6 +130,7 @@
     white-space: nowrap;
 }
 
+/* Alert styles - kept original with minor improvements */
 .alert {
     position: relative;
     padding: 0.75rem 1.25rem;
@@ -132,6 +151,7 @@
     border-color: #bee5eb;
 }
 
+/* Spinner animation - kept original */
 .spinner-border {
     display: inline-block;
     width: 2rem;
