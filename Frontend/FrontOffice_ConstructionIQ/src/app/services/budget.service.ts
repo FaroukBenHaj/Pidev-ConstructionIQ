@@ -1,33 +1,76 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Budget } from '../models/budget';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { Budget, BudgetCreateDTO, BudgetUpdateDTO } from '../models/budget.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private apiUrl = 'http://localhost:8080/budgets';
+  private apiUrl = `${environment.apiUrl}/budgets`;
+  
+  // HTTP Options
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  // Error handling
+  private handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
+  }
 
   getAllBudgets(): Observable<Budget[]> {
-    return this.http.get<Budget[]>(this.apiUrl);
+    return this.http.get<Budget[]>(this.apiUrl)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
   getBudgetById(id: number): Observable<Budget> {
-    return this.http.get<Budget>(`${this.apiUrl}/${id}`);
+    return this.http.get<Budget>(`${this.apiUrl}/${id}`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
-  createBudget(budget: Budget): Observable<string> {
-    return this.http.post(this.apiUrl, budget, { responseType: 'text' });
+  createBudget(budget: BudgetCreateDTO): Observable<Budget> {
+    return this.http.post<Budget>(this.apiUrl, JSON.stringify(budget), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
-  updateBudget(id: number, budget: Budget): Observable<Budget> {
-    return this.http.put<Budget>(`${this.apiUrl}/${id}`, budget);
+  updateBudget(id: number, budget: BudgetUpdateDTO): Observable<Budget> {
+    return this.http.put<Budget>(`${this.apiUrl}/${id}`, JSON.stringify(budget), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
   deleteBudget(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 }

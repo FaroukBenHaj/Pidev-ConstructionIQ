@@ -1,0 +1,161 @@
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    background-color: #fdfdfd; /* Fond éclairci */
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    background-color: transparent; /* Héritage cohérent */
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #eee; /* Bordure plus claire */
+    background-color: #fcfcfc; /* Header éclairci */
+    font-weight: 600;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(250, 250, 250, 0.7); /* Alternance subtile */
+}
+
+.table-bordered {
+    border: 1px solid #f0f0f0; /* Bordure externe atténuée */
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10rem;
+    color: #fff;
+}
+
+.status-pending {
+    background-color: #ffc107;
+}
+
+.status-paid {
+    background-color: #28a745;
+}
+
+.status-canceled {
+    background-color: #dc3545;
+}
+
+.btn-action {
+    display: inline-block;
+    margin-right: 3px;
+    width: 34px;          /* Taille légèrement augmentée */
+    height: 34px;         /* Taille légèrement augmentée */
+    line-height: 34px;    /* Ajustement du line-height */
+    text-align: center;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;      /* Taille de police standardisée */
+}
+
+.btn-view {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.btn-view:hover {
+    background-color: #138496;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.actions {
+    white-space: nowrap;
+}
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border .75s linear infinite;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg); }
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Ajout pour les labels sombres en gras */
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #2d2d2d;
+}
