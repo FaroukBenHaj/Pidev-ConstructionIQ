@@ -17,6 +17,7 @@ import { HeroSectionComponent } from './Pages/hero-section/hero-section.componen
 import { DivisionsComponent } from './Pages/divisions/divisions.component';
 import { ServicesComponent } from './Pages/services/services.component';
 import {HttpTokenInterceptor} from "./services/interceptors/http-token.interceptor";
+import {SafetyDashboardComponent} from "./component/safety-dashboard/safety-dashboard.component";
 
 export function kcFactory (kcService: KeycloakService) {
 return () => kcService.init();
@@ -27,13 +28,13 @@ return () => kcService.init();
     HeaderComponent,
     FooterComponent,
     HomePageComponent,
+    SafetyDashboardComponent,
     LoginComponent,
     RegisterComponent,
     ActivateAccountComponent,
     HeroSectionComponent,
     DivisionsComponent,
     ServicesComponent,
-
   ],
   imports: [
     BrowserModule,

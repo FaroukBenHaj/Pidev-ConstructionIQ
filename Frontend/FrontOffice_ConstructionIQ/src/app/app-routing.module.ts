@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {LoginComponent} from "./Pages/login/login.component";
-import {RegisterComponent} from "./Pages/register/register.component";
-import {ActivateAccountComponent} from "./Pages/activate-account/activate-account.component";
-import { authGuard } from './services/guard/auth.guard';
-import {HomePageComponent} from "./Pages/home-page/home-page.component";
+import { HomePageComponent } from './Pages/home-page/home-page.component';
+import { SafetyDashboardComponent } from './component/safety-dashboard/safety-dashboard.component';
 
 const routes: Routes = [
-  { path : 'home' , component:HomePageComponent },
-  { path : 'login' , component:LoginComponent},
-  { path : 'register' , component:RegisterComponent},
-  { path : 'activate-account' , component:ActivateAccountComponent},
-  { path : '' , redirectTo:'home', pathMatch:'full'},//redirect to the entity
+
+  { path : 'home' , component:HomePageComponent},
+  { path : '' , redirectTo: '/home' , pathMatch:'full'},
+  { path: 'dashboard', component: SafetyDashboardComponent },
+
 
 ];
 

@@ -5,9 +5,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/GatewayApi/pom.xml" />
+        <option value="$PROJECT_DIR$/hse-service/pom.xml" />
         <option value="$PROJECT_DIR$/Microservices/User-Domain/pom.xml" />
       </list>
     </option>
+    <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbrsdk-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

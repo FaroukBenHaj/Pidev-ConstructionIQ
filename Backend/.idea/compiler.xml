@@ -7,7 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hse-service" />
         <module name="Eureka" />
+        <module name="GatewayApi" />
       </profile>
       <profile name="Annotation profile for User-Domain" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -23,6 +25,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Eureka" options="-parameters" />
+      <module name="GatewayApi" options="-parameters" />
+      <module name="hse-service" options="-parameters" />
       <module name="User-Domain" options="-parameters" />
     </option>
   </component>
