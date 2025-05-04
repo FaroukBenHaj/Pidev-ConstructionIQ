@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/Backend/Microservices/hse-service/pom.xml" />
         <option value="$PROJECT_DIR$/Backend/Microservices/User-Domain/pom.xml" />
         <option value="$PROJECT_DIR$/Backend/Eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/Backend/GatewayApi/pom.xml" />
       </list>
     </option>
   </component>
