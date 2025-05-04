@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.userdomain.auth.LoginAttempt;
 import tn.esprit.userdomain.auth.request.ResetPasswordRequest;
 import tn.esprit.userdomain.auth.service.AuthentificationService;
 import tn.esprit.userdomain.auth.request.AuthenticationRequest;
@@ -18,6 +19,10 @@ import tn.esprit.userdomain.roles.Role;
 import tn.esprit.userdomain.roles.RoleRepository;
 import tn.esprit.userdomain.user.User;
 import tn.esprit.userdomain.user.UserRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("auth/")
@@ -35,6 +40,22 @@ public class AuthentificationController {
         return "admin-dashboard"; // Shows admin-dashboard.html
     }
 
+    @PostMapping("/detect")
+    public ResponseEntity<String> detectAnomaly(@RequestBody List<LoginAttempt> attempts) {
+        // Filter attempts from last 5 minutes
+        List<LoginAttempt> recentAttempts = attempts.stream()
+                .filter(a -> a.getTimestamp().isAfter(LocalDateTime.now().minusMinutes(5)))
+                .collect(Collectors.toList());
+
+        long failedCount = recentAttempts.stream()
+                .filter(a -> !a.isSuccess())
+                .count();
+
+        if (failedCount > 5) {
+            return ResponseEntity.ok("Suspicious activity detected!");
+        }
+        return ResponseEntity.ok("Normal activity");
+    }
 
 
 //    private final AuthentificationService authentificationService;

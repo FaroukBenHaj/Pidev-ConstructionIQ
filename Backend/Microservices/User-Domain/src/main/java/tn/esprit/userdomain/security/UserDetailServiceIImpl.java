@@ -9,18 +9,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tn.esprit.userdomain.user.UserRepository;
 //@Service
-public class UserDetailServiceIImpl {//implements UserDetailsService {
-//    @Autowired
-//    private final UserRepository respository;
-//
-//    public UserDetailServiceIImpl(UserRepository respository) {
-//        this.respository = respository;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return respository.findByEmail(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found "));
-//    }
+@RequiredArgsConstructor
+public class UserDetailServiceIImpl { /*implements UserDetailsService {
+
+    private final UserRepository respository;
+
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return respository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found "));
+  }*/
 }

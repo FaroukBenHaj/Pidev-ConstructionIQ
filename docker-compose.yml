@@ -11,6 +11,7 @@ services:
       - "start-dev"
     networks:
       - keycloak-network
+
 networks:
   keycloak-network:
     driver: bridge

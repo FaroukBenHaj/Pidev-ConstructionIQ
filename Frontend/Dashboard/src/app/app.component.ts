@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {KeycloakService} from "./Services/Keycloak/Keycloak.service";
+import {KeycloakService} from "./keycloak.service";
 
 @Component({
   selector: 'app-root',
@@ -17,8 +17,8 @@ export class AppComponent implements OnInit {
   authorized = false;
   loading = true;
 
-  constructor(private kc: KeycloakService) {}
-
+  constructor(private kc: KeycloakService ) {}
+//TODO-PRIME
   async ngOnInit() {
     await this.kc.init();
     const roles = this.kc.getRoles();

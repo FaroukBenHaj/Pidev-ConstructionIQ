@@ -33,6 +33,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: "http://localhost:9090/realms/Esprit-project"
+
+
 application:
 server:
   port : 8088

@@ -1,4 +1,3 @@
-package com.alibou.book.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +43,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/auth/admin/**").hasRole("ADMIN")
                                 // Requires ROLE_ADMIN
+                                .requestMatchers("/auth/user/**").hasAnyRole("USER", "PREMIUM_USER")
                                 .requestMatchers("/auth/user/**").hasRole("USER")
                                 .anyRequest()
                                 .authenticated()
