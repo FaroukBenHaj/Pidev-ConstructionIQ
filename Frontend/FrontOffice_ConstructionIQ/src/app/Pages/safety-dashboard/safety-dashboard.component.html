@@ -1,0 +1,141 @@
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+
+  <!-- Safety Dashboard Hero Section -->
+  <div id="hero-section" data-number="3" data-effect="fade" style="background-image: url('assets/img/slider/9.jpg');">
+    <div class="hero-content">
+      <div class="hero-title scroll" data-min="28px" data-max="80px">
+        <h1>Safety Dashboard</h1>
+      </div>
+      <div class="hero-text">
+        <p class="font-weight-600 letter-spacing-1px">Your construction project's safety overview</p>
+      </div>
+      <a class="arrow-2 bounce scroll-target" href="#main-content">
+        <span class="fa fa-angle-down"></span>
+      </a>
+    </div><!-- /.hero-content -->
+  </div>
+
+  <div id="main-content" class="site-main clearfix">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+            <!-- Original Home Page Components -->
+
+
+            <!-- Safety Dashboard Content -->
+            <div class="safety-dashboard">
+              <div class="container">
+                <!-- Overview of Inspections -->
+                <section id="inspections-section" class="dashboard-section">
+                  <h2>Overview of Inspections</h2>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped table-responsive">
+                        <thead>
+                        <tr>
+                          <th>Inspection ID</th>
+                          <th>Inspector</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Findings</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let inspection of inspections">
+                          <td>{{ inspection.inspectionID }}</td>
+                          <td>{{ inspection.inspector }}</td>
+                          <td>{{ inspection.date | date:'medium' }}</td>
+                          <td>{{ inspection.status }}</td>
+                          <td>{{ inspection.findings }}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Compliance Checklists Summary -->
+                <section id="compliance-section" class="dashboard-section">
+                  <h2>Compliance Checklists Summary</h2>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="card compliance-card">
+                        <div class="card-body">
+                          <h3>Requirements MET</h3>
+                          <p>{{ metCount }} of {{ totalChecklists }} ({{ metPercentage }}%)</p>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" [style.width.%]="metPercentage">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card compliance-card">
+                        <div class="card-body">
+                          <h3>Requirements NOT MET</h3>
+                          <p>{{ notMetCount }} of {{ totalChecklists }} ({{ notMetPercentage }}%)</p>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" [style.width.%]="notMetPercentage">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Incident Statistics -->
+                <section id="incidents-section" class="dashboard-section">
+                  <h2>Incident Statistics</h2>
+                  <div class="row text-center">
+                    <div class="col-md-4">
+                      <div class="card incident-card">
+                        <div class="card-body">
+                          <h3>Open Incidents</h3>
+                          <p>{{ openIncidents }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card incident-card">
+                        <div class="card-body">
+                          <h3>Investigating Incidents</h3>
+                          <p>{{ investigatingIncidents }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card incident-card">
+                        <div class="card-body">
+                          <h3>Closed Incidents</h3>
+                          <p>{{ closedIncidents }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section id="incident-map-section" class="dashboard-section">
+                  <h2>Incident Map</h2>
+                  <div id="incidentMap" style="height: 500px; width: 100%;"></div>
+                </section>
+              </div><!-- /.container -->
+            </div>
+            <!-- END SAFETY DASHBOARD CONTENT -->
+
+            <!-- Other Home Page Components (commented out in original) -->
+            <!-- <app-projects></app-projects>
+            <app-offers></app-offers>
+            <app-promotion></app-promotion>
+            <app-facts></app-facts>
+            <app-testimonials></app-testimonials>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

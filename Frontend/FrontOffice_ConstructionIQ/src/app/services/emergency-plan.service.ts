@@ -7,7 +7,7 @@ import { EmergencyPlan } from 'src/models/emergency-plan.model';
   providedIn: 'root'
 })
 export class EmergencyPlanService {
-  private baseUrl = 'http://localhost:8081/api/emergency-plans';
+  private baseUrl = 'http://localhost:8085/api/emergency-plans';
 
   constructor(private http: HttpClient) { }
 
