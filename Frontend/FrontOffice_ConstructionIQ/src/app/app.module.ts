@@ -8,7 +8,7 @@ import { FooterComponent } from './Pages/footer/footer.component';
 import { HomePageComponent } from './Pages/home-page/home-page.component';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './Pages/login/login.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RegisterComponent } from './Pages/register/register.component';
 import { ActivateAccountComponent } from './Pages/activate-account/activate-account.component';
 import {CodeInputModule} from "angular-code-input";
@@ -18,6 +18,10 @@ import { DivisionsComponent } from './Pages/divisions/divisions.component';
 import { ServicesComponent } from './Pages/services/services.component';
 import {HttpTokenInterceptor} from "./services/interceptors/http-token.interceptor";
 import {SafetyDashboardComponent} from "./Pages/safety-dashboard/safety-dashboard.component";
+import { ClaimListComponent } from './Pages/claim-list/claim-list.component';
+import { AddClaimComponent } from './Pages/add-claim/add-claim.component';
+import { ClaimDetailComponent } from './Pages/claim-detail/claim-detail.component';
+import {RouterModule} from "@angular/router";
 
 export function kcFactory (kcService: KeycloakService) {
 return () => kcService.init();
@@ -35,12 +39,16 @@ return () => kcService.init();
     HeroSectionComponent,
     DivisionsComponent,
     ServicesComponent,
+    ClaimListComponent,
+    AddClaimComponent,
+    ClaimDetailComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     CodeInputModule
   ],
   providers: [

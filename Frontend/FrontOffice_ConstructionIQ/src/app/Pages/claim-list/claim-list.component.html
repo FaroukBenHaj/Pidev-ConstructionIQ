@@ -1,0 +1,66 @@
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+  <div id="featured-title" class="clearfix featured-title-left"  >
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap" >
+          <h1 class="featured-title-heading" style="color: #ef8b0c ">Claim List </h1>
+          <p> Feel free to add / edit / delete a  claim </p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="#" title="Construction" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end">Claim </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-content" class="site-main clearfix">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+              <div class="container mt-4">
+  <h2>Claims List</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Sender</th>
+      <th>Receiver</th>
+      <th>Type</th>
+      <th>Priority</th>
+      <th>Urgency</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let claim of claims">
+      <td>{{ claim.id }}</td>
+      <td>{{ claim.sender }}</td>
+      <td>{{ claim.receiver }}</td>
+      <td>{{ claim.claimType }}</td>
+      <td>{{ claim.initialPriority }}</td>
+      <td>{{ claim.urgencyClassification }}</td>
+      <td>
+        <button class="btn btn-info btn-sm" [routerLink]="['/claims', claim.id]">View</button>
+        <button class="btn btn-warning btn-sm mx-2" [routerLink]="['/claims/edit', claim.id]">Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteClaim(claim.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button  routerLink="/claims/add">Add New Claim</button>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

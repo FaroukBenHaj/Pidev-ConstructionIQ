@@ -1,0 +1,111 @@
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+  <div id="featured-title" class="clearfix featured-title-left"  >
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap" >
+          <h1 class="featured-title-heading" style="color: #ef8b0c ">Add a new Claim </h1>
+          <p>  Feel free to add a new claim  </p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="#" title="Construction" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end"> Claim </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-content" class="site-main clearfix">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+            <!-- Claim Form Section -->
+            <div class="container mt-4">
+              <h2>{{ isEditMode ? 'Edit' : 'Add' }} Claim</h2>
+              <form [formGroup]="claimForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="sender">Sender</label>
+                      <input type="text" class="form-control" id="sender" formControlName="sender">
+                    </div>
+                    <div class="form-group">
+                      <label for="receiver">Receiver</label>
+                      <input type="text" class="form-control" id="receiver" formControlName="receiver">
+                    </div>
+                    <div class="form-group">
+                      <label for="numberOfCharacters">Number of Characters</label>
+                      <input type="number" class="form-control" id="numberOfCharacters" formControlName="numberOfCharacters">
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="containsUrgent" formControlName="containsUrgent">
+                      <label class="form-check-label" for="containsUrgent">Contains Urgent</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="containsImportant" formControlName="containsImportant">
+                      <label class="form-check-label" for="containsImportant">Contains Important</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="urgencyClassification">Urgency Classification</label>
+                      <select class="form-control" id="urgencyClassification" formControlName="urgencyClassification">
+                        <option value="not urgent and not important">Not Urgent and Not Important</option>
+                        <option value="urgent and not important">Urgent and Not Important</option>
+                        <option value="not urgent and important">Not Urgent and Important</option>
+                        <option value="urgent and important">Urgent and Important</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="sendDate">Send Date</label>
+                      <input type="date" class="form-control" id="sendDate" formControlName="sendDate">
+                    </div>
+                    <div class="form-group">
+                      <label for="sendTime">Send Time</label>
+                      <input type="time" class="form-control" id="sendTime" formControlName="sendTime">
+                    </div>
+                    <div class="form-group">
+                      <label for="claimType">Claim Type</label>
+                      <select class="form-control" id="claimType" formControlName="claimType">
+                        <option value="administrative">Administrative</option>
+                        <option value="technical">Technical</option>
+                        <option value="financial">Financial</option>
+                        <option value="logistical">Logistical</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="initialPriority">Initial Priority</label>
+                      <select class="form-control" id="initialPriority" formControlName="initialPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="numberOfAttachments">Number of Attachments</label>
+                      <input type="number" class="form-control" id="numberOfAttachments" formControlName="numberOfAttachments">
+                    </div>
+                    <div class="form-group">
+                      <label for="messageLanguage">Message Language</label>
+                      <input type="text" class="form-control" id="messageLanguage" formControlName="messageLanguage">
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="!claimForm.valid">Save</button>
+                <a routerLink="/claims" class="btn btn-secondary ml-2">Cancel</a>
+              </form>
+            </div>
+            <!-- End of Claim Form Section -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>
