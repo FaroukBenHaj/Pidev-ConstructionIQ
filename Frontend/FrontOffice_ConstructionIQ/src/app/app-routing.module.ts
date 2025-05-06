@@ -6,7 +6,10 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { EditProjectComponent } from './edit-project/edit-project.component';
 import { GranttChartComponent } from './grantt-chart/grantt-chart.component';
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
+import { PredictionComponent } from './prediction/prediction.component';
+
 const routes: Routes = [
+  { path: 'prediction', component: PredictionComponent },
   
   { path: 'home', component: HomePageComponent }, 
   { path: 'upload-project', component: UploadProjectComponent }, 

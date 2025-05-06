@@ -46,6 +46,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProjectStatisticsComponent } from './project-statistics/project-statistics.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { PredictionComponent } from './prediction/prediction.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     GranttChartComponent,
     WeatherInfoComponent,
     ProjectStatisticsComponent,
+    PredictionComponent,
   ],
   imports: [
     BrowserModule,
