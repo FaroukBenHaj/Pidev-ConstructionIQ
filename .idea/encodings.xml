@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Backend/Eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Backend/GatewayApi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Backend/Microservices/Reclamation-domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Backend/Microservices/User-Domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Backend/Microservices/hse-service/src/main/java" charset="UTF-8" />
   </component>

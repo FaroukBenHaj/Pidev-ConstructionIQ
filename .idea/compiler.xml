@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Reclamation-domain" />
         <module name="User-Domain" />
         <module name="hse-service" />
         <module name="Eureka" />
@@ -18,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Eureka" options="-parameters" />
       <module name="GatewayApi" options="-parameters" />
+      <module name="Reclamation-domain" options="-parameters" />
       <module name="User-Domain" options="-parameters" />
       <module name="hse-service" options="-parameters" />
     </option>

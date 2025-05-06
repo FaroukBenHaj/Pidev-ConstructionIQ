@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/claims")
@@ -48,4 +49,5 @@ public class ClaimController {
         claimService.deleteClaim(id);
         return ResponseEntity.noContent().build();
     }
+
 }
