@@ -1,0 +1,131 @@
+<div class="grid">
+    <div class="col-12">
+      <div class="card px-6 py-6">
+        <p-toast></p-toast>
+        <p-toolbar styleClass="mb-4">
+          <ng-template pTemplate="left">
+            <div class="my-2">
+              <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+          </ng-template>
+        </p-toolbar>
+  
+        <p-table #dt [value]="emergencyPlans" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                 [globalFilterFields]="['planID','project_id','riskAssessment','evacuationProcedure','responsiblePerson','version']"
+                 [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                 [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                 [(selection)]="selectedEmergencyPlans" selectionMode="multiple" [rowHover]="true" dataKey="planID">
+          <ng-template pTemplate="caption">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+              <h5 class="m-0">Manage Emergency Plans</h5>
+              <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="planID">ID <p-sortIcon field="planID"></p-sortIcon></th>
+              <th pSortableColumn="project_id">Project ID <p-sortIcon field="project_id"></p-sortIcon></th>
+              <th pSortableColumn="riskAssessment">Risk Assessment <p-sortIcon field="riskAssessment"></p-sortIcon></th>
+              <th pSortableColumn="evacuationProcedure">Evacuation Procedure <p-sortIcon field="evacuationProcedure"></p-sortIcon></th>
+              <th pSortableColumn="responsiblePerson">Responsible Person <p-sortIcon field="responsiblePerson"></p-sortIcon></th>
+              <th pSortableColumn="lastReviewedDate">Last Reviewed Date <p-sortIcon field="lastReviewedDate"></p-sortIcon></th>
+              <th pSortableColumn="version">Version <p-sortIcon field="version"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-plan>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="plan"></p-tableCheckbox>
+              </td>
+              <td><span class="p-column-title">ID</span>{{ plan.planID }}</td>
+              <td><span class="p-column-title">Project ID</span>{{ plan.project_id }}</td>
+              <td><span class="p-column-title">Risk Assessment</span>{{ plan.riskAssessment }}</td>
+              <td><span class="p-column-title">Evacuation Procedure</span>{{ plan.evacuationProcedure }}</td>
+              <td><span class="p-column-title">Responsible Person</span>{{ plan.responsiblePerson }}</td>
+              <td><span class="p-column-title">Last Reviewed Date</span>{{ plan.lastReviewedDate | date:'short' }}</td>
+              <td><span class="p-column-title">Version</span>{{ plan.version }}</td>
+              <td>
+                <div class="flex">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEmergencyPlan(plan)"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEmergencyPlan(plan)"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+  
+      <p-dialog [(visible)]="emergencyPlanDialog" [style]="{width: '450px'}" header="Emergency Plan Details" [modal]="true" class="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="project_id">Project ID</label>
+            <input type="number" pInputText id="project_id" [(ngModel)]="emergencyPlan.project_id" required autofocus/>
+            <small *ngIf="submitted && (!emergencyPlan.project_id)" class="p-error">Project ID is required.</small>
+          </div>
+          <div class="field">
+            <label for="riskAssessment">Risk Assessment</label>
+            <textarea id="riskAssessment" pInputTextarea [(ngModel)]="emergencyPlan.riskAssessment" required rows="3" cols="20"></textarea>
+            <small *ngIf="submitted && (!emergencyPlan.riskAssessment || emergencyPlan.riskAssessment.trim() === '')" class="p-error">Risk Assessment is required.</small>
+          </div>
+          <div class="field">
+            <label for="evacuationProcedure">Evacuation Procedure</label>
+            <textarea id="evacuationProcedure" pInputTextarea [(ngModel)]="emergencyPlan.evacuationProcedure" required rows="3" cols="20"></textarea>
+            <small *ngIf="submitted && (!emergencyPlan.evacuationProcedure || emergencyPlan.evacuationProcedure.trim() === '')" class="p-error">Evacuation Procedure is required.</small>
+          </div>
+          <div class="field">
+            <label for="responsiblePerson">Responsible Person</label>
+            <input type="text" pInputText id="responsiblePerson" [(ngModel)]="emergencyPlan.responsiblePerson" required/>
+            <small *ngIf="submitted && (!emergencyPlan.responsiblePerson || emergencyPlan.responsiblePerson.trim() === '')" class="p-error">Responsible Person is required.</small>
+          </div>
+          <div class="field">
+            <label for="lastReviewedDate">Last Reviewed Date</label>
+            <input type="datetime-local" pInputText id="lastReviewedDate" [(ngModel)]="emergencyPlan.lastReviewedDate" required/>
+            <small *ngIf="submitted && (!emergencyPlan.lastReviewedDate)" class="p-error">Last Reviewed Date is required.</small>
+          </div>
+          <div class="field">
+            <label for="version">Version</label>
+            <input type="text" pInputText id="version" [(ngModel)]="emergencyPlan.version" required/>
+            <small *ngIf="submitted && (!emergencyPlan.version || emergencyPlan.version.trim() === '')" class="p-error">Version is required.</small>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEmergencyPlan()"></button>
+        </ng-template>
+      </p-dialog>
+  
+      <p-dialog [(visible)]="deleteEmergencyPlanDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span *ngIf="emergencyPlan">Are you sure you want to delete the plan for project <b>{{ emergencyPlan.project_id }}</b>?</span>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEmergencyPlanDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+        </ng-template>
+      </p-dialog>
+  
+      <p-dialog [(visible)]="deleteEmergencyPlansDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span>Are you sure you want to delete selected emergency plans?</span>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEmergencyPlansDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+        </ng-template>
+      </p-dialog>
+    </div>
+  </div>
+  

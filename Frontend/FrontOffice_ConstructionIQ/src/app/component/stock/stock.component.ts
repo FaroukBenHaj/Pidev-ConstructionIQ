@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Stock } from 'src/app/models/stock.model';
-import { StockService } from 'src/app/service/stock.service';
+import { StockService } from 'src/app/services/Material/stock.service';
 import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
@@ -18,7 +18,7 @@ export class StockComponent implements OnInit {
 
   stocks: Stock[] = [];
   loading: boolean = false;
-  selectedMonth: Date | null = null; 
+  selectedMonth: Date | null = null;
   totalCost: number | null = null;
   selectedStock: any = null;
   stockMaterials: any[] = [];
@@ -26,7 +26,7 @@ export class StockComponent implements OnInit {
   stockid: number | null = null;
 
   originalStocks: Stock[] = []; // Copie originale pour le filtrage
- 
+
 
   constructor(private stockService: StockService, private router: Router) { }
 
@@ -60,14 +60,14 @@ export class StockComponent implements OnInit {
 
     this.stocks = this.originalStocks.filter(stock => {
       if (!stock.dateReceived) return false;
-      
+
       // Gère les différents formats de date (MM/JJ/AA ou MM/JJ/AAAA)
       const dateParts = stock.dateReceived.split('/');
       if (dateParts.length < 3) return false;
-      
+
       const month = parseInt(dateParts[0]);
       let year = parseInt(dateParts[2]);
-      
+
       // Si l'année est sur 2 chiffres (ex: 25 pour 2025)
       if (year < 100) {
         year += 2000;
@@ -110,7 +110,7 @@ export class StockComponent implements OnInit {
     this.selectedStock = stock;
     this.stockid = stock.stockID;
     this.stockMaterials = stock.materials;
-  
+
     this.stockService.getStockTotalCost(stock.stockID).subscribe({
       next: (cost) => this.stockCost = cost,
       error: () => {
@@ -122,11 +122,11 @@ export class StockComponent implements OnInit {
 
   printDetails(): void {
     if (!this.selectedStock) return;
-  
+
     const doc = new jsPDF();
     const logo = new Image();
     logo.src = 'assets/img/logo-light@2x.png';
-    
+
     doc.addImage(logo, 'PNG', 15, 10, 35, 15);
     doc.setFontSize(18);
     doc.setTextColor(30, 30, 30);

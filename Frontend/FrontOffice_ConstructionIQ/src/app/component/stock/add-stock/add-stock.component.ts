@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StockService } from 'src/app/service/stock.service';
-import { MaterialService } from 'src/app/service/material.service';
+import { StockService } from 'src/app/services/Material/stock.service';
+import { MaterialService } from 'src/app/services/Material/material.service';
 import { Stock } from 'src/app/models/stock.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Material } from 'src/app/material.model';
@@ -85,7 +85,7 @@ export class AddStockComponent implements OnInit {
     this.isSubmitting = true;
     this.prepareMaterials();
 
-    const operation = this.isEditMode 
+    const operation = this.isEditMode
       ? this.stockService.updateStock(this.stock)
       : this.stockService.createStock(this.stock);
 
@@ -102,20 +102,20 @@ export class AddStockComponent implements OnInit {
   }
 
   private handleSuccess(data: Stock): void {
-    this.successMessage = this.isEditMode 
-      ? 'Stock mis à jour avec succès.' 
+    this.successMessage = this.isEditMode
+      ? 'Stock mis à jour avec succès.'
       : 'Stock créé avec succès.';
-    
+
     if (data.stockID) {
       this.loadTotalCost(data.stockID);
     }
-    
+
     setTimeout(() => this.router.navigate(['/stock']), 1500);
   }
 
   private handleError(error: any): void {
     this.isSubmitting = false;
-    
+
     if (error.status === 500) {
       this.errorMessage = 'Erreur serveur. Veuillez réessayer plus tard.';
     } else if (error.status === 400) {
@@ -123,7 +123,7 @@ export class AddStockComponent implements OnInit {
     } else {
       this.errorMessage = 'Une erreur inconnue est survenue.';
     }
-    
+
     console.error(error);
   }
 
@@ -146,8 +146,8 @@ export class AddStockComponent implements OnInit {
   onMaterialSelect(): void {
     const selectedMaterials = this.materials
       .filter(m => this.stock.materialIDs.includes(m.materialID));
-    
-    this.stock.availableQuantity = selectedMaterials.length === 1 
+
+    this.stock.availableQuantity = selectedMaterials.length === 1
       ? selectedMaterials[0]?.selectedQuantity || 0
       : selectedMaterials.reduce((total, m) => total + (m.selectedQuantity || 0), 0);
   }

@@ -1,3 +1,39 @@
+
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+
+  <div id="featured-title" class="clearfix featured-title-left" >
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap" >
+          <h1 class="featured-title-heading" style="color: #ef8b0c ">Add  a stock  </h1>
+          <p> Feel free to add a Stock   </p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="#" title="Construction" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end">Stock</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8); /* Grey mask */
+    background-blend-mode: multiply
+">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+
   <div class="add-stock-container">
     <h2>{{ isEditMode ? 'Modifier le Stock' : 'Ajouter un Nouveau Stock' }}</h2>
 
@@ -5,17 +41,17 @@
       <!-- Sélection des matériaux -->
       <div class="form-group">
         <label for="materialIDs">Matériaux *</label>
-        <select id="materialIDs" 
-                name="materialIDs" 
-                [(ngModel)]="stock.materialIDs" 
-                multiple 
-                required 
+        <select id="materialIDs"
+                name="materialIDs"
+                [(ngModel)]="stock.materialIDs"
+                multiple
+                required
                 class="form-control"
                 (change)="onMaterialSelect()">
-          <option *ngFor="let material of materials" 
+          <option *ngFor="let material of materials"
                   [value]="material.materialID"
                   [disabled]="!material.selectedQuantity">
-            {{ material.materialName }} 
+            {{ material.materialName }}
             ({{ material.selectedQuantity || 0 }} disponibles)
           </option>
         </select>
@@ -27,10 +63,10 @@
       <!-- Quantité disponible -->
       <div class="form-group">
         <label for="availableQuantity">Quantité Disponible *</label>
-        <input type="number" 
-              id="availableQuantity" 
-              name="availableQuantity" 
-              [(ngModel)]="stock.availableQuantity" 
+        <input type="number"
+              id="availableQuantity"
+              name="availableQuantity"
+              [(ngModel)]="stock.availableQuantity"
               class="form-control"
               required
               min="1"
@@ -40,10 +76,10 @@
       <!-- Date de réception -->
       <div class="form-group">
         <label for="dateReceived">Date de Réception *</label>
-        <input type="date" 
-              id="dateReceived" 
-              name="dateReceived" 
-              [(ngModel)]="stock.dateReceived" 
+        <input type="date"
+              id="dateReceived"
+              name="dateReceived"
+              [(ngModel)]="stock.dateReceived"
               class="form-control"
               required>
       </div>
@@ -51,10 +87,10 @@
       <!-- ID du projet -->
       <div class="form-group">
         <label for="projetID">ID du Projet *</label>
-        <input type="number" 
-              id="projetID" 
-              name="projetID" 
-              [(ngModel)]="stock.projetID" 
+        <input type="number"
+              id="projetID"
+              name="projetID"
+              [(ngModel)]="stock.projetID"
               class="form-control"
               required
               min="1">
@@ -77,14 +113,14 @@
 
       <!-- Boutons d'action -->
       <div class="form-actions">
-        <button type="submit" 
+        <button type="submit"
                 class="btn btn-primary"
                 [disabled]="isSubmitting || !stockForm.form.valid">
           <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm"></span>
           {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
         </button>
-        
-        <button type="button" 
+
+        <button type="button"
                 class="btn btn-outline-secondary ml-2"
                 (click)="cancel()">
           Annuler
@@ -92,9 +128,18 @@
       </div>
 
       <!-- Validation du formulaire -->
-      <div *ngIf="stockForm.invalid && (stockForm.touched || stockForm.dirty)" 
+      <div *ngIf="stockForm.invalid && (stockForm.touched || stockForm.dirty)"
           class="alert alert-warning mt-3">
         <p>Tous les champs marqués d'un * sont obligatoires</p>
       </div>
     </form>
   </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer ></app-footer>
+</div>

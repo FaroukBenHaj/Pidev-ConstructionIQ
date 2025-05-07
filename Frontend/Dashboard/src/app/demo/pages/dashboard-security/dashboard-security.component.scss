@@ -1,0 +1,97 @@
+:host {
+    display: block;
+    padding: 1rem;
+    background: #f5f7fa;
+  
+    // SUMMARY CARDS
+    .dashboard-summary-card {
+      .p-card {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: #ffffff;
+  
+        &:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+      }
+  
+      // header section gradient by card type
+      &:nth-child(1) .p-card .p-card-body {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
+        color: white;
+      }
+      &:nth-child(2) .p-card .p-card-body {
+        background: linear-gradient(135deg, #4ECDC4 0%, #556270 100%);
+        color: white;
+      }
+      &:nth-child(3) .p-card .p-card-body {
+        background: linear-gradient(135deg, #6A82FB 0%, #FC5C7D 100%);
+        color: white;
+      }
+      &:nth-child(4) .p-card .p-card-body {
+        background: linear-gradient(135deg, #00F260 0%, #0575E6 100%);
+        color: white;
+      }
+  
+      .block {
+        opacity: 0.8;
+      }
+      .text-xl {
+        font-size: 1.6rem;
+        margin-top: 0.25rem;
+      }
+    }
+  
+    // NOTIFICATIONS PANEL
+    .dashboard-notifications {
+      .p-card {
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+      ul {
+        li {
+          padding: 0.75rem;
+          transition: background 0.2s;
+          &:hover {
+            background: rgba(255, 235, 59, 0.1);
+          }
+        }
+      }
+    }
+  
+    // CHART CARDS
+    .dashboard-chart-card {
+      .p-card {
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+      p-chart {
+        display: block;
+        height: 220px !important;
+        margin: 0 auto;
+      }
+    }
+  
+    // TABLE CARDS
+    .dashboard-table {
+      .p-card {
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+      p-table {
+        border-radius: 0 0 1rem 1rem;
+        overflow: hidden;
+  
+        ::ng-deep .p-datatable-thead > tr {
+          background: #eceff1;
+        }
+        ::ng-deep .p-datatable-tbody > tr:nth-child(odd) {
+          background: #fafafa;
+        }
+      }
+    }
+  }
+  
