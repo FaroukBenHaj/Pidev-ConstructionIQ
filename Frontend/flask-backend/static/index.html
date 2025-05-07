@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Claim Urgency Prediction</title>
+</head>
+<body>
+  <h1>Claim Urgency Prediction</h1>
+  <form id="claimForm">
+    <label for="sender">Sender:</label>
+    <input type="text" id="sender" required><br>
+
+    <label for="receiver">Receiver:</label>
+    <input type="text" id="receiver" required><br>
+
+    <label for="number_of_characters">Number of Characters:</label>
+    <input type="number" id="number_of_characters" required><br>
+
+    <label for="contains_urgent">Contains Urgent:</label>
+    <input type="checkbox" id="contains_urgent"><br>
+
+    <label for="contains_important">Contains Important:</label>
+    <input type="checkbox" id="contains_important"><br>
+
+    <label for="urgency_text">Urgency Text:</label>
+    <select id="urgency_text" required>
+      <option value="not urgent and important">Not Urgent and Important</option>
+      <option value="not urgent and not important">Not Urgent and Not Important</option>
+      <option value="urgent and important">Urgent and Important</option>
+      <option value="urgent and not important">Urgent and Not Important</option>
+    </select><br>
+
+    <label for="send_date">Send Date:</label>
+    <input type="date" id="send_date" required><br>
+
+    <label for="send_time">Send Time:</label>
+    <input type="time" id="send_time" required><br>
+
+    <label for="claim_type">Claim Type:</label>
+    <input type="text" id="claim_type" required><br>
+
+    <label for="initial_priority">Initial Priority:</label>
+    <input type="text" id="initial_priority" required><br>
+
+    <label for="number_of_attachments">Number of Attachments:</label>
+    <input type="number" id="number_of_attachments" required><br>
+
+    <label for="message_language">Message Language:</label>
+    <input type="text" id="message_language" required><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>Prediction Result:</h2>
+  <p id="predictionResult"></p>
+
+  <script>
+    document.getElementById("claimForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const data = {
+        sender: document.getElementById("sender").value,
+        receiver: document.getElementById("receiver").value,
+        number_of_characters: parseInt(document.getElementById("number_of_characters").value),
+        contains_urgent: document.getElementById("contains_urgent").checked,
+        contains_important: document.getElementById("contains_important").checked,
+        urgency_text: document.getElementById("urgency_text").value,
+        send_date: document.getElementById("send_date").value,
+        send_time: document.getElementById("send_time").value,
+        claim_type: document.getElementById("claim_type").value,
+        initial_priority: document.getElementById("initial_priority").value,
+        number_of_attachments: parseInt(document.getElementById("number_of_attachments").value),
+        message_language: document.getElementById("message_language").value
+      };
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.predicted_urgence) {
+          document.getElementById("predictionResult").innerHTML = `
+            Predicted Urgency: ${result.predicted_urgence}<br>
+            Probabilities: ${Object.entries(result.probabilities).map(([k, v]) => `${k}: ${v.toFixed(2)}`).join(", ")}
+          `;
+        } else {
+          throw new Error(result.error || "Prediction failed.");
+        }
+      } catch (error) {
+        document.getElementById("predictionResult").innerHTML = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>

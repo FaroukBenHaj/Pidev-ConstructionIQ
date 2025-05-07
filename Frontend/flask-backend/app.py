@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
+from flask import send_from_directory
 
 app = Flask(__name__)
 
 # Charger le modèle entraîné
 model = joblib.load('urgence_model.pkl')
-
+@app.route('/')
+def index():
+    return send_from_directory('static', 'index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
