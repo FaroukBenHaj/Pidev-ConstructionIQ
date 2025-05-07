@@ -3,25 +3,13 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="Reclamation-domain" />
-        <module name="User-Domain" />
-        <module name="hse-service" />
-        <module name="Eureka" />
-        <module name="GatewayApi" />
-      </profile>
     </annotationProcessing>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Eureka" options="-parameters" />
-      <module name="GatewayApi" options="-parameters" />
-      <module name="Reclamation-domain" options="-parameters" />
-      <module name="User-Domain" options="-parameters" />
-      <module name="hse-service" options="-parameters" />
-    </option>
+    <bytecodeTargetLevel>
+      <module name="Eureka" target="17" />
+      <module name="GatewayApi" target="17" />
+      <module name="hse-service" target="17" />
+      <module name="Reclamation-domain" target="17" />
+      <module name="User-Domain" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

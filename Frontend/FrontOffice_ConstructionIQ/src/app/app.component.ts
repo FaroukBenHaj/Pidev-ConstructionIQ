@@ -1,5 +1,24 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import {Component, OnInit} from "@angular/core";
 import {KeycloakService} from "./services/keycloak/keycloak.service";
+
+// @Component({
+//   selector: 'app-root',
+//   templateUrl: './app.component.html',
+//   styleUrls: ['./app.component.css'],
+//   animations: [
+//     trigger('overlayContentAnimation', [
+//       transition(':enter', [
+//         style({ opacity: 0 }),
+//         animate('300ms', style({ opacity: 1 }))
+//       ]),
+//       transition(':leave', [
+//         animate('300ms', style({ opacity: 0 }))
+//       ])
+//     ])
+//   ]
+
+
 
 @Component({
   selector: 'app-root',

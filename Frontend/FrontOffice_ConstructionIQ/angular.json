@@ -13,6 +13,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "canvg",
+              "rgbcolor",
+              "raf",
+              "core-js",
+              "jspdf",
+              "html2canvas",
+              "keycloak-js",
+              "js-sha256",
+              "leaflet"
+            ],
             "outputPath": "dist/front-office-construction-iq",
             "index": "src/index.html",
             "main": "src/main.ts",
