@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "assets/layout/styles/layout/layout.scss";
+
+
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";

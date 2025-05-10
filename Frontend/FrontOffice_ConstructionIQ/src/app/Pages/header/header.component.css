@@ -1,0 +1,11 @@
+/* Ajouter un espacement sous le header */
+#site-header-wrap {
+  margin-bottom: 30px; /* Marge pour séparer le header du reste du contenu */
+}
+
+/* Ajouter un fond pour le header */
+#site-header {
+  background-color: #f1f1f1; /* Fond gris clair pour le header */
+  padding: 10px 0; /* Ajouter du padding pour espacer les éléments du header */
+}
+

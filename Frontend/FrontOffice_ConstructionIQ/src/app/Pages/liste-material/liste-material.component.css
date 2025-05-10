@@ -1,0 +1,277 @@
+/* Style global du conteneur */
+.material-list-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Barre d'outils supérieure */
+.flex.justify-content-between {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+/* Champ de recherche */
+.p-input-icon-left {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+}
+
+.p-input-icon-left i {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+.p-inputtext {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f9fafb;
+}
+
+.p-inputtext:focus {
+  outline: none;
+  border-color: #4361ee;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  background-color: white;
+}
+
+/* Dropdown de filtre */
+.p-dropdown {
+  width: 100%;
+  min-width: 200px;
+}
+
+.dropdown1 .p-dropdown {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.dropdown1 .p-dropdown:not(.p-disabled):hover {
+  border-color: #4361ee;
+}
+
+/* Bouton Ajouter */
+.p-button {
+  transition: all 0.3s ease;
+  padding: 0.8rem 1.5rem;
+  font-weight: 500;
+}
+
+.p-button-success.p-button-outlined {
+  color: #2e7d32;
+  border: 1px solid #2e7d32;
+}
+
+.p-button-success.p-button-outlined:hover {
+  background: rgba(46, 125, 50, 0.1);
+  border-color: #1b5e20;
+}
+
+/* Tableau */
+.p-table {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.p-table th {
+  background-color: #f8f9fa;
+  color: #4361ee;
+  font-weight: 600;
+  padding: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.p-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.p-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* Boutons d'action */
+.p-button-rounded {
+  border-radius: 50px;
+}
+
+.p-button-danger.p-button-outlined {
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+  margin-right: 0.5rem;
+}
+
+.p-button-danger.p-button-outlined:hover {
+  background: rgba(211, 47, 47, 0.1);
+}
+
+.p-button-warning.p-button-outlined {
+  color: #ed6c02;
+  border: 1px solid #ed6c02;
+}
+
+.p-button-warning.p-button-outlined:hover {
+  background: rgba(237, 108, 2, 0.1);
+}
+
+/* Message vide */
+.p-table .p-tabview-emptymessage {
+  text-align: center;
+  color: #6c757d;
+  padding: 2rem;
+}
+
+/* Icônes */
+.pi {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+/* Pagination */
+.p-paginator {
+  margin-top: 1rem;
+  background: transparent;
+  border: none;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #4361ee;
+  color: white;
+  border-radius: 50%;
+}
+
+/* Graphique */
+.app-chart-material {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .material-list-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .flex.justify-content-between {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .p-input-icon-left,
+  .p-dropdown {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .p-table th, .p-table td {
+    padding: 0.75rem;
+  }
+  
+  .p-button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .p-button-danger.p-button-outlined,
+  .p-button-warning.p-button-outlined {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  /* Amélioration des boutons d'actions */
+.p-table td .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.p-table td .p-button {
+  min-width: 90px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+/* Bouton Éditer */
+.p-button-warning.p-button-outlined {
+  color: #ED6C02;
+  border: 1px solid #ED6C02;
+  background-color: rgba(237, 108, 2, 0.05);
+}
+
+.p-button-warning.p-button-outlined:hover {
+  background-color: rgba(237, 108, 2, 0.1);
+  border-color: #E65100;
+}
+
+/* Bouton Supprimer */
+.p-button-danger.p-button-outlined {
+  color: #D32F2F;
+  border: 1px solid #D32F2F;
+  background-color: rgba(211, 47, 47, 0.05);
+}
+
+.p-button-danger.p-button-outlined:hover {
+  background-color: rgba(211, 47, 47, 0.1);
+  border-color: #B71C1C;
+}
+
+/* Icônes dans les boutons */
+.p-button .pi {
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+}
+
+/* Version mobile */
+@media (max-width: 768px) {
+  .p-table td .action-buttons {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .p-table td .p-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+/* Style pour le bouton d'export Excel */
+.p-button-info.p-button-outlined {
+  color: #0d6efd;
+  border: 1px solid #0d6efd;
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.p-button-info.p-button-outlined:hover {
+  background-color: rgba(13, 110, 253, 0.1);
+  border-color: #0b5ed7;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+}

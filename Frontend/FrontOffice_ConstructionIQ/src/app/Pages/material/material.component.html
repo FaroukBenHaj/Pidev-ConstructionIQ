@@ -1,0 +1,56 @@
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+
+  <div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8); /* Grey mask */
+    background-blend-mode: multiply
+">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+<div class="material-form-container" >
+    <h2>Ajouter un Matériau</h2>
+
+    <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="materialName">Nom du Matériau</label>
+        <input type="text" id="materialName" formControlName="materialName" placeholder="Ex: Ciment" />
+      </div>
+
+      <div class="form-group">
+        <label for="cost">Coût (€)</label>
+        <input type="number" id="cost" formControlName="cost" placeholder="Ex: 25" />
+      </div>
+
+      <div class="form-group">
+        <label for="materialUnit">Unité</label>
+        <select id="materialUnit" formControlName="materialUnit">
+          <option value="" disabled selected hidden>Choisir une unité</option>
+          <option value="UNITE">UNITE</option>
+          <option value="KG">KG</option>
+          <option value="LITRE">LITRE</option>
+          <option value="METRE">METRE</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="selectedQuantity">Quantité</label>
+        <input type="number" id="selectedQuantity" formControlName="selectedQuantity" placeholder="Ex: 50" />
+      </div>
+
+      <button type="submit" [disabled]="!materialForm.valid">➕ Ajouter</button>
+    </form>
+  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer ></app-footer>
+</div>

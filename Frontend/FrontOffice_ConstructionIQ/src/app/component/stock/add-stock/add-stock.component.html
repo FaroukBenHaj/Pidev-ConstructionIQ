@@ -1,0 +1,145 @@
+
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+
+  <div id="featured-title" class="clearfix featured-title-left" >
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap" >
+          <h1 class="featured-title-heading" style="color: #ef8b0c ">Add  a stock  </h1>
+          <p> Feel free to add a Stock   </p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="#" title="Construction" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end">Stock</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8); /* Grey mask */
+    background-blend-mode: multiply
+">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+
+  <div class="add-stock-container">
+    <h2>{{ isEditMode ? 'Modifier le Stock' : 'Ajouter un Nouveau Stock' }}</h2>
+
+    <form (ngSubmit)="onSubmit()" #stockForm="ngForm">
+      <!-- Sélection des matériaux -->
+      <div class="form-group">
+        <label for="materialIDs">Matériaux *</label>
+        <select id="materialIDs"
+                name="materialIDs"
+                [(ngModel)]="stock.materialIDs"
+                multiple
+                required
+                class="form-control"
+                (change)="onMaterialSelect()">
+          <option *ngFor="let material of materials"
+                  [value]="material.materialID"
+                  [disabled]="!material.selectedQuantity">
+            {{ material.materialName }}
+            ({{ material.selectedQuantity || 0 }} disponibles)
+          </option>
+        </select>
+        <small class="form-text text-muted">
+          Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs matériaux
+        </small>
+      </div>
+
+      <!-- Quantité disponible -->
+      <div class="form-group">
+        <label for="availableQuantity">Quantité Disponible *</label>
+        <input type="number"
+              id="availableQuantity"
+              name="availableQuantity"
+              [(ngModel)]="stock.availableQuantity"
+              class="form-control"
+              required
+              min="1"
+              [readonly]="stock.materialIDs.length > 0">
+      </div>
+
+      <!-- Date de réception -->
+      <div class="form-group">
+        <label for="dateReceived">Date de Réception *</label>
+        <input type="date"
+              id="dateReceived"
+              name="dateReceived"
+              [(ngModel)]="stock.dateReceived"
+              class="form-control"
+              required>
+      </div>
+
+      <!-- ID du projet -->
+      <div class="form-group">
+        <label for="projetID">ID du Projet *</label>
+        <input type="number"
+              id="projetID"
+              name="projetID"
+              [(ngModel)]="stock.projetID"
+              class="form-control"
+              required
+              min="1">
+      </div>
+
+      <!-- Coût total (affiché seulement en mode édition) -->
+      <div *ngIf="totalCost" class="form-group">
+        <label>Coût Total Estimé</label>
+        <div class="cost-display">{{ totalCost | currency:'EUR':'symbol':'1.2-2' }}</div>
+      </div>
+
+      <!-- Messages d'erreur/succès -->
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+
+      <!-- Boutons d'action -->
+      <div class="form-actions">
+        <button type="submit"
+                class="btn btn-primary"
+                [disabled]="isSubmitting || !stockForm.form.valid">
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm"></span>
+          {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
+        </button>
+
+        <button type="button"
+                class="btn btn-outline-secondary ml-2"
+                (click)="cancel()">
+          Annuler
+        </button>
+      </div>
+
+      <!-- Validation du formulaire -->
+      <div *ngIf="stockForm.invalid && (stockForm.touched || stockForm.dirty)"
+          class="alert alert-warning mt-3">
+        <p>Tous les champs marqués d'un * sont obligatoires</p>
+      </div>
+    </form>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer ></app-footer>
+</div>
