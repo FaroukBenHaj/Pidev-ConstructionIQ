@@ -1,0 +1,40 @@
+<div class="page-container">
+    <div class="form-card">
+      <h2>Construction Risk Predictor</h2>
+      <form [formGroup]="riskForm" (ngSubmit)="onSubmit()">
+        <div class="form-group" *ngFor="let field of riskForm.controls | keyvalue">
+          <label>
+            {{ field.key | titlecase }}
+            <input
+              [formControlName]="field.key"
+              [type]="isNumberField(field.key) ? 'number' : 'text'"
+            />
+          </label>
+          <span class="error-text" *ngIf="field.value.invalid && field.value.touched">
+            Invalid {{ field.key | titlecase }}
+          </span>
+        </div>
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Predicting...' : 'Predict Risk' }}
+        </button>
+      </form>
+    </div>
+    <div class="error-msg" *ngIf="error">{{ error }}</div>
+    <div class="result-card" *ngIf="result">
+      <h3>
+        Predicted Category:
+        <span class="category-tag">{{ result.predicted_category }}</span>
+      </h3>
+      <h4>Probabilities:</h4>
+      <div class="probabilities">
+        <div class="probability" *ngFor="let cat of result.probabilities | keyvalue">
+          <span class="prob-label">{{ cat.key }}</span>
+          <div class="prob-bar">
+            <div class="fill" [style.width]="cat.value"></div>
+          </div>
+          <span class="prob-value">{{ cat.value }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  

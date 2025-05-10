@@ -1,46 +1,20 @@
-
-import {Component, OnInit} from "@angular/core";
-import {KeycloakService} from "./keycloak.service";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   template: `
-    <ng-container *ngIf="authorized; else loadingOrError">
-      <router-outlet></router-outlet>
-    </ng-container>
-    <ng-template #loadingOrError>
-      <p *ngIf="loading">Loading...</p>
-      <p *ngIf="!loading && !authorized">You do not have access to this application.</p>
-    </ng-template>
+    <router-outlet></router-outlet>
   `,
 })
 export class AppComponent implements OnInit {
-  authorized = false;
-  loading = true;
+  // We no longer need these:
+  // authorized = false;
+  // loading = true;
 
-  constructor(private kc: KeycloakService ) {}
-//TODO-PRIME
-  async ngOnInit() {
-    await this.kc.init();
-    const roles = this.kc.getRoles();
-    const port = window.location.port;
+  constructor() {}
 
-    if (roles.includes('ADMIN')) {
-      if (port !== '4201') {
-        window.location.href = 'http://localhost:4201';
-        return; // Prevent further execution
-      }
-      this.authorized = true;
-    } else if (roles.includes('USER')) {
-      if (port !== '4200') {
-        window.location.href = 'http://localhost:4200';
-        return;
-      }
-      this.authorized = true;
-    } else {
-      this.authorized = false; // No permitted role
-    }
-
-    this.loading = false;
+  // OnInit is optional now, you can remove it entirely if you like.
+  ngOnInit() {
+    // Nothing to do here—just render the app immediately
   }
 }
