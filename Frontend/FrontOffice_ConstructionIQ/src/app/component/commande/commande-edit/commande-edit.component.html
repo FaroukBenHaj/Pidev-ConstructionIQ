@@ -1,0 +1,121 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+    <div id="featured-title-inner" class="container clearfix">
+        <div class="featured-title-inner-wrap">
+            <div class="featured-title-heading-wrap">
+                <h1 class="featured-title-heading"></h1>
+            </div>
+            <div id="breadcrumbs">
+                <div class="breadcrumbs-inner">
+                    <div class="breadcrumb-trail">
+                        <a href="/" class="trail-begin">Accueil</a>
+                        <span class="sep">/</span>
+                        <a href="/commandes" class="trail-begin">Commandes</a>
+                        <span class="sep">/</span>
+                        <span class="trail-end">Modifier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-content" class="site-main clearfix">
+    <div id="content-wrap" class="container">
+        <div id="site-content" class="site-content clearfix">
+            <div id="inner-content" class="inner-content-wrap">
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+                
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="wprt-content-box style-1">
+                            <h2 class="text-center">Modifier la commande {{commande?.matiere}}</h2>
+                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
+                            
+                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                            
+                            <div *ngIf="!commande && !error" class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Chargement...</span>
+                                </div>
+                                <p>Chargement des données...</p>
+                            </div>
+                            
+                            <form *ngIf="commande" [formGroup]="commandeForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="fournisseur">Fournisseur</label>
+                                    <input type="text" formControlName="fournisseur" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['fournisseur'].errors }" />
+                                    <div *ngIf="submitted && f['fournisseur'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['fournisseur'].errors['required']">Le fournisseur est requis</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="montant">Montant</label>
+                                    <input type="number" formControlName="montant" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
+                                    <div *ngIf="submitted && f['montant'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montant'].errors['required']">Le montant est requis</div>
+                                        <div *ngIf="f['montant'].errors['min']">Le montant doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="status">Statut</label>
+                                    <select formControlName="status" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['status'].errors }">
+                                        <option *ngFor="let status of commandeStatuses" [value]="status">
+                                            {{status}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['status'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['status'].errors['required']">Le statut est requis</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="matiere">Matière</label>
+                                    <select formControlName="matiere" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['matiere'].errors }">
+                                        <option *ngFor="let matiere of matieres" [value]="matiere">
+                                            {{matiere}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['matiere'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['matiere'].errors['required']">La matière est requise</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="quantiteDemandee">Quantité demandée</label>
+                                    <input type="number" formControlName="quantiteDemandee" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f['quantiteDemandee'].errors }" />
+                                    <div *ngIf="submitted && f['quantiteDemandee'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['quantiteDemandee'].errors['required']">La quantité est requise</div>
+                                        <div *ngIf="f['quantiteDemandee'].errors['min']">La quantité doit être supérieure à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="wprt-spacer" data-desktop="20" data-mobi="20" data-smobi="20"></div>
+                                
+                                <div class="form-group text-center">
+                                    <button type="submit" class="wprt-button" [disabled]="loading">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Enregistrer
+                                    </button>
+                                    <a routerLink="/commandes" class="wprt-button outline">Annuler</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

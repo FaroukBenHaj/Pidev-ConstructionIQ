@@ -1,0 +1,201 @@
+/* payment-create.component.css */
+
+/*** Notification Popup ***/
+.notification-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    z-index: 1000;
+    animation: fadeOut 5s forwards;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 400px;
+    transition: opacity 0.3s ease;
+  }
+  
+  .notification-popup::before {
+    content: '✓';
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .notification-popup .progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.3);
+    animation: progressBar 5s linear forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+  }
+  
+  @keyframes progressBar {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+  
+  /*** General Styles ***/
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  /*** Validation Styles ***/
+  .is-invalid {
+    border-color: #dc3545 !important;
+  }
+  
+  .invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+  }
+  
+  /*** Loading Spinners ***/
+  .loading-spinner-sm {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6c757d;
+    padding: 0.5rem 0;
+  }
+  
+  .spinner-border {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: -0.125em;
+    border: 0.15em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+  }
+  
+  @keyframes spinner-border {
+    to { transform: rotate(360deg); }
+  }
+  
+  /*** Buttons ***/
+  .wprt-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .wprt-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+  }
+  
+  .wprt-button.outline {
+    background-color: transparent;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+    margin-left: 1rem;
+  }
+  
+  .wprt-button.outline:hover {
+    background-color: #f8f9fa;
+  }
+  
+  /*** Responsive Design ***/
+  @media (max-width: 768px) {
+    .col-md-8 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  
+    .notification-popup {
+      left: 20px;
+      right: 20px;
+      max-width: none;
+    }
+  
+    .form-control {
+      padding: 0.65rem 0.9rem;
+      font-size: 0.9rem;
+    }
+  
+    .wprt-button {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+  
+    .wprt-button.outline {
+      margin-left: 0;
+    }
+  }
+  
+  /*** Spacer Utility ***/
+  .wprt-spacer {
+    clear: both;
+    width: 100%;
+  }
+  
+  /*** Content Box ***/
+  .wprt-content-box.style-1 {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+  
+  /*** Typography ***/
+  .text-center {
+    text-align: center;
+  }
+  
+  h2 {
+    color: #2c3e50;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
