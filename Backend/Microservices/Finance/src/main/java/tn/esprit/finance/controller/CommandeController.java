@@ -9,7 +9,7 @@ import tn.esprit.finance.service.CommandeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/commandes")
+@RequestMapping("/api/commandes")
 @RequiredArgsConstructor
 public class CommandeController {
     private final CommandeService commandeService;

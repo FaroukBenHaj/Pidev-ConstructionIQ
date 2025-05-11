@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class ClaimServiceService {
 
-  private apiUrl = 'http://localhost:8089/api/claims';
+  private apiUrl = 'http://localhost:8088/api/claims';
 
   constructor(private http: HttpClient) { }
 

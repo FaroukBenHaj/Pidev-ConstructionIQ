@@ -1,116 +1,129 @@
 <app-header></app-header>
 
-<div id="featured-title" class="clearfix featured-title-left">
-    <div id="featured-title-inner" class="container clearfix">
-        <div class="featured-title-inner-wrap">
-            <div class="featured-title-heading-wrap">
-                <h1 class="featured-title-heading">Détails de la Facture</h1>
-            </div>
-            <div id="breadcrumbs">
-                <div class="breadcrumbs-inner">
-                    <div class="breadcrumb-trail">
-                        <a href="/" class="trail-begin">Accueil</a>
-                        <span class="sep">/</span>
-                        <a href="/factures" class="trail-begin">Factures</a>
-                        <span class="sep">/</span>
-                        <span class="trail-end">Détails</span>
-                    </div>
-                </div>
-            </div>
+<div id="featured-title" class="clearfix featured-title-left" >
+  <div id="featured-title-inner" class="container clearfix">
+    <div class="featured-title-inner-wrap">
+      <div class="featured-title-heading-wrap">
+        <h1 class="featured-title-heading" style="color: #ef8b0c">Détails de la Facture</h1>
+        <p>Visualisation complète de votre facture</p>
+      </div>
+      <div id="breadcrumbs">
+        <div class="breadcrumbs-inner">
+          <div class="breadcrumb-trail">
+            <a href="/" class="trail-begin">Accueil</a>
+            <span class="sep">/</span>
+            <a href="/factures" class="trail-begin">Factures</a>
+            <span class="sep">/</span>
+            <span class="trail-end">Détails</span>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<div id="main-content" class="site-main clearfix">
-    <div id="content-wrap" class="container">
-        <div id="site-content" class="site-content clearfix">
-            <div id="inner-content" class="inner-content-wrap">
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
-                
-                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                
-                <div *ngIf="!invoice && !error" class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Chargement...</span>
-                    </div>
-                    <p>Chargement des données...</p>
-                </div>
-                
-                <div *ngIf="invoice" class="row">
-                    <div class="col-md-8 offset-md-2">
-                        <div class="wprt-content-box style-1">
-                            <h2 class="text-center">Facture {{invoice.commande.matiere}}  N°: {{invoice.id}}</h2>
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <!-- Contenu de la facture à convertir en PDF -->
-                            <div class="invoice-details" id="invoice-content">
-                                <div class="status-banner" [ngClass]="getStatusClass(invoice.statut)">
-                                    Statut: {{invoice.statut}}
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Informations de Facturation</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Numéro de facture:</span>
-                                        <span class="detail-value">{{invoice.id}}</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant:</span>
-                                        <span class="detail-value">{{invoice.montant}} €</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Date d'émission:</span>
-                                        <span class="detail-value">{{invoice.dateEmission | date:'dd/MM/yyyy HH:mm'}}</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Commande Associée</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Numéro de commande:</span>
-                                        <span class="detail-value">
-                                            <a [routerLink]="['/commandes/show', invoice.commande.id]">
-                                                #{{invoice.commande.id}}
-                                            </a>
-                                        </span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Fournisseur:</span>
-                                        <span class="detail-value">{{invoice.commande.fournisseur}}</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant de la commande:</span>
-                                        <span class="detail-value">{{invoice.commande.montant}} €</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Date de commande:</span>
-                                        <span class="detail-value">{{invoice.commande.dateCommande | date:'dd/MM/yyyy'}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div class="text-center">
-                                <!-- Ajout du bouton pour télécharger le PDF -->
-                                <button class="wprt-button pdf-button" (click)="downloadInvoicePdf()">
-                                    <i class="fa fa-file-pdf-o mr-1"></i> Télécharger PDF
-                                </button>
-                                <a [routerLink]="['/factures/edit', invoice.id]" class="wprt-button">Modifier</a>
-                                <button (click)="deleteInvoice()" class="wprt-button red" [disabled]="loading">
-                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Supprimer
-                                </button>
-                                <a routerLink="/factures" class="wprt-button outline">Retour</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply
+">
+  <div id="content-wrap">
+    <div id="site-content" class="site-content clearfix">
+      <div id="inner-content" class="inner-content-wrap">
+        <div class="page-content">
+          <div class="invoice-details-container">
+            <div *ngIf="error" class="alert alert-danger">
+              <i class="fa fa-exclamation-circle"></i> {{error}}
             </div>
+            
+            <div *ngIf="!invoice && !error" class="loading-message">
+              <div class="spinner"></div>
+              <span>Chargement de la facture...</span>
+            </div>
+            
+            <div *ngIf="invoice" class="invoice-card">
+              <div class="invoice-header">
+                <h2>
+                  <i class="fa fa-file-invoice"></i> 
+                  Facture {{invoice.commande.matiere}} 
+                  <span class="invoice-number">N°: {{invoice.id}}</span>
+                </h2>
+                <div class="status-banner" [ngClass]="getStatusClass(invoice.statut)">
+                  {{invoice.statut}}
+                </div>
+              </div>
+              
+              <div class="invoice-content" id="invoice-content">
+                <div class="invoice-section">
+                  <h3><i class="fa fa-info-circle"></i> Informations de Facturation</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <span class="detail-label">Numéro de facture:</span>
+                      <span class="detail-value">{{invoice.id}}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Montant:</span>
+                      <span class="detail-value">{{invoice.montant}} €</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Date d'émission:</span>
+                      <span class="detail-value">{{invoice.dateEmission | date:'dd/MM/yyyy HH:mm'}}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="invoice-section">
+                  <h3><i class="fa fa-shopping-cart"></i> Commande Associée</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <span class="detail-label">Numéro de commande:</span>
+                      <span class="detail-value">
+                        <a [routerLink]="['/commandes/show', invoice.commande.id]" class="invoice-link">
+                          <i class="fa fa-external-link"></i> #{{invoice.commande.id}}
+                        </a>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Fournisseur:</span>
+                      <span class="detail-value">{{invoice.commande.fournisseur}}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Montant de la commande:</span>
+                      <span class="detail-value">{{invoice.commande.montant}} €</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Date de commande:</span>
+                      <span class="detail-value">{{invoice.commande.dateCommande | date:'dd/MM/yyyy'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="invoice-actions">
+                <button class="action-btn pdf" (click)="downloadInvoicePdf()">
+                  <i class="fa fa-file-pdf"></i> Télécharger PDF
+                </button>
+                <a [routerLink]="['/factures/edit', invoice.id]" class="action-btn edit">
+                  <i class="fa fa-edit"></i> Modifier
+                </a>
+                <button (click)="deleteInvoice()" class="action-btn delete" [disabled]="loading">
+                  <i class="fa fa-trash"></i> 
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                  Supprimer
+                </button>
+                <a routerLink="/factures" class="action-btn back">
+                  <i class="fa fa-arrow-left"></i> Retour
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <app-footer></app-footer>

@@ -2,14 +2,14 @@
 
 <div *ngIf="showNotification" class="notification-popup">
     <div [innerHTML]="notificationMessage"></div>
-  </div>
-  
-  <div id="featured-title" class="clearfix featured-title-left">
+</div>
+
 <div id="featured-title" class="clearfix featured-title-left">
     <div id="featured-title-inner" class="container clearfix">
         <div class="featured-title-inner-wrap">
             <div class="featured-title-heading-wrap">
-                <h1 class="featured-title-heading"></h1>
+                <h1 class="featured-title-heading" style="color: #ef8b0c">Effectuer un paiement</h1>
+                <p>Gestion des transactions financières</p>
             </div>
             <div id="breadcrumbs">
                 <div class="breadcrumbs-inner">
@@ -26,102 +26,101 @@
     </div>
 </div>
 
-<div id="main-content" class="site-main clearfix">
-    <div id="content-wrap" class="container">
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply">
+    
+    <div id="content-wrap">
         <div id="site-content" class="site-content clearfix">
             <div id="inner-content" class="inner-content-wrap">
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
-                
-                <div class="row">
-                    <div class="col-md-8 offset-md-2">
-                        <div class="wprt-content-box style-1">
-                            <h2 class="text-center">Effectuez votre paiement</h2>
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                            
-                            <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-                                <div class="form-group">
-                                    <label for="montant">Montant</label>
-                                    <input type="number" formControlName="montant" class="form-control"
-                                        [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
-                                    <div *ngIf="submitted && f['montant'].errors" class="invalid-feedback">
-                                        <div *ngIf="f['montant'].errors['required']">Le montant est requis</div>
-                                        <div *ngIf="f['montant'].errors['min']">Le montant doit être supérieur à 0</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="type">Type de paiement</label>
-                                    <select formControlName="type" class="form-control" 
-                                        [ngClass]="{ 'is-invalid': submitted && f['type'].errors }">
-                                        <option *ngFor="let type of typePaiements" [value]="type">
-                                            {{type}}
-                                        </option>
-                                    </select>
-                                    <div *ngIf="submitted && f['type'].errors" class="invalid-feedback">
-                                        <div *ngIf="f['type'].errors['required']">Le type de paiement est requis</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="invoiceId">Facture</label>
-                                    <div *ngIf="loadingInvoices" class="loading-spinner-sm">
-                                        <div class="spinner-border spinner-border-sm" role="status">
-                                            <span class="sr-only">Chargement...</span>
-                                        </div>
-                                        <span>Chargement des factures...</span>
-                                    </div>
-                                    <select formControlName="invoiceId" class="form-control" 
-                                        [ngClass]="{ 'is-invalid': submitted && f['invoiceId'].errors }"
-                                        [disabled]="loadingInvoices">
-                                        <option value="">Sélectionner une facture</option>
-                                        <option *ngFor="let invoice of invoices" [value]="invoice.id">
-                                            #{{invoice.id}} - {{invoice.montant}} € ({{invoice.statut}})
-                                        </option>
-                                    </select>
-                                    <div *ngIf="submitted && f['invoiceId'].errors" class="invalid-feedback">
-                                        <div *ngIf="f['invoiceId'].errors['required']">La facture est requise</div>
-                                    </div>
-                                </div>
+                <div class="page-content">
+                    <div class="payment-form-container">
+                        <h2>Nouveau Paiement</h2>
 
-                                
-                                <div class="form-group">
-                                    <label for="budgetId">Budget</label>
-                                    <div *ngIf="loadingBudgets" class="loading-spinner-sm">
-                                        <div class="spinner-border spinner-border-sm" role="status">
-                                            <span class="sr-only">Chargement...</span>
-                                        </div>
-                                        <span>Chargement des budgets...</span>
-                                    </div>
-                                    <select formControlName="budgetId" class="form-control" 
-                                        [ngClass]="{ 'is-invalid': submitted && f['budgetId'].errors }"
-                                        [disabled]="loadingBudgets">
-                                        <option value="">Sélectionner un budget</option>
-                                        <option *ngFor="let budget of budgets" [value]="budget.id">
-                                            #{{budget.id}} - {{budget.projet.nom}} ({{budget.montantRestant}} € restant)
-                                        </option>
-                                    </select>
-                                    <div *ngIf="submitted && f['budgetId'].errors" class="invalid-feedback">
-                                        <div *ngIf="f['budgetId'].errors['required']">Le budget est requis</div>
-                                    </div>
+                        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                        
+                        <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+                            <div class="form-group">
+                                <label for="montant">Montant (€)</label>
+                                <input type="number" id="montant" formControlName="montant" 
+                                    placeholder="Ex: 500" 
+                                    [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
+                                <div *ngIf="submitted && f['montant'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['montant'].errors['required']">Le montant est requis</div>
+                                    <div *ngIf="f['montant'].errors['min']">Le montant doit être supérieur à 0</div>
                                 </div>
-                                
-                                <div class="wprt-spacer" data-desktop="20" data-mobi="20" data-smobi="20"></div>
-                                
-                                <div class="form-group text-center">
-                                    <button type="submit" class="wprt-button" [disabled]="loading">
-                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                        Créer
-                                    </button>
-                                    <a routerLink="/paiements" class="wprt-button outline">Annuler</a>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="type">Type de paiement</label>
+                                <select id="type" formControlName="type" 
+                                    [ngClass]="{ 'is-invalid': submitted && f['type'].errors }">
+                                    <option value="" disabled selected hidden>Choisir un type</option>
+                                    <option *ngFor="let type of typePaiements" [value]="type">
+                                        {{type}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f['type'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['type'].errors['required']">Le type de paiement est requis</div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="invoiceId">Facture</label>
+                                <div *ngIf="loadingInvoices" class="loading-spinner-sm">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="sr-only">Chargement...</span>
+                                    </div>
+                                    <span>Chargement des factures...</span>
+                                </div>
+                                <select id="invoiceId" formControlName="invoiceId" 
+                                    [ngClass]="{ 'is-invalid': submitted && f['invoiceId'].errors }"
+                                    [disabled]="loadingInvoices">
+                                    <option value="" disabled selected hidden>Sélectionner une facture</option>
+                                    <option *ngFor="let invoice of invoices" [value]="invoice.id">
+                                        #{{invoice.id}} - {{invoice.montant}} € ({{invoice.statut}})
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f['invoiceId'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['invoiceId'].errors['required']">La facture est requise</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="budgetId">Budget</label>
+                                <div *ngIf="loadingBudgets" class="loading-spinner-sm">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="sr-only">Chargement...</span>
+                                    </div>
+                                    <span>Chargement des budgets...</span>
+                                </div>
+                                <select id="budgetId" formControlName="budgetId" 
+                                    [ngClass]="{ 'is-invalid': submitted && f['budgetId'].errors }"
+                                    [disabled]="loadingBudgets">
+                                    <option value="" disabled selected hidden>Sélectionner un budget</option>
+                                    <option *ngFor="let budget of budgets" [value]="budget.id">
+                                        #{{budget.id}} - {{budget.projet.nom}} ({{budget.montantRestant}} € restant)
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f['budgetId'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['budgetId'].errors['required']">Le budget est requis</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" [disabled]="loading">
+                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                    Valider le paiement
+                                </button>
+                                <a routerLink="/paiements" class="cancel-button">Annuler</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
             </div>
         </div>
     </div>

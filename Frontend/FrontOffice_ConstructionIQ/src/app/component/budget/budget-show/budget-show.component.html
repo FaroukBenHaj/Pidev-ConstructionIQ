@@ -4,14 +4,15 @@
     <div id="featured-title-inner" class="container clearfix">
         <div class="featured-title-inner-wrap">
             <div class="featured-title-heading-wrap">
-                <h1 class="featured-title-heading">Détails du Budget du projet</h1>
+                <h1 class="featured-title-heading" style="color: #ef8b0c">Détails du Budget</h1>
+                <p>Informations complètes du budget projet</p>
             </div>
             <div id="breadcrumbs">
                 <div class="breadcrumbs-inner">
                     <div class="breadcrumb-trail">
-                        <a href="/" class="trail-begin">Accueil</a>
+                        <a href="/" title="Accueil" rel="home" class="trail-begin">Accueil</a>
                         <span class="sep">/</span>
-                        <a href="/budgets" class="trail-begin">Budgets</a>
+                        <a href="/budgets" title="Budgets" class="trail-begin">Budgets</a>
                         <span class="sep">/</span>
                         <span class="trail-end">Détails</span>
                     </div>
@@ -21,61 +22,85 @@
     </div>
 </div>
 
-<div id="main-content" class="site-main clearfix">
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply
+">
     <div id="content-wrap" class="container">
         <div id="site-content" class="site-content clearfix">
             <div id="inner-content" class="inner-content-wrap">
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
-                
-                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                
-                <div *ngIf="budget" class="row">
-                    <div class="col-md-8 offset-md-2">
-                        <div class="wprt-content-box style-1">
-                            <h2 class="text-center">{{budget.projet.nom}}</h2>
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
+                <div class="page-content">
+                    <div class="budget-details-container">
+                        <!-- Error Message -->
+                        <div *ngIf="error" class="alert alert-danger">
+                            <i class="fa fa-exclamation-circle"></i> {{error}}
+                        </div>
+                        
+                        <!-- Loading State -->
+                        <div *ngIf="!budget && !error" class="loading-message">
+                            <div class="spinner"></div>
+                            <span>Chargement des données...</span>
+                        </div>
+                        
+                        <!-- Budget Details Card -->
+                        <div *ngIf="budget" class="budget-details-card">
+                            <div class="card-header">
+                                <h2><i class="fa fa-chart-pie"></i> Budget #{{budget.id}}</h2>
+                                <div class="project-name">{{budget.projet.nom}}</div>
+                            </div>
                             
-                            <div class="budget-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">ID:</span>
-                                    <span class="detail-value">{{budget.id}}</span>
+                            <div class="card-body">
+                                <div class="detail-section">
+                                    <div class="detail-row">
+                                        <div class="detail-label">
+                                            <i class="fa fa-money-bill-wave"></i> Montant Total
+                                        </div>
+                                        <div class="detail-value">{{budget.montantTotal}} €</div>
+                                    </div>
+                                    
+                                    <div class="detail-row">
+                                        <div class="detail-label">
+                                            <i class="fa fa-wallet"></i> Montant Restant
+                                        </div>
+                                        <div class="detail-value">{{budget.montantRestant}} €</div>
+                                    </div>
+                                    
+                                    <div class="progress-container">
+                                        <div class="progress-bar" [style.width]="getBudgetUsagePercentage() + '%'">
+                                            <span class="progress-text">{{getBudgetUsagePercentage()}}% utilisé</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Montant Total:</span>
-                                    <span class="detail-value">{{budget.montantTotal}} €</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Montant Restant:</span>
-                                    <span class="detail-value">{{budget.montantRestant}} €</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Projet:</span>
-                                    <span class="detail-value">{{budget.projet.nom}}</span>
+                                
+                                <div class="project-section">
+                                    <h3><i class="fa fa-project-diagram"></i> Projet Associé</h3>
+                                    <p>{{budget.projet.nom}}</p>
+                                    <p class="project-description" *ngIf="budget.projet">{{budget.projet}}</p>
                                 </div>
                             </div>
                             
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div class="text-center">
-                                <a [routerLink]="['/budgets/edit', budget.id]" class="wprt-button">Modifier</a>
-                                <button (click)="deleteBudget()" class="wprt-button red" [disabled]="loading">
-                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Supprimer
-                                </button>
-                                <a routerLink="/budgets" class="wprt-button outline">Retour</a>
+                            <div class="card-footer">
+                                <div class="action-buttons">
+                                    <a [routerLink]="['/budgets/edit', budget.id]" class="action-btn edit">
+                                        <i class="fa fa-edit"></i> Modifier
+                                    </a>
+                                    <button (click)="confirmDelete()" class="action-btn delete" [disabled]="loading">
+                                        <i class="fa fa-trash"></i>
+                                        <span *ngIf="loading" class="btn-spinner"></span>
+                                        Supprimer
+                                    </button>
+                                    <a routerLink="/budgets" class="action-btn back">
+                                        <i class="fa fa-arrow-left"></i> Retour
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div *ngIf="!budget && !error" class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Chargement...</span>
-                    </div>
-                    <p>Chargement des données...</p>
-                </div>
-                
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
             </div>
         </div>
     </div>

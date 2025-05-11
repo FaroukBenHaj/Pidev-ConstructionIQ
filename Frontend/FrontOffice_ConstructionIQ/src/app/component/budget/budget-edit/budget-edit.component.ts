@@ -87,4 +87,18 @@ export class BudgetEditComponent implements OnInit {
         }
       });
   }
+  confirmDelete() {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce budget?')) {
+      this.budgetService.deleteBudget(this.id)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/budgets']);
+          },
+          error: error => {
+            this.error = error;
+          }
+        });
+    }
+  }
 }
