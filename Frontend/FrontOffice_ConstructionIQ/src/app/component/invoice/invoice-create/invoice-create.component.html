@@ -1,0 +1,103 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+    <div id="featured-title-inner" class="container clearfix">
+        <div class="featured-title-inner-wrap">
+            <div class="featured-title-heading-wrap">
+                <h1 class="featured-title-heading"></h1>
+            </div>
+            <div id="breadcrumbs">
+                <div class="breadcrumbs-inner">
+                    <div class="breadcrumb-trail">
+                        <a href="/" class="trail-begin">Accueil</a>
+                        <span class="sep">/</span>
+                        <a href="/factures" class="trail-begin">Factures</a>
+                        <span class="sep">/</span>
+                        <span class="trail-end">Créer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-content" class="site-main clearfix">
+    <div id="content-wrap" class="container">
+        <div id="site-content" class="site-content clearfix">
+            <div id="inner-content" class="inner-content-wrap">
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+                
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="wprt-content-box style-1">
+                            <h2 class="text-center">Créer une nouvelle facture</h2>
+                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
+                            
+                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                            
+                            <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="montant">Montant</label>
+                                    <input type="number" formControlName="montant" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
+                                    <div *ngIf="submitted && f['montant'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montant'].errors['required']">Le montant est requis</div>
+                                        <div *ngIf="f['montant'].errors['min']">Le montant doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="statut">Statut</label>
+                                    <select formControlName="statut" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['statut'].errors }">
+                                        <option *ngFor="let statut of statutsInvoice" [value]="statut">
+                                            {{statut}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['statut'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['statut'].errors['required']">Le statut est requis</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="commandeId">Commande</label>
+                                    <div *ngIf="loadingCommandes" class="loading-spinner-sm">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="sr-only">Chargement...</span>
+                                        </div>
+                                        <span>Chargement des commandes...</span>
+                                    </div>
+                                    <select formControlName="commandeId" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['commandeId'].errors }"
+                                        [disabled]="loadingCommandes">
+                                        <option value="">Sélectionner une commande</option>
+                                        <option *ngFor="let commande of commandes" [value]="commande.id">
+                                            #{{commande.id}} - {{commande.fournisseur}} ({{commande.montant}} €)
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['commandeId'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['commandeId'].errors['required']">La commande est requise</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="wprt-spacer" data-desktop="20" data-mobi="20" data-smobi="20"></div>
+                                
+                                <div class="form-group text-center">
+                                    <button type="submit" class="wprt-button" [disabled]="loading">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Créer
+                                    </button>
+                                    <a routerLink="/factures" class="wprt-button outline">Annuler</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

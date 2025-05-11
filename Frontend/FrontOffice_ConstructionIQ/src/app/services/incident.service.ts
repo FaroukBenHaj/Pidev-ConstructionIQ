@@ -8,7 +8,8 @@ import { Incident } from 'src/models/incident.model';
   providedIn: 'root'
 })
 export class IncidentService {
-  private baseUrl = 'http://localhost:8081/api/incidents';
+  private baseUrl = 'http://localhost:8085/api/incidents';
+
 
   constructor(private http: HttpClient) { }
 

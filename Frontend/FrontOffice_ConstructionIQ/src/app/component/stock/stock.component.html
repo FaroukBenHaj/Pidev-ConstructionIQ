@@ -1,0 +1,196 @@
+
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+  <div id="featured-title" class="clearfix featured-title-left" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8); /* Grey mask */
+    background-blend-mode: multiply
+"  >
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap" >
+          <h1 class="featured-title-heading" style="color: #ef8b0c ">Sock List </h1>
+          <p> View all your stocks </p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="#" title="Construction" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end">Stock </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-content" class="site-main clearfix">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+
+<div class="p-grid p-fluid">
+    <div class="p-col-12 p-md-4">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-calendar"></i>
+        </span>
+        <p-calendar
+          [(ngModel)]="selectedMonth"
+          (onSelect)="filterByMonth()"
+          view="month"
+          dateFormat="mm/yy"
+          placeholder="Sélectionnez un mois"
+          [monthNavigator]="true"
+          [yearNavigator]="true"
+          yearRange="2020:2030"
+        ></p-calendar>
+        <button
+          *ngIf="selectedMonth"
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-secondary"
+          (click)="resetFilter()"
+          pTooltip="Réinitialiser le filtre"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+
+  <p-table #dt1 [value]="stocks" [loading]="loading" [rows]="10" [paginator]="true"
+          [globalFilterFields]="['availableQuantity', 'dateReceived']" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 12rem" pSortableColumn="availableQuantity">
+          <div class="flex justify-content-between align-items-center">
+            Available Quantity
+            <p-sortIcon field="availableQuantity"></p-sortIcon>
+          </div>
+        </th>
+        <th style="min-width: 12rem" pSortableColumn="dateReceived">
+          <div class="flex justify-content-between align-items-center">
+            Date Received
+            <p-sortIcon field="dateReceived"></p-sortIcon>
+          </div>
+        </th>
+        <th style="min-width: 12rem">Actions</th>
+        <th style="min-width: 12rem">Détails</th> <!-- ✅ Nouvelle colonne -->
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-stock>
+      <tr>
+        <td>{{ stock.availableQuantity }}</td>
+        <td>{{ stock.dateReceived | date:'shortDate' }}</td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="p-button-danger p-button-rounded p-button-outlined"
+            (click)="deleteStock(stock.stockID)"
+            aria-label="Delete Stock"
+          >
+            Supprimer
+          </button>
+
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-warning p-button-rounded p-button-outlined"
+            (click)="editStock(stock)"
+            aria-label="Edit Stock"
+          >
+            Modifier
+          </button>
+        </td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-eye"
+            label="Afficher"
+            class="p-button-info p-button-rounded p-button-outlined"
+            (click)="viewStockDetails(stock)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">No stocks found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- ✅ Ajouter un nouveau stock -->
+  <button
+    routerLink="/add-stock"
+    pButton
+    icon="pi pi-plus"
+    label="Ajouter un nouveau stock"
+    class="p-button-success p-button-rounded p-button-outlined p-mt-3">
+  </button>
+
+  <!-- ✅ Panneau de détails -->
+
+
+    <div *ngIf="selectedStock" id="stockDetails" class="stock-details p-mt-3 p-p-3 p-shadow-2 border-round surface-card">
+      <h3>Détails du Stock</h3>
+      <p><strong>Date :</strong> {{ selectedStock.dateReceived | date:'shortDate' }}</p>
+      <p><strong>Quantité Totale :</strong> {{ selectedStock.availableQuantity }}</p>
+
+      <div *ngIf="stockMaterials.length > 0">
+        <h4>Matériaux :</h4>
+        <ul class="p-pl-3">
+          <li *ngFor="let material of stockMaterials">
+            {{ material.materialName }} — {{ material.selectedQuantity }} x {{ material.cost }} €
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="stockCost !== null" class="p-mt-2">
+        <strong>💰 Coût total :</strong> {{ stockCost }} €
+      </div>
+
+      <!-- ✅ Bouton Imprimer -->
+      <button
+        pButton
+        label="Imprimer PDF"
+        icon="pi pi-print"
+        class="p-button-help p-mr-2"
+        (click)="printDetails()"
+      ></button>
+  <!-- Dans votre template -->
+  <a
+    [attr.href]="'http://localhost:5000/api/generate-pdf/' + selectedStock?.stockID"
+    class="p-button p-button-help p-mr-2 pdf-download-link"
+    target="_blank"
+  >
+    <i class="pi pi-download p-mr-2"></i>
+    RapportStock
+  </a>
+
+      <button
+        pButton
+        label="Fermer"
+        icon="pi pi-times"
+        class="p-button-secondary p-button-sm p-mt-2"
+        (click)="selectedStock = null"
+      ></button>
+    </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer ></app-footer>
+</div>
+

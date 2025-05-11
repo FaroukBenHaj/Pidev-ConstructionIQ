@@ -1,0 +1,64 @@
+<div class="front-page no-sidebar site-layout-full-width header-style-5 menu-has-search menu-has-cart header-sticky">
+  <app-header></app-header>
+  <div id="featured-title" class="clearfix featured-title-left" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8); /* Grey mask */
+    background-blend-mode: multiply
+"  >
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap" >
+          <h1 class="featured-title-heading" style="color: #ef8b0c ">Claim Details </h1>
+          <p> View your claim details  </p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="#" title="Construction" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end">Claim</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-content" class="site-main clearfix">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+
+<div class="container mt-4" *ngIf="claim">
+  <h2>Claim Details</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Claim #{{ claim.id }}</h5>
+      <p class="card-text"><strong>Sender:</strong> {{ claim.sender }}</p>
+      <p class="card-text"><strong>Receiver:</strong> {{ claim.receiver }}</p>
+      <p class="card-text"><strong>Characters:</strong> {{ claim.numberOfCharacters }}</p>
+      <p class="card-text"><strong>Urgent:</strong> {{ claim.containsUrgent ? 'Yes' : 'No' }}</p>
+      <p class="card-text"><strong>Important:</strong> {{ claim.containsImportant ? 'Yes' : 'No' }}</p>
+      <p class="card-text"><strong>Classification:</strong> {{ claim.urgencyClassification }}</p>
+      <p class="card-text"><strong>Date:</strong> {{ claim.sendDate | date }}</p>
+      <p class="card-text"><strong>Time:</strong> {{ claim.sendTime | date:'shortTime' }}</p>
+      <p class="card-text"><strong>Type:</strong> {{ claim.claimType }}</p>
+      <p class="card-text"><strong>Priority:</strong> {{ claim.initialPriority }}</p>
+      <p class="card-text"><strong>Attachments:</strong> {{ claim.numberOfAttachments }}</p>
+      <p class="card-text"><strong>Language:</strong> {{ claim.messageLanguage }}</p>
+      <a routerLink="/claims" class="btn btn-secondary">Back to List</a>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<app-footer></app-footer>
+</div>

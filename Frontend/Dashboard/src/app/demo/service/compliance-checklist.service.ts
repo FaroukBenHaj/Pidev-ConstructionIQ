@@ -7,7 +7,7 @@ import { ComplianceChecklist } from '../models/compliance-checklist.model';
   providedIn: 'root'
 })
 export class ComplianceChecklistService {
-  private baseUrl = 'http://localhost:8081/api/compliance-checklists';
+  private baseUrl = 'http://localhost:8085/api/compliance-checklists';
 
   constructor(private http: HttpClient) { }
 

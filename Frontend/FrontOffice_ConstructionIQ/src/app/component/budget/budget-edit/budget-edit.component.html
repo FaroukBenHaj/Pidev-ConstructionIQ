@@ -1,0 +1,100 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+    <div id="featured-title-inner" class="container clearfix">
+        <div class="featured-title-inner-wrap">
+            <div class="featured-title-heading-wrap">
+                <h1 class="featured-title-heading">Modifier un budget</h1>
+            </div>
+            <div id="breadcrumbs">
+                <div class="breadcrumbs-inner">
+                    <div class="breadcrumb-trail">
+                        <a href="/" class="trail-begin">Accueil</a>
+                        <span class="sep">/</span>
+                        <a href="/budgets" class="trail-begin">Budgets</a>
+                        <span class="sep">/</span>
+                        <span class="trail-end">Modifier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-content" class="site-main clearfix">
+    <div id="content-wrap" class="container">
+        <div id="site-content" class="site-content clearfix">
+            <div id="inner-content" class="inner-content-wrap">
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+                
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="wprt-content-box style-1">
+                            <h2 class="text-center">Modifier le budget</h2>
+                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
+                            
+                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                            
+                            <form *ngIf="budget" [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="montantTotal">Montant Total</label>
+                                    <input type="number" formControlName="montantTotal" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['montantTotal'].errors }" />
+                                    <div *ngIf="submitted && f['montantTotal'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montantTotal'].errors['required']">Le montant total est requis</div>
+                                        <div *ngIf="f['montantTotal'].errors['min']">Le montant total doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="montantRestant">Montant Restant</label>
+                                    <input type="number" formControlName="montantRestant" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f['montantRestant'].errors }" />
+                                    <div *ngIf="submitted && f['montantRestant'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montantRestant'].errors['required']">Le montant restant est requis</div>
+                                        <div *ngIf="f['montantRestant'].errors['min']">Le montant restant doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="projetId">Projet</label>
+                                    <select formControlName="projetId" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['projetId'].errors }">
+                                        <option value="">Sélectionner un projet</option>
+                                        <option *ngFor="let projet of projets" [value]="projet.id">
+                                            {{projet.nom}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['projetId'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['projetId'].errors['required']">Le projet est requis</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="wprt-spacer" data-desktop="20" data-mobi="20" data-smobi="20"></div>
+                                
+                                <div class="form-group text-center">
+                                    <button type="submit" class="wprt-button" [disabled]="loading">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Enregistrer
+                                    </button>
+                                    <a routerLink="/budgets" class="wprt-button outline">Annuler</a>
+                                </div>
+                            </form>
+                            
+                            <div *ngIf="!budget && !error" class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Chargement...</span>
+                                </div>
+                                <p>Chargement des données...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
