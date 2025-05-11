@@ -1,132 +1,142 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
 
 <div id="featured-title" class="clearfix featured-title-left">
-    <div id="featured-title-inner" class="container clearfix">
-        <div class="featured-title-inner-wrap">
-            <div class="featured-title-heading-wrap">
-                <h1 class="featured-title-heading">Détails du Paiement</h1>
-            </div>
-            <div id="breadcrumbs">
-                <div class="breadcrumbs-inner">
-                    <div class="breadcrumb-trail">
-                        <a href="/" class="trail-begin">Accueil</a>
-                        <span class="sep">/</span>
-                        <a href="/paiements" class="trail-begin">Paiements</a>
-                        <span class="sep">/</span>
-                        <span class="trail-end">Détails</span>
-                    </div>
-                </div>
-            </div>
+  <div id="featured-title-inner" class="container clearfix">
+    <div class="featured-title-inner-wrap">
+      <div class="featured-title-heading-wrap">
+        <h1 class="featured-title-heading" style="color: #ef8b0c">Détails du Paiement</h1>
+        <p>Visualisation des transactions financières</p>
+      </div>
+      <div id="breadcrumbs">
+        <div class="breadcrumbs-inner">
+          <div class="breadcrumb-trail">
+            <a href="/" class="trail-begin">Accueil</a>
+            <span class="sep">/</span>
+            <a href="/paiements" class="trail-begin">Paiements</a>
+            <span class="sep">/</span>
+            <span class="trail-end">Détails</span>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<div id="main-content" class="site-main clearfix">
-    <div id="content-wrap" class="container">
-        <div id="site-content" class="site-content clearfix">
-            <div id="inner-content" class="inner-content-wrap">
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
-                
-                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                
-                <div *ngIf="!payment && !error" class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Chargement...</span>
-                    </div>
-                    <p>Chargement des données...</p>
-                </div>
-                
-                <div *ngIf="payment" class="row">
-                    <div class="col-md-8 offset-md-2">
-                        <div class="wprt-content-box style-1">
-                            <h2 class="text-center">Paiement #{{payment.id}}</h2>
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div class="payment-details">
-                                <div class="payment-type" [ngClass]="getPaymentTypeClass(payment.type)">
-                                    <span>{{payment.type}}</span>
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Informations de Paiement</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Numéro de paiement:</span>
-                                        <span class="detail-value">{{payment.id}}</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant:</span>
-                                        <span class="detail-value">{{payment.montant}} €</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Date de paiement:</span>
-                                        <span class="detail-value">{{payment.datePaiement | date:'dd/MM/yyyy HH:mm'}}</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Type de paiement:</span>
-                                        <span class="detail-value">{{payment.type}}</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Facture Associée</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Numéro de facture:</span>
-                                        <span class="detail-value">
-                                            <a [routerLink]="['/factures/show', payment.invoice.id]">
-                                                #{{payment.invoice.id}}
-                                            </a>
-                                        </span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant de la facture:</span>
-                                        <span class="detail-value">{{payment.invoice.montant}} €</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Statut de la facture:</span>
-                                        <span class="detail-value">{{payment.invoice.statut}}</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Budget</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Nom du projet:</span>
-                                        <span class="detail-value">
-                                            <a [routerLink]="['/budgets/show', payment.budget.id]">
-                                                {{payment.budget.projet.nom}}
-                                            </a>
-                                        </span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant total du budget:</span>
-                                        <span class="detail-value">{{payment.budget.montantTotal}} €</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant restant:</span>
-                                        <span class="detail-value">{{payment.budget.montantRestant}} €</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div class="text-center">
-                                <a [routerLink]="['/paiements/edit', payment.id]" class="wprt-button">Modifier</a>
-                                <button (click)="deletePayment()" class="wprt-button red" [disabled]="loading">
-                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Supprimer
-                                </button>
-                                <a routerLink="/paiements" class="wprt-button outline">Retour</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply">
+  
+  <div id="content-wrap">
+    <div id="site-content" class="site-content clearfix">
+      <div id="inner-content" class="inner-content-wrap">
+        <div class="page-content">
+          <div class="payment-details-container">
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            
+            <div *ngIf="!payment && !error" class="loading-message">
+              <div class="spinner-border" role="status"></div>
+              <span>Chargement des données...</span>
             </div>
+            
+            <div *ngIf="payment" class="payment-card">
+              <div class="payment-header">
+                <h2>Paiement #{{payment.id}}</h2>
+                <div class="payment-type-badge" [ngClass]="getPaymentTypeClass(payment.type)">
+                  {{payment.type}}
+                </div>
+              </div>
+              
+              <div class="payment-sections">
+                <div class="payment-section">
+                  <h3>Informations de Paiement</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <span class="detail-label">Numéro de paiement:</span>
+                      <span class="detail-value">{{payment.id}}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Montant:</span>
+                      <span class="detail-value">{{payment.montant}} €</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Date de paiement:</span>
+                      <span class="detail-value">{{payment.datePaiement | date:'dd/MM/yyyy HH:mm'}}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Type de paiement:</span>
+                      <span class="detail-value">{{payment.type}}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="payment-section">
+                  <h3>Facture Associée</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <span class="detail-label">Numéro de facture:</span>
+                      <span class="detail-value">
+                        <a [routerLink]="['/factures/show', payment.invoice.id]" class="link">
+                          #{{payment.invoice.id}}
+                        </a>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Montant de la facture:</span>
+                      <span class="detail-value">{{payment.invoice.montant}} €</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Statut de la facture:</span>
+                      <span class="detail-value">{{payment.invoice.statut}}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="payment-section">
+                  <h3>Budget</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <span class="detail-label">Nom du projet:</span>
+                      <span class="detail-value">
+                        <a [routerLink]="['/budgets/show', payment.budget.id]" class="link">
+                          {{payment.budget.projet.nom}}
+                        </a>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Montant total:</span>
+                      <span class="detail-value">{{payment.budget.montantTotal}} €</span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-label">Montant restant:</span>
+                      <span class="detail-value">{{payment.budget.montantRestant}} €</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="payment-actions">
+                <a [routerLink]="['/paiements/edit', payment.id]" class="btn-edit">
+                  <i class="fa fa-pencil"></i> Modifier
+                </a>
+                <button (click)="deletePayment()" class="btn-delete" [disabled]="loading">
+                  <i class="fa fa-trash"></i> 
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                  Supprimer
+                </button>
+                <a routerLink="/paiements" class="btn-back">
+                  <i class="fa fa-arrow-left"></i> Retour
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <app-footer></app-footer>

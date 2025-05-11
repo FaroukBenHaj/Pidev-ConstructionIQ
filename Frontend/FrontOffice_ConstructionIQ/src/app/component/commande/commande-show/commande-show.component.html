@@ -1,97 +1,91 @@
 <app-header></app-header>
 
-<div id="featured-title" class="clearfix featured-title-left">
-    <div id="featured-title-inner" class="container clearfix">
-        <div class="featured-title-inner-wrap">
-            
-            <div id="breadcrumbs">
-                <div class="breadcrumbs-inner">
-                    <div class="breadcrumb-trail">
-                        <a href="/" class="trail-begin">Accueil</a>
-                        <span class="sep">/</span>
-                        <a href="/commandes" class="trail-begin">Commandes</a>
-                        <span class="sep">/</span>
-                        <span class="trail-end">Détails</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="page-header">
+  <div class="container">
+    <div class="header-content">
+      <h1 class="page-title">Détails de Commande</h1>
+      <p class="page-subtitle">Gestion de votre commande fournisseur</p>
+      <nav class="breadcrumbs">
+        <a href="/">Accueil</a>
+        <span>/</span>
+        <a href="/commandes">Commandes</a>
+        <span>/</span>
+        <span>Détails</span>
+      </nav>
     </div>
+  </div>
 </div>
 
-<div id="main-content" class="site-main clearfix">
-    <div id="content-wrap" class="container">
-        <div id="site-content" class="site-content clearfix">
-            <div id="inner-content" class="inner-content-wrap">
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
-                
-                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-                
-                <div *ngIf="!commande && !error" class="text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Chargement...</span>
-                    </div>
-                    <p>Chargement des données...</p>
-                </div>
-                
-                <div *ngIf="commande" class="row">
-                    <div class="col-md-8 offset-md-2">
-                        <div class="wprt-content-box style-1">
-                            <h2 class="text-center">Détails de la Commande {{commande.matiere}}</h2>
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div class="commande-details">
-                                <div class="status-banner" [ngClass]="getStatusClass(commande.status)">
-                                    Statut: {{commande.status}}
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Informations Générales</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Fournisseur:</span>
-                                        <span class="detail-value">{{commande.fournisseur}}</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Montant:</span>
-                                        <span class="detail-value">{{commande.montant}} €</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Date Commande:</span>
-                                        <span class="detail-value">{{commande.dateCommande | date:'dd/MM/yyyy HH:mm'}}</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="detail-section">
-                                    <h3>Détails de la Commande</h3>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Matière:</span>
-                                        <span class="detail-value">{{commande.matiere}}</span>
-                                    </div>
-                                    <div class="detail-row">
-                                        <span class="detail-label">Quantité Demandée:</span>
-                                        <span class="detail-value">{{commande.quantiteDemandee}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
-                            
-                            <div class="text-center">
-                                <a [routerLink]="['/commandes/edit', commande.id]" class="wprt-button">Modifier</a>
-                                <button (click)="deleteCommande()" class="wprt-button red" [disabled]="loading">
-                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Supprimer
-                                </button>
-                                <a routerLink="/commandes" class="wprt-button outline">Retour</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
-            </div>
+<div class="page-content">
+  <div class="container">
+    <div class="content-card">
+      <!-- Loading State -->
+      <div *ngIf="!commande && !error" class="loading-state">
+        <div class="spinner"></div>
+        <p>Chargement de la commande...</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{error}}
+      </div>
+
+      <!-- Order Details -->
+      <div *ngIf="commande" class="order-details">
+        <div class="order-header">
+          <div>
+            <h2>Commande #{{commande.id}}</h2>
+            <div class="order-date">{{commande.dateCommande | date:'dd/MM/yyyy HH:mm'}}</div>
+          </div>
+          <span class="status-badge" [ngClass]="'status-' + commande.status.toLowerCase()">
+            {{commande.status}}
+          </span>
         </div>
+
+        <div class="order-body">
+          <div class="detail-section">
+            <h3><i class="fas fa-building"></i> Fournisseur</h3>
+            <p>{{commande.fournisseur}}</p>
+          </div>
+
+          <div class="detail-section">
+            <h3><i class="fas fa-clipboard-list"></i> Détails</h3>
+            <div class="detail-grid">
+              <div class="detail-item">
+                <span class="detail-label">Matière:</span>
+                <span class="detail-value">{{commande.matiere}}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Quantité:</span>
+                <span class="detail-value">{{commande.quantiteDemandee}} unités</span>
+              </div>
+              <div class="detail-item highlight">
+                <span class="detail-label">Montant total:</span>
+                <span class="detail-value">{{commande.montant | currency:'EUR':'symbol':'1.2-2'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <button [routerLink]="['/commandes/edit', commande.id]" class="btn-edit" *ngIf="commande.status">
+            <i class="fas fa-edit"></i> Modifier
+          </button>
+          <button (click)="confirmDelete()" class="btn-delete" [disabled]="loading">
+            <i class="fas fa-trash"></i>
+            <span *ngIf="loading" class="btn-spinner"></span>
+            Supprimer
+          </button>
+          <a *ngIf="commande.status" routerLink="/factures/create" [queryParams]="{commandeId: commande.id}" class="btn-invoice">
+            <i class="fas fa-file-invoice"></i> Créer facture
+          </a>
+          <a routerLink="/commandes" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Retour
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <app-footer></app-footer>

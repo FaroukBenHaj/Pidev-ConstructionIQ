@@ -59,4 +59,14 @@ export class BudgetShowComponent implements OnInit {
         });
     }
   }
+  confirmDelete() { 
+    return confirm('Êtes-vous sûr de vouloir supprimer ce budget?');
+  }
+  getBudgetUsagePercentage() {  
+    if (this.budget) {
+      return ((this.budget.montantTotal - this.budget.montantRestant) / this.budget.montantTotal) * 100;
+    }
+    return 0;
+  }
+  
 }

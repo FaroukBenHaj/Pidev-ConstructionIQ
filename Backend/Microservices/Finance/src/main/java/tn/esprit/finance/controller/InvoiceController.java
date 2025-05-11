@@ -1,5 +1,6 @@
 package tn.esprit.finance.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,12 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/invoices", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/invoices")
+@RequiredArgsConstructor
 public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<?> createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         try {
             Invoice createdInvoice = invoiceService.createInvoice(invoiceDTO);

@@ -42,7 +42,7 @@ const routes: Routes = [
   { path: 'budgets/create', component: BudgetCreateComponent },
   { path: 'budgets/edit/:id', component: BudgetEditComponent },
   { path: 'budgets/show/:id', component: BudgetShowComponent },
-  { path: 'budgets', component: BudgetCreateComponent },    
+  { path: 'budgets', component: BudgetShowComponent },    
   
   // Commande routes
   { path: 'commandes', component: CommandeListComponent },

@@ -93,4 +93,7 @@ export class CommandeListComponent implements OnInit {
         return 'status-pending';
     }
   }
+  getTotalAmount(): number {
+    return this.commandes.reduce((total, commande) => total + commande.montant, 0);
+  }
 }

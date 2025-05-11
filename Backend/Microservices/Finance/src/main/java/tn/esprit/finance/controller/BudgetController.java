@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 @RestController
-@RequestMapping("/budgets")
+@RequestMapping("/api/budgets")
 @RequiredArgsConstructor
 public class BudgetController {
     private final BudgetService budgetService;
