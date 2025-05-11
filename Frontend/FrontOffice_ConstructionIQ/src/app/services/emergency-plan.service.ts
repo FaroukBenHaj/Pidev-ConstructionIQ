@@ -9,6 +9,7 @@ import { EmergencyPlan } from 'src/models/emergency-plan.model';
 export class EmergencyPlanService {
   private baseUrl = 'http://localhost:8085/api/emergency-plans';
 
+
   constructor(private http: HttpClient) { }
 
   createEmergencyPlan(plan: EmergencyPlan): Observable<EmergencyPlan> {

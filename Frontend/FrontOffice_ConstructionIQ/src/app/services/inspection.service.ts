@@ -7,6 +7,7 @@ import { Inspection } from 'src/models/inspection.model';
   providedIn: 'root'
 })
 export class InspectionService {
+
   private baseUrl = 'http://localhost:8085/api/inspections';
 
   constructor(private http: HttpClient) { }

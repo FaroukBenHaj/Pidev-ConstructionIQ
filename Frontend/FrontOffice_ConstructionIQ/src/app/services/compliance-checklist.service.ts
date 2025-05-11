@@ -9,6 +9,7 @@ import { ComplianceChecklist } from 'src/models/compliance-checklist.model';
 export class ComplianceChecklistService {
   private baseUrl = 'http://localhost:8085/api/compliance-checklists';
 
+
   constructor(private http: HttpClient) { }
 
   createComplianceChecklist(inspectionId: number, checklist: ComplianceChecklist): Observable<ComplianceChecklist> {

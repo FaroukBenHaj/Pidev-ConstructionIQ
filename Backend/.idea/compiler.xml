@@ -19,6 +19,9 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="User-Domain" />
+        <module name="hse-service" />
+        <module name="Eureka" />
+        <module name="GatewayApi" />
       </profile>
     </annotationProcessing>
   </component>
@@ -26,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Eureka" options="-parameters" />
       <module name="GatewayApi" options="-parameters" />
+      <module name="hse-service" options="-parameters" />
       <module name="hse-service" options="-parameters" />
       <module name="User-Domain" options="-parameters" />
     </option>

@@ -10,6 +10,7 @@ import { Incident } from 'src/models/incident.model';
 export class IncidentService {
   private baseUrl = 'http://localhost:8085/api/incidents';
 
+
   constructor(private http: HttpClient) { }
 
   createIncident(incident: Incident): Observable<Incident> {
