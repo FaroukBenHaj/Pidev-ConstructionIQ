@@ -1,0 +1,84 @@
+/* Base Styles */
+.safety-dashboard {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Hero Section */
+  .safety-dashboard .hero-section {
+    padding: 100px 0;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .safety-dashboard .hero-content h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  .safety-dashboard .hero-content p {
+    font-size: 1.5em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Dashboard Sections */
+  .safety-dashboard .dashboard-section {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  
+  .safety-dashboard .dashboard-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+  
+  /* Table Styling */
+  .safety-dashboard .table {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Card Styling */
+  .safety-dashboard .compliance-card,
+  .safety-dashboard .incident-card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .safety-dashboard .card {
+    border: none;
+    border-radius: 8px;
+  }
+  
+  /* Progress Bars */
+  .safety-dashboard .progress {
+    height: 25px;
+    margin-top: 10px;
+  }
+  
+  .safety-dashboard .progress-bar {
+    font-weight: bold;
+    line-height: 25px;
+  }
+  
+  .safety-dashboard .progress-bar-success {
+    background-color: #28a745;
+  }
+  
+  .safety-dashboard .progress-bar-danger {
+    background-color: #dc3545;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 767px) {
+    .safety-dashboard .hero-content h1 {
+      font-size: 2em;
+    }
+    .safety-dashboard .hero-content p {
+      font-size: 1.2em;
+    }
+  }
+  

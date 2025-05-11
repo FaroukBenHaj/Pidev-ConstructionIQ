@@ -91,6 +91,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/pages/dashboard-security']
                     },
                     {
+                        label: 'Risk predicator',
+                        icon: 'pi pi-fw pi-chart-line',
+                        routerLink: ['/pages/risk']
+                    },
+                    {
                         label: 'Crud Incident',
                         icon: 'pi pi-fw pi-pencil',
                         routerLink: ['/pages/crudincidents']
