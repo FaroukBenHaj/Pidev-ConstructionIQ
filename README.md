@@ -96,4 +96,3 @@
 
 ---
 
-Let me know if you'd like to add badges (build, coverage), deployment instructions (Docker, CI/CD), or contribution guidelines.
