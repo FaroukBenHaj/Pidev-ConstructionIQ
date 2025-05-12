@@ -1,99 +1,83 @@
-# 🏗️ ConstructionIQ
+# 🏗️ Stock Management – ConstructionIQ
 
-**ConstructionIQ** is a modular, full-stack platform designed to streamline and optimize construction site management. It leverages microservice architecture for scalability and maintainability. Each microservice focuses on a core domain of the construction lifecycle, and the frontend offers both administrative and user-facing interfaces.
+The **Stock Management** module of **ConstructionIQ** streamlines and optimizes the management of construction materials. It ensures efficient tracking of stock levels, material costs, and usage, while leveraging **machine learning** to classify materials for better decision-making.
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Overview
 
-### 🧠 Backend
+This module is designed to:
 
-* **Java 17**, **Spring Boot**
-* **Spring Cloud**, **Spring Security**
+* ✅ Track and manage the availability of construction materials
+* 🧠 Classify materials into groups using **K-means clustering**
+* 📊 Provide real-time stock analysis and smart alerts
+* 📝 Generate PDF reports with insights and recommendations
+
+---
+
+## 🧠 Features
+
+### 1. Material Management
+
+* Store material details (name, cost, unit of measure)
+* Track quantities for precise inventory management
+* Link materials to multiple stocks for comprehensive allocation insights
+
+### 2. Stock Tracking
+
+* Monitor stock levels across multiple projects
+* Automatically update stock statuses: `CRITICAL`, `ALERT`, `OK`
+* Ensure materials are replenished as needed
+
+### 3. K-means Classification
+
+* Automatically cluster materials based on cost, quantity, and usage
+* Highlight materials with similar consumption trends
+* Prioritize restocking for critical material groups
+
+### 4. PDF Report Generation
+
+* Generate comprehensive PDF reports with:
+
+  * Total stock value overview
+  * Material statuses
+  * Depletion date projections and order recommendations
+  * Visual charts (stock status, clustering results)
+
+### 5. Real-time Alerts
+
+* Instant alerts for low or critical stock levels
+* Data-driven ordering recommendations
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+
+* **Java 17**, **Spring Boot**, **Spring Cloud**, **Spring Security**
 * **Keycloak** for Identity and Access Management
 * **MySQL**, **JPA/Hibernate**
 * **Eureka Server**, **Spring Cloud Gateway**
 
-### 🎨 Frontend
+### Frontend
 
 * **Angular 16**
-* Tailored dashboards for Admin and Users
+* User and Admin dashboards
+
+### Machine Learning
+
+* **K-means Clustering** for automated material classification
 
 ---
 
-## 🧩 Microservices
+## ⚙️ Prerequisites
 
-| Microservice       | Description                                             |
-| ------------------ | ------------------------------------------------------- |
-| `User-Domain`      | Handles user management & authentication using Keycloak |
-| `Project-Domain`   | Manages projects, tasks, and deadlines                  |
-| `Complaint-Domain` | Users can file and track site complaints                |
-| `Finance-Domain`   | Manages budgeting and financial operations              |
-| `Inventory-Domain` | Tracks stock, tools, and inventory                      |
-| `Safety-Domain`    | Provides real-time safety dashboards                    |
-| `Meeting-Domain`   | Schedules meetings, agendas, and participants           |
+Before running the module, ensure the following tools are installed and configured:
+
+* **Java 17+**
+* **Maven**
+* **Node.js** & **Angular CLI**
+* **Keycloak** server for authentication
 
 ---
-
-## 🔐 Authentication
-
-* Centralized authentication and role-based access via **Keycloak**.
-* Integrated with the User-Domain microservice.
-* Uses JWT tokens for secure communication between services.
-
----
-
-## 🖥️ How to Run
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/your-username/ConstructionIQ.git
-   ```
-
-2. **Run Keycloak Server**
-
-   * Set up a realm, client, and roles (`ADMIN`, `USER`, etc.).
-   * Import initial config if needed.
-
-3. **Start Eureka & Gateway**
-
-   ```bash
-   cd Backend/Server
-   ./mvnw spring-boot:run
-   ```
-
-4. **Start each Microservice**
-   Navigate into each microservice directory and run:
-
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-5. **Run Frontend**
-
-   ```bash
-   cd Frontend/Dashboard
-   npm install
-   ng serve
-   ```
-
----
-
-## 📂 Folder Structure (Simplified)
-
-```
-
-```
-
----
-
-## 🛠️ Contributors
-
-* 👷 Project Lead: \[Your Name]
-* 🧑‍💻 Backend Devs: \[Names]
-* 🎨 Frontend Devs: \[Names]
-
----
-
-Let me know if you'd like to add badges (build, coverage), deployment instructions (Docker, CI/CD), or contribution guidelines.
