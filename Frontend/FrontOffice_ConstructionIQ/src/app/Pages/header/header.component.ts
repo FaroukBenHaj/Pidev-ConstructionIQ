@@ -17,6 +17,9 @@ export class HeaderComponent {
     this.router.navigate(['/home']);
   }
 
+  goToUploadProject() {
+    this.router.navigate(['/upload-project']);
+  }
   logout() {
     this.keycloak.logout();
   }

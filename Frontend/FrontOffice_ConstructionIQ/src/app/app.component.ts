@@ -1,3 +1,5 @@
+import { filter } from 'rxjs/operators';
+import { Router, NavigationEnd, Event } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import {Component, OnInit} from "@angular/core";
 import {KeycloakService} from "./services/keycloak/keycloak.service";
@@ -35,9 +37,20 @@ import {KeycloakService} from "./services/keycloak/keycloak.service";
 export class AppComponent implements OnInit {
   authorized = false;
   loading = true;
+  title = 'FrontOffice_ConstructionIQ';
+  showHeaderAndFooter: boolean = true;
 
-  constructor(private kc: KeycloakService) {}
-
+  constructor(private router: Router , private kc: KeycloakService) {
+    this.router.events
+      .pipe(
+        filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
+      )
+      .subscribe((event: NavigationEnd) => {
+        console.log('Current URL:', event.url); 
+        this.showHeaderAndFooter = !(event.url.includes('/upload-project') || event.url.includes('/project-list')|| event.url.includes('/edit-project')
+        || event.url.includes('/gantt')|| event.url.includes('/weather/1'));
+        console.log('Show Header and Footer:', this.showHeaderAndFooter); 
+      });}
   async ngOnInit() {
     await this.kc.init();
     const roles = this.kc.getRoles();

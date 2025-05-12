@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Project Statistics</h2>
+<mat-dialog-content>
+  <div class="statistics-container">
+    <!-- Progress Section -->
+    <div class="stat-section">
+      <h3>Overall Progress</h3>
+      <mat-progress-bar mode="determinate" [value]="data.overallProgress * 100"></mat-progress-bar>
+      <p>{{ formatProgress(data.overallProgress) }}</p>
+    </div>
+
+    <!-- Task Status Section -->
+    <div class="stat-section">
+      <h3>Task Status Distribution</h3>
+      <div class="chart-container">
+        <canvas #statusChart></canvas>
+      </div>
+    </div>
+
+    <!-- Tasks by Priority Section -->
+    <div class="stat-section" *ngIf="hasPriorityTasks()">
+        <h3>Tasks by Priority</h3>
+      <div class="chart-container">
+        <canvas #priorityChart></canvas>
+      </div>
+    </div>
+
+    <!-- Project Metrics Radar Chart -->
+    <div class="stat-section">
+      <h3>Project Metrics</h3>
+      <div class="chart-container">
+        <canvas #progressChart></canvas>
+      </div>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div class="stat-section">
+      <h3>Summary</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-label">Total Tasks:</span>
+          <span class="stat-value">{{ data.totalTasks }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Overdue:</span>
+          <span class="stat-value">{{ data.overdueTasks }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Due Soon:</span>
+          <span class="stat-value">{{ data.tasksDueSoon }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Budget Used:</span>
+          <span class="stat-value">{{ data.budgetUtilization | currency }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="onClose()">Close</button>
+</mat-dialog-actions>

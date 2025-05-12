@@ -1,0 +1,112 @@
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.back-button button {
+  background-color: #ffc107; 
+  color: #000; 
+}
+
+.back-button button:hover {
+  background-color: #e0a800; 
+}
+.redirect-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.redirect-button button {
+  background-color: #343a40; 
+  color: #FFC107; 
+  border: 2px solid #FFC107; 
+  border-radius: 30px; 
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.redirect-button button:hover {
+  background-color: #FFC107; 
+  color: #343a40; 
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f8f9fa; 
+  padding: 20px;
+}
+
+.drop-zone {
+  border: 2px dashed #ffc107; 
+  padding: 40px;
+  text-align: center;
+  background-color: #fff; 
+  margin-bottom: 20px;
+  width: 85%; 
+  max-width: 700px; 
+  min-height: 300px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-zone p {
+  margin: 0;
+  color: #000; 
+  font-size: 18px; 
+}
+
+.file-list {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.file-list p {
+  margin: 10px 0;
+  color: #000; 
+}
+
+button {
+  margin: 5px;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.message.success {
+  background-color: #d4edda; 
+  color: #155724; 
+}
+
+.message.error {
+  background-color: #f8d7da; 
+  color: #721c24; 
+}
+
+.upload-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #343a40; 
+  color: #ffc107; 
+  text-align: center;
+  padding: 10px 0;
+}
+
+.upload-footer p {
+  margin: 0;
+  font-size: 14px;
+}

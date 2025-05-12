@@ -5,6 +5,37 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
+import { RouterModule } from '@angular/router';
+import { UploadProjectComponent } from './upload-project/upload-project.component';
+import { MatButtonModule } from '@angular/material/button'; 
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { ProjectListComponent } from './project-list/project-list.component'; 
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { EditProjectComponent } from './edit-project/edit-project.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { GranttChartComponent } from './grantt-chart/grantt-chart.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { PanelModule } from 'primeng/panel';
+import { FieldsetModule } from 'primeng/fieldset';
+import { MessageModule } from 'primeng/message';
+import { WeatherInfoComponent } from './weather-info/weather-info.component';
+
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProjectStatisticsComponent } from './project-statistics/project-statistics.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { PredictionComponent } from './prediction/prediction.component';
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -86,6 +117,13 @@ export function kcFactory(kcService: KeycloakService) {
     FooterComponent,
     HomePageComponent,
     LoginComponent,
+    UploadProjectComponent,
+    ProjectListComponent,
+    EditProjectComponent,
+    GranttChartComponent,
+    WeatherInfoComponent,
+    ProjectStatisticsComponent,
+    PredictionComponent,
     RegisterComponent,
     ActivateAccountComponent,
     HeroSectionComponent,
@@ -117,6 +155,48 @@ export function kcFactory(kcService: KeycloakService) {
     PaymentShowComponent
   ],
   imports: [
+      BrowserModule,
+    RouterModule, 
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule, 
+    MatButtonModule,
+    NgxFileDropModule,
+    MatIconModule,
+    MatTableModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatPaginatorModule, 
+    FullCalendarModule,
+    DropdownModule,
+    DialogModule,
+    InputTextModule,
+    InputTextareaModule,
+    CalendarModule,
+    InputNumberModule,
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ToastModule,
+    SliderModule,
+    ConfirmDialogModule,
+    TableModule,
+    PanelModule,
+    FieldsetModule,
+    MessageModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+    ToastModule,
+    ConfirmDialogModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatProgressBarModule,
+    MatButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
@@ -140,6 +220,7 @@ export function kcFactory(kcService: KeycloakService) {
     ToggleButtonModule
   ],
   providers: [
+    ConfirmationService,
     MessageService,
     StockService,
     KeycloakService,
@@ -162,4 +243,7 @@ export function kcFactory(kcService: KeycloakService) {
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule { 
+  
+  
+}

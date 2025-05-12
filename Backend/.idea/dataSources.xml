@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="pi@localhost" uuid="be44a8a5-d27d-4429-a483-79a8a46b3737">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/Microservices/Project_Domain/src/main/resources/application.properties</remarks>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/pi</jdbc-url>
     <data-source source="LOCAL" name="hse-service@localhost" uuid="d6bf3d5c-16c7-4cc1-a4ad-1949aa551238">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>

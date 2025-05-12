@@ -25,11 +25,21 @@
         <module name="Eureka" />
         <module name="GatewayApi" />
       </profile>
+      <profile name="Annotation profile for Project_Domain" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="Project_Domain" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Eureka" options="-parameters" />
+      <module name="Project_Domain" options="-parameters" />
       <module name="Finance" options="-parameters" />
       <module name="GatewayApi" options="-parameters" />
       <module name="hse-service" options="-parameters" />

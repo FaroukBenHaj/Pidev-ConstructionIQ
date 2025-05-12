@@ -1,0 +1,37 @@
+<div class="upload-container">
+  <div class="back-button">
+    <button mat-icon-button (click)="goToHome()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <div class="redirect-button">
+    <button mat-raised-button (click)="goToProjectList()">
+      Go to Project List
+    </button>
+  </div>
+
+  <ngx-file-drop (onFileDrop)="onFileDrop($event)" dropZoneLabel="Drop your project file here">
+    <ng-template ngx-file-drop-content>
+      <div class="drop-zone">
+        <p>Drag and drop your project file here</p>
+        <button mat-raised-button color="primary">Browse Files</button>
+      </div>
+    </ng-template>
+  </ngx-file-drop>
+
+  <div *ngIf="files.length > 0" class="file-list">
+    <p>Selected File: {{ files[0].relativePath }}</p>
+    <button mat-raised-button color="warn" (click)="removeFile()">Remove File</button>
+    <button mat-raised-button color="primary" (click)="uploadFiles()" [disabled]="isUploading">
+      {{ isUploading ? 'Uploading...' : 'Upload' }}
+    </button>
+  </div>
+
+  <div *ngIf="message" class="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">
+    {{ message }}
+  </div>
+
+  <footer class="upload-footer">
+    <p>© ConstructionIQ 2025</p>
+  </footer>
+</div>

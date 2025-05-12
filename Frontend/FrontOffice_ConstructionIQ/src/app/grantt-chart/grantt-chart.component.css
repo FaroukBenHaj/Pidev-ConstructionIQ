@@ -1,0 +1,483 @@
+/* Main container styles */
+.dashboard-container {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.back-button button {
+  background-color: #ffc107; 
+  color: #000; 
+}
+
+.back-button button:hover {
+  background-color: #e0a800; 
+}
+.redirect-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.redirect-button button {
+  background-color: #343a40; 
+  color: #FFC107; 
+  border: 2px solid #FFC107; 
+  border-radius: 30px; 
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.redirect-button button:hover {
+  background-color: #FFC107; 
+  color: #343a40; 
+}
+/* Page header styling */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  color: #343a40;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Filters Section Styling */
+.filters-section {
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+.filters-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #eaedf0;
+  overflow: visible !important;
+
+}
+
+
+.card-header {
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.filters-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.875rem;
+  color: #495057;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Filter dropdown fixes */
+.filter-dropdown {
+  width: 100%;
+  position: relative;
+}
+
+/* Calendar section styling */
+.calendar-section {
+  margin-bottom: 2rem;
+}
+
+.calendar-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  border: 1px solid #eaedf0;
+}
+
+/* FullCalendar customizations */
+:host ::ng-deep .fc {
+  font-family: inherit;
+}
+
+:host ::ng-deep .fc .fc-toolbar {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep .fc .fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .fc .fc-button {
+  background-color: #333842; /* Dark fancy gray instead of #6366f1 */
+  border-color: #333842;
+  box-shadow: none;
+}
+
+:host ::ng-deep .fc .fc-button:hover {
+  background-color: #454b56; /* Lighter shade of dark gray on hover */
+  border-color: #454b56;
+}
+
+:host ::ng-deep .fc .fc-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(51, 56, 66, 0.25); /* Updated focus shadow */
+}
+
+:host ::ng-deep .fc .fc-button-primary:not(:disabled).fc-button-active,
+:host ::ng-deep .fc .fc-button-primary:not(:disabled):active {
+  background-color: #232830; /* Darker shade for active state */
+  border-color: #232830;
+}
+
+:host ::ng-deep .fc-day-today {
+  background-color: #f0f2f5 !important; /* Lighter gray for today highlighting */
+}
+
+:host ::ng-deep .fc-theme-standard td,
+:host ::ng-deep .fc-theme-standard th {
+  border-color: #e5e7eb;
+}
+
+:host ::ng-deep .fc-theme-standard .fc-scrollgrid {
+  border-color: #e5e7eb;
+}
+
+:host ::ng-deep .fc-event {
+  border-radius: 4px;
+  padding: 2px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Gantt event styles */
+.gantt-event {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.event-title {
+  padding: 2px 5px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 2;
+  position: relative;
+  color: #fff;
+  font-weight: 500;
+}
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.fc-event-high {
+  background-color: #f43f5e !important;
+  border-left: 3px solid #e11d48 !important;
+}
+
+.fc-event-medium {
+  background-color: #f59e0b !important;
+  border-left: 3px solid #d97706 !important;
+}
+
+.fc-event-low {
+  background-color: #10b981 !important;
+  border-left: 3px solid #059669 !important;
+}
+
+/* Dialog styling improvements */
+:host ::ng-deep .task-dialog.p-dialog {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+:host ::ng-deep .task-dialog .p-dialog-header {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  font-weight: 600;
+}
+
+:host ::ng-deep .task-dialog .p-dialog-content {
+  background-color: #ffffff;
+  padding: 1.5rem;
+}
+
+:host ::ng-deep .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1200 !important;
+}
+
+/* Form styles */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field > label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #344054;
+}
+
+.form-error {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Input styling */
+:host ::ng-deep .p-inputtext {
+  padding: 0.625rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+:host ::ng-deep .p-inputtext:enabled:hover,
+:host ::ng-deep .p-dropdown:hover,
+:host ::ng-deep .p-calendar:hover .p-inputtext {
+  border-color: #333842; /* Changed from #6366f1 */
+}
+
+:host ::ng-deep .p-inputtext:enabled:focus,
+:host ::ng-deep .p-dropdown:focus,
+:host ::ng-deep .p-calendar .p-inputtext:focus {
+  box-shadow: 0 0 0 3px rgba(51, 56, 66, 0.15); /* Changed from rgba(99, 102, 241, 0.15) */
+  border-color: #333842; /* Changed from #6366f1 */
+}
+
+:host ::ng-deep .p-dropdown {
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  padding: 0.625rem;
+}
+
+/* Fix for dropdown visibility issues */
+:host ::ng-deep .p-dropdown-panel,
+:host ::ng-deep .p-calendar-panel {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1100 !important; /* Increased z-index */
+  margin-top: 5px; /* Add some space between dropdown and trigger */
+  overflow: visible;
+  position: absolute;
+}
+:host ::ng-deep .p-dropdown-panel {
+  z-index: 1100 !important;
+  position: absolute !important;
+  transform: none !important;
+  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Override any existing z-index settings */
+:host ::ng-deep .p-component-overlay {
+  z-index: 1000 !important;
+}
+
+/* Ensure the dropdown panel is visible and positioned correctly */
+:host ::ng-deep .p-dropdown .p-dropdown-items-wrapper {
+  max-height: 200px; /* Control dropdown height */
+  overflow-y: auto;
+}
+
+:host ::ng-deep .p-toast {
+  opacity: 0.95;
+  z-index: 1300 !important;
+}
+
+:host ::ng-deep .p-toast .p-toast-message {
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Update calendar colors */
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+  background: #f0f2f5;
+  color: #333842;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-prev:focus,
+:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-next:focus {
+  box-shadow: 0 0 0 0.2rem rgba(51, 56, 66, 0.15);
+}
+
+:host ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+  background: #f0f2f5;
+  color: #333842;
+}
+
+:host ::ng-deep .p-datepicker table td > span.p-highlight {
+  background: #333842;
+  color: #ffffff;
+}
+
+/* Update primary button colors */
+:host ::ng-deep .p-button.p-button-success {
+  background: #f9b90b;
+  border-color: #f9b90b;
+}
+
+:host ::ng-deep .p-button.p-button-success:hover {
+  background: #454b56;
+  border-color: #454b56;
+}
+
+:host ::ng-deep .p-button.p-button-success:focus {
+  box-shadow: 0 0 0 0.2rem rgba(51, 56, 66, 0.25);
+}
+
+/* PrimeNG components focus style */
+:host ::ng-deep .p-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(51, 56, 66, 0.25);
+}
+
+
+
+
+
+/* Fix for calendar z-index conflicts */
+.calendar-section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Make sure the filters section stays above other content */
+.filters-section {
+  z-index: 10;
+  position: relative;
+}
+
+/* Override any PrimeNG styles that might be hiding dropdowns */
+:host ::ng-deep .p-dropdown-items-wrapper {
+  overflow: visible !important;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-items {
+  padding: 0.5rem 0;
+}
+
+:host ::ng-deep .p-dropdown-item {
+  padding: 0.5rem 1rem;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  :host ::ng-deep .task-dialog.p-dialog {
+    width: 90vw !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .page-header button {
+    align-self: flex-start;
+  }
+  
+  .dashboard-container {
+    padding: 1rem;
+  }
+}

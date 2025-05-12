@@ -1,0 +1,23 @@
+<app-header></app-header>
+
+<h2>Project Status Prediction</h2>
+
+<form (ngSubmit)="submitForm()" #predictionForm="ngForm">
+  <div *ngFor="let field of fields">
+    <label>{{ field.label }}</label>
+    <input
+      type="number"
+      [(ngModel)]="formData[field.key]"
+      name="{{ field.key }}"
+      required
+    />
+  </div>
+
+  <button type="submit">Predict</button>
+</form>
+
+<div *ngIf="predictionResult">
+  <h3>Prediction Result:</h3>
+  <p>{{ predictionResult }}</p>
+</div>
+<app-footer></app-footer>
