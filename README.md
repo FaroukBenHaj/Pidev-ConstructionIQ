@@ -1,83 +1,113 @@
-# 🏗️ Stock Management – ConstructionIQ
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+</head>
+<body>
 
-The **Stock Management** module of **ConstructionIQ** streamlines and optimizes the management of construction materials. It ensures efficient tracking of stock levels, material costs, and usage, while leveraging **machine learning** to classify materials for better decision-making.
+  <h1>💰 Finance Microservice – ConstructionIQ</h1>
 
----
+  <p>
+    The Finance microservice is a core component of the <strong>ConstructionIQ</strong> platform. 
+    It manages financial operations such as invoice generation, budget planning, order placement, and payment processing.
+  </p>
 
-## 🚀 Overview
+  <h2>🚀 Features</h2>
+  <ul>
+    <li>📄 Invoice creation and management</li>
+    <li>🛒 Handling of project-related commandes (orders)</li>
+    <li>💸 Payment processing and tracking</li>
+    <li>📊 Budget planning and assignment per project</li>
+    <li>🔗 Integration-ready with other ConstructionIQ microservices (e.g., Project, Task)</li>
+  </ul>
 
-This module is designed to:
+  <h2>🧱 Project Structure</h2>
 
-* ✅ Track and manage the availability of construction materials
-* 🧠 Classify materials into groups using **K-means clustering**
-* 📊 Provide real-time stock analysis and smart alerts
-* 📝 Generate PDF reports with insights and recommendations
+  <h3>Backend – Spring Boot</h3>
+  <pre><code>src/
+├── main/java/tn/esprit/finance/
+│   ├── config/             # Configuration files
+│   ├── controller/         # REST controllers
+│   ├── dto/                # Data Transfer Objects
+│   ├── entity/             # JPA entities (Budget, Invoice, Commande, Payment, Projet)
+│   ├── exception/          # Custom exception handling
+│   ├── repository/         # Spring Data JPA repositories
+│   └── service/            # Business logic services
+</code></pre>
 
----
+  <h3>Frontend – Angular</h3>
+  <pre><code>src/
+├── app/
+│   ├── component/
+│   │   ├── budget/
+│   │   ├── commande/
+│   │   ├── invoice/
+│   │   ├── payment/
+│   │   ├── home-page/, footer/, header/, shared/
+│   ├── models/             # TypeScript interfaces
+│   ├── services/           # Angular services for HTTP calls
+│   └── app-routing.module.ts
+</code></pre>
 
-## 🧠 Features
+  <h2>🛠️ Tech Stack</h2>
+  <ul>
+    <li><strong>Frontend</strong>: Angular 16+</li>
+    <li><strong>Backend</strong>: Java 17, Spring Boot</li>
+    <li><strong>Database</strong>: MySQL</li>
+    <li><strong>Containerization</strong>: Docker</li>
+    <li><strong>Tools</strong>: Maven, Postman, IntelliJ IDEA, VS Code</li>
+  </ul>
 
-### 1. Material Management
+  <h2>⚙️ Setup & Run</h2>
 
-* Store material details (name, cost, unit of measure)
-* Track quantities for precise inventory management
-* Link materials to multiple stocks for comprehensive allocation insights
+  <h3>Prerequisites</h3>
+  <ul>
+    <li>Docker & Docker Compose</li>
+    <li>Java 17</li>
+    <li>Node.js + Angular CLI</li>
+    <li>MySQL Server</li>
+  </ul>
 
-### 2. Stock Tracking
+  <h3>Run Backend</h3>
+  <pre><code># Navigate to the backend project
+cd Finance
 
-* Monitor stock levels across multiple projects
-* Automatically update stock statuses: `CRITICAL`, `ALERT`, `OK`
-* Ensure materials are replenished as needed
+# Build and run with Maven
+./mvnw spring-boot:run
+</code></pre>
 
-### 3. K-means Classification
+  <h3>Run Frontend</h3>
+  <pre><code># Navigate to the Angular project
+cd frontoffice_constructioniq
 
-* Automatically cluster materials based on cost, quantity, and usage
-* Highlight materials with similar consumption trends
-* Prioritize restocking for critical material groups
+# Install dependencies
+npm install
 
-### 4. PDF Report Generation
+# Run the app
+ng serve
+</code></pre>
 
-* Generate comprehensive PDF reports with:
+  <h2>🧩 Microservice Communication</h2>
+  <p>This microservice is integrated with the rest of the ConstructionIQ platform using REST APIs and shares common identifiers like project IDs and task references.</p>
 
-  * Total stock value overview
-  * Material statuses
-  * Depletion date projections and order recommendations
-  * Visual charts (stock status, clustering results)
+  <h2>📁 Database Models</h2>
+  <ul>
+    <li><strong>Budget</strong>: Allocated amounts per project</li>
+    <li><strong>Invoice</strong>: Linked to a <code>Commande</code>, includes total and due date</li>
+    <li><strong>Commande</strong>: Represents purchase requests</li>
+    <li><strong>Payment</strong>: Status and method of each transaction</li>
+    <li><strong>Projet</strong>: Linked to financial operations for context</li>
+  </ul>
 
-### 5. Real-time Alerts
+  <hr />
 
-* Instant alerts for low or critical stock levels
-* Data-driven ordering recommendations
+  <h2>🧑‍💻 Developed By</h2>
+  <p>
+    <strong>Safa</strong> – Backend & Frontend Developer for the Finance Microservice<br/>
+    <em>ConstructionIQ Team Project – 2025</em>
+  </p>
 
----
-
-## 🛠️ Tech Stack
-
-### Backend
-
-* **Java 17**, **Spring Boot**, **Spring Cloud**, **Spring Security**
-* **Keycloak** for Identity and Access Management
-* **MySQL**, **JPA/Hibernate**
-* **Eureka Server**, **Spring Cloud Gateway**
-
-### Frontend
-
-* **Angular 16**
-* User and Admin dashboards
-
-### Machine Learning
-
-* **K-means Clustering** for automated material classification
-
----
-
-## ⚙️ Prerequisites
-
-Before running the module, ensure the following tools are installed and configured:
-
-* **Java 17+**
-* **Maven**
-* **Node.js** & **Angular CLI**
-* **Keycloak** server for authentication
-
----
+</body>
+</html>
