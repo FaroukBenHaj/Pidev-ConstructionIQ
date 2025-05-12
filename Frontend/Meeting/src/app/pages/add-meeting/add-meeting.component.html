@@ -1,0 +1,128 @@
+<div class="p-fluid">
+  <h1>Add Meeting</h1>
+  <form (ngSubmit)="onSubmit()" #meetingForm="ngForm">
+    <!-- Title Field -->
+    <div class="p-field">
+      <label for="title">Title</label>
+      <input id="title" type="text" pInputText [(ngModel)]="meeting.title" name="title" required maxlength="35">
+      <small *ngIf="meetingForm.controls['title']?.errors?.['required'] && meetingForm.controls['title']?.touched" class="p-error">
+        Title is required.
+      </small>
+      <small *ngIf="meetingForm.controls['title']?.errors?.['maxlength'] && meetingForm.controls['title']?.touched" class="p-error">
+        Title cannot exceed 35 characters.
+      </small>
+    </div>
+
+    <!-- Date Field -->
+    <div class="p-field">
+      <label for="date">Date</label>
+      <p-calendar 
+        id="date" 
+        [(ngModel)]="meeting.date" 
+        name="date" 
+        [showTime]="true" 
+        required 
+        [ngModelOptions]="{ updateOn: 'blur', validators: futureOrPresentDateValidator() }">
+      </p-calendar>
+      <small *ngIf="meetingForm.controls['date']?.errors?.['required'] && meetingForm.controls['date']?.touched" class="p-error">
+        Date is required.
+      </small>
+      <small *ngIf="meetingForm.controls['date']?.errors?.['pastDate'] && meetingForm.controls['date']?.touched" class="p-error">
+        Date must be today or in the future.
+      </small>
+    </div>
+
+    <!-- Location Field -->
+    <div class="p-field">
+      <label for="location">Location</label>
+      <input id="location" type="text" pInputText [(ngModel)]="meeting.location" name="location" required maxlength="35">
+      <small *ngIf="meetingForm.controls['location']?.errors?.['required'] && meetingForm.controls['location']?.touched" class="p-error">
+        Location is required.
+      </small>
+      <small *ngIf="meetingForm.controls['location']?.errors?.['maxlength'] && meetingForm.controls['location']?.touched" class="p-error">
+        Location cannot exceed 35 characters.
+      </small>
+    </div>
+
+    <!-- address fields -->
+    <div class="p-field flex">
+      <div class="col-3">
+        <label for="address-street">Street</label>
+        <input id="address-street" type="text" pInputText [(ngModel)]="meeting.address.street" name="street" required maxlength="35">
+        <small *ngIf="meetingForm.controls['meeting.address.street']?.errors?.['required'] && meetingForm.controls['meeting.address.street']?.touched" class="p-error">
+          Street is required.
+        </small>
+        <small *ngIf="meetingForm.controls['meeting.address.street']?.errors?.['maxlength'] && meetingForm.controls['meeting.address.street']?.touched" class="p-error">
+          Street cannot exceed 35 characters.
+        </small>
+      </div>
+
+      <div class="col-3">
+        <label for="address-city">city</label>
+        <input id="address-city" type="text" pInputText [(ngModel)]="meeting.address.city" name="city" required maxlength="35">
+        <small *ngIf="meetingForm.controls['meeting.address.city']?.errors?.['required'] && meetingForm.controls['meeting.address.city']?.touched" class="p-error">
+          city is required.
+        </small>
+        <small *ngIf="meetingForm.controls['meeting.address.city']?.errors?.['maxlength'] && meetingForm.controls['meeting.address.city']?.touched" class="p-error">
+          city cannot exceed 35 characters.
+        </small>
+      </div>
+
+      <div class="col-3">
+        <label for="address-country">country</label>
+        <input id="address-country" type="text" pInputText [(ngModel)]="meeting.address.country" name="country" required maxlength="35">
+        <small *ngIf="meetingForm.controls['meeting.address.country']?.errors?.['required'] && meetingForm.controls['meeting.address.country']?.touched" class="p-error">
+          country is required.
+        </small>
+        <small *ngIf="meetingForm.controls['meeting.address.country']?.errors?.['maxlength'] && meetingForm.controls['meeting.address.country']?.touched" class="p-error">
+          country cannot exceed 35 characters.
+        </small>
+      </div>
+  
+      <div class="col-3">
+        <label for="address-postalCode">Postal Code</label>
+        <input id="address-postalCode" type="text" pInputText [(ngModel)]="meeting.address.postalCode" name="street" required maxlength="35">
+        <small *ngIf="meetingForm.controls['meeting.address.postalCode']?.errors?.['required'] && meetingForm.controls['meeting.address.postalCode']?.touched" class="p-error">
+          Postal Code is required.
+        </small>
+        <small *ngIf="meetingForm.controls['meeting.address.postalCode']?.errors?.['maxlength'] && meetingForm.controls['meeting.address.postalCode']?.touched" class="p-error">
+          Postal Code cannot exceed 35 characters.
+        </small>
+      </div>
+    </div>
+    
+    <!-- Description Field -->
+    <div class="p-field">
+      <label for="description">Description</label>
+      <textarea id="description" pInputTextarea [(ngModel)]="meeting.description" name="description" required maxlength="65"></textarea>
+      <small *ngIf="meetingForm.controls['description']?.errors?.['required'] && meetingForm.controls['description']?.touched" class="p-error">
+        Description is required.
+      </small>
+      <small *ngIf="meetingForm.controls['description']?.errors?.['maxlength'] && meetingForm.controls['description']?.touched" class="p-error">
+        Description cannot exceed 65 characters.
+      </small>
+    </div>
+
+    <!-- Meeting Type Field -->
+    <div class="p-field">
+      <label for="meetingType">Meeting Type</label>
+      <p-dropdown [ngModelOptions]="{standalone: true}" inputId="meetingType" [autoDisplayFirst]="false" [options]="meetingTypes" [(ngModel)]="meeting.type" optionValue="key" optionLabel="value"></p-dropdown>
+      <small *ngIf="meetingForm.controls['type']?.errors?.['required'] && meetingForm.controls['type']?.touched" class="p-error">
+        Meeting type is required.
+      </small>
+    </div>
+
+    <!-- Meeting Frequency Field -->
+    <div class="p-field">
+      <label for="meetingFreq">Meeting Frequency</label>
+      <p-dropdown [ngModelOptions]="{standalone: true}" inputId="meetingFreq" [autoDisplayFirst]="false" [options]="meetingFrequencies" [(ngModel)]="meeting.frequency" optionValue="key" optionLabel="value"></p-dropdown>
+      <small *ngIf="meetingForm.controls['frequency']?.errors?.['required'] && meetingForm.controls['frequency']?.touched" class="p-error">
+        Frequency type is required.
+      </small>
+    </div>
+
+
+    <!-- Submit Button -->
+    <button type="submit" pButton label="Save" [disabled]="meetingForm.invalid"></button>
+  </form>
+</div>

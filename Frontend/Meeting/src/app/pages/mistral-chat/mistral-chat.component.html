@@ -1,0 +1,16 @@
+<p-card header="Mistral Chatbot" styleClass="w-full">
+  <div class="chat-box">
+    <div *ngFor="let msg of messages" class="mb-2">
+      <div [ngClass]="{'user-message': msg.role === 'user', 'bot-message': msg.role === 'ai'}">
+        <strong>{{ msg?.role === 'user' ? 'You' : 'AI' }}:</strong> {{ msg.content }}
+      </div>
+    </div>
+    <p-progress-spinner  ariaLabel="loading" *ngIf="isLoading"></p-progress-spinner>
+  </div>
+
+  <div class="p-inputgroup">
+    <input type="text" pInputText [(ngModel)]="userInput" (keydown.enter)="sendMessage()"
+      placeholder="Type your message..." />
+    <button pButton icon="pi pi-send" (click)="sendMessage()" label="Send" [disabled]="isLoading"></button>
+  </div>
+</p-card>

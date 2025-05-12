@@ -1,0 +1,7 @@
+".angular/cache/" 
+
+# Angular cache
+.angular/
+.angular/cache/
+# Ignore all .idea folders
+**/.idea/

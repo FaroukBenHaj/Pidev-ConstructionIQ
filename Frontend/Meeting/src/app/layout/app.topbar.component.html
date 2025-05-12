@@ -1,0 +1,41 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+       <!--<img src="assets/layout/images/Logo.PNG" alt="logo">--> 
+        <span>ConstructionIQ</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" (click)="getMeetLink()">
+            <i class="pi pi-calendar"></i>
+            <span>Meeting</span>
+        </button>
+    </div>
+</div>
+
+
+<div class="col-12 lg:col-6">
+    <div class="card">
+        <h5>Dialog</h5>
+        <p-dialog header="Dialog" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
+            <p class="line-height-3 m-0">
+                Envoyez ce lien aux personnes que vous souhaitez inviter à la réunion. Veillez à enregistrer leurs informations de contact afin de pouvoir les réutiliser ultérieurement.
+            </p>
+            <a  class="line-height-3 m-1" href="{{link}}" target="_blank">Meeting link</a>
+            <button class="p-link layout-topbar-button" (click)="copyToClipboard()">
+                <i class="pi pi-clone"></i>
+                <span>Copy</span>
+            </button>
+            <ng-template pTemplate="footer">
+                    <button pButton icon="pi pi-check" (click)="display=false;link = '';" label="Ok" class="p-button-outlined"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+.chat-box {
+    max-height: 300px; 
+    overflow-y: auto; 
+    margin-bottom: 1rem;
+}
+
+.user-message {
+    text-align: right;
+    background-color: #eff3f8;
+    padding: 0.5rem;
+}
+
+.bot-message {
+    text-align: left;
+    background-color: #dadafc;
+    padding: 0.5rem;
+}

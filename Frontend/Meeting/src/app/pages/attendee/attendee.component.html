@@ -1,0 +1,82 @@
+<div class="p-fluid">
+  <h1>Manage Attendees</h1>
+
+  <!-- Filter by Meeting Title -->
+  <div class="p-field">
+    <label for="meetingTitle">Meeting Title</label>
+		<p-dropdown id="meetingTitle"  optionValue="title" [options]="meetings | async" [(ngModel)]="meetingTitle" optionLabel="title" placeholder="Select a meeting" [showClear]="true"></p-dropdown>
+    <button pButton type="button" label="Load Attendees" (click)="loadAttendees()"></button>
+  </div>
+
+  <!-- Add/Edit Attendee Form -->
+  <h2>Add/Edit Attendee</h2>
+  <form (ngSubmit)="onSubmit()" #attendeeForm="ngForm">
+    <div class="p-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" pInputText [(ngModel)]="attendee.name" name="name" required minlength="2" maxlength="25">
+      <small *ngIf="attendeeForm.controls['name']?.errors?.['required'] && attendeeForm.controls['name']?.touched" class="p-error">
+        Name is required.
+      </small>
+      <small *ngIf="attendeeForm.controls['name']?.errors?.['minlength'] && attendeeForm.controls['name']?.touched" class="p-error">
+        Name must be at least 2 characters long.
+      </small>
+      <small *ngIf="attendeeForm.controls['name']?.errors?.['maxlength'] && attendeeForm.controls['name']?.touched" class="p-error">
+        Name cannot exceed 25 characters.
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText [(ngModel)]="attendee.email" name="email" required email maxlength="40">
+      <small *ngIf="attendeeForm.controls['email']?.errors?.['required'] && attendeeForm.controls['email']?.touched" class="p-error">
+        Email is required.
+      </small>
+      <small *ngIf="attendeeForm.controls['email']?.errors?.['email'] && attendeeForm.controls['email']?.touched" class="p-error">
+        Email must be valid.
+      </small>
+      <small *ngIf="attendeeForm.controls['email']?.errors?.['maxlength'] && attendeeForm.controls['email']?.touched" class="p-error">
+        Email cannot exceed 40 characters.
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="Title">Title</label>
+      <p-dropdown id="Title" [ngModelOptions]="{standalone: true}" [autoDisplayFirst]="false" optionValue="key" optionLabel="value" [options]="attendeeTitles" [(ngModel)]="attendee.title" ></p-dropdown>
+      <small *ngIf="attendeeForm.controls['title']?.errors?.['title'] && attendeeForm.controls['title']?.touched" class="p-error">
+        Title must be valid.
+      </small>
+    </div>
+
+    <div class="p-field">
+      <label for="attendanceStatuses">Status</label>
+      <p-dropdown id="attendanceStatuses" [ngModelOptions]="{standalone: true}" [autoDisplayFirst]="false" optionValue="key" optionLabel="value" [options]="attendanceStatuses" [(ngModel)]="attendee.attendanceStatus"></p-dropdown>
+      <small *ngIf="attendeeForm.controls['attendanceStatus']?.errors?.['attendanceStatus'] && attendeeForm.controls['attendanceStatus']?.touched" class="p-error">
+        Attendance Status must be valid.
+      </small>
+    </div>
+
+    <button type="submit" pButton label="Save" [disabled]="attendeeForm.invalid"></button>
+  </form>
+
+  <!-- Attendees List -->
+  <h2>Attendees List</h2>
+  <p-table [value]="attendees">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-attendee>
+      <tr>
+        <td>{{ attendee.name }}</td>
+        <td>{{ attendee.email }}</td>
+        <td>
+          <button pButton type="button" icon="pi pi-pencil" class="p-button-warning" (click)="onEdit(attendee)"></button>
+          <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="onDelete(attendee.name)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

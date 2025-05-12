@@ -1,0 +1,66 @@
+    <div class="grid" *ngIf="!loading && !loadingExtendedStat">
+        <div class="col-12 lg:col-6 xl:col-6">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Average Duration Minutes</span>
+                        <div class="text-900 font-medium text-xl">{{statiques?.averageDurationMinutes}}</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-clock text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6">
+            <div class="card mb-0">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-3">Safety Briefing Completion Rate</span>
+                        <div class="text-900 font-medium text-xl">{{statiques?.safetyBriefingCompletionRate }}%</div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <i class="pi pi-percentage text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-6 xl:col-12" *ngIf="!loadingExtendedStat">
+            <div class="card">
+                <h5>Recent Meetings Effectiveness </h5>
+                <p-table [value]="meetings" [paginator]="false" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>meeting Title</th>
+                            <th>date</th>
+                            <th pSortableColumn="attended">attended <p-sortIcon field="attended"></p-sortIcon></th>
+                            <th pSortableColumn="attendanceRate">attendanceRate <p-sortIcon field="price"></p-sortIcon></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-meeting>
+                        <tr>
+                            <td style="width: 35%; min-width: 8rem;">{{meeting.meetingTitle}}</td>
+                            <td style="width: 35%; min-width: 7rem;">{{meeting.date | date:'short'}}</td>
+                            <td style="width: 35%; min-width: 7rem;">{{meeting.attended}}</td>
+                            <td style="width: 35%; min-width: 8rem;">{{meeting.attendanceRate | number:'.0-2'}} %</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-6 xl:col-12">
+            <div class="card" >
+                <h5>Meeting per month</h5>
+                <p-chart *ngIf="!loading" type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+                
+            </div>
+
+            <div class="card flex flex-column align-items-center">
+                <h5 class="text-left w-full">Meeting by type</h5>
+                <p-chart *ngIf="!loading" type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
+            </div>
+    </div>
+</div>
+
