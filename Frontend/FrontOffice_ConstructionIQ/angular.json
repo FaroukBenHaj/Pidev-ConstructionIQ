@@ -13,6 +13,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "canvg",
+              "rgbcolor",
+              "raf",
+              "core-js",
+              "jspdf",
+              "html2canvas",
+              "keycloak-js",
+              "js-sha256",
+              "leaflet"
+            ],
             "outputPath": "dist/front-office-construction-iq",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -25,7 +36,11 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< HEAD
               "src/custom-theme.scss",
+=======
+              "node_modules/leaflet/dist/leaflet.css",
+>>>>>>> main
               "src/styles.css"
             ],
             "scripts": []
@@ -58,6 +73,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "port": 4200
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {

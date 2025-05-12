@@ -1,0 +1,80 @@
+/* Reuse styles from show/edit components where applicable */
+.page-header, .page-content, .container, .content-card,
+.error-message, .form-group, .form-row, .invalid-feedback,
+.is-invalid, .btn-spinner {
+  /* Same as edit component */
+}
+
+/* Create Form */
+.create-form {
+  padding: 30px;
+}
+
+.create-form h2 {
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 15px;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-create, .btn-cancel {
+  padding: 12px 25px;
+  border-radius: 4px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-create {
+  background-color: #17a2b8;
+  color: white;
+  border: 1px solid #17a2b8;
+}
+
+.btn-create:hover:not(:disabled) {
+  background-color: #138496;
+}
+
+.btn-create:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+  text-decoration: none;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn-create, .btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+}

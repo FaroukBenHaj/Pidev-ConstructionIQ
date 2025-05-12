@@ -1,0 +1,126 @@
+<div class="grid">
+    <div class="col-12">
+      <div class="card px-6 py-6">
+        <p-toast></p-toast>
+        <p-toolbar styleClass="mb-4">
+          <ng-template pTemplate="left">
+            <div class="my-2">
+              <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+          </ng-template>
+        </p-toolbar>
+  
+        <p-table #dt [value]="checklists" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                 [globalFilterFields]="['checklistID','inspection','requirement','status','comments']"
+                 [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                 [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                 [(selection)]="selectedChecklists" selectionMode="multiple" [rowHover]="true" dataKey="checklistID">
+          <ng-template pTemplate="caption">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+              <h5 class="m-0">Manage Compliance Checklists</h5>
+              <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="checklistID">ID <p-sortIcon field="checklistID"></p-sortIcon></th>
+              <th pSortableColumn="inspection">Inspection <p-sortIcon field="inspection"></p-sortIcon></th>
+              <th pSortableColumn="requirement">Requirement <p-sortIcon field="requirement"></p-sortIcon></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+              <th pSortableColumn="comments">Comments <p-sortIcon field="comments"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-checklist>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="checklist"></p-tableCheckbox>
+              </td>
+              <td><span class="p-column-title">ID</span>{{ checklist.checklistID }}</td>
+              <td>
+                <span class="p-column-title">Inspection</span>
+                {{ checklist.inspection ? getInspectionDisplay(checklist.inspection) : '' }}
+              </td>
+              <td><span class="p-column-title">Requirement</span>{{ checklist.requirement }}</td>
+              <td><span class="p-column-title">Status</span>{{ checklist.status }}</td>
+              <td><span class="p-column-title">Comments</span>{{ checklist.comments }}</td>
+              <td>
+                <div class="flex">
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editChecklist(checklist)"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteChecklist(checklist)"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+  
+      <p-dialog [(visible)]="checklistDialog" [style]="{width: '450px'}" header="Compliance Checklist Details" [modal]="true" class="p-fluid">
+        <ng-template pTemplate="content">
+          <!-- Dropdown to assign an Inspection -->
+          <div class="field">
+            <label for="inspection">Inspection</label>
+            <p-dropdown 
+              [options]="inspectionOptions"
+              [(ngModel)]="selectedInspection"
+              placeholder="Select Inspection">
+            </p-dropdown>
+            <small *ngIf="submitted && !selectedInspection" class="p-error">Inspection is required.</small>
+          </div>
+          <div class="field">
+            <label for="requirement">Requirement</label>
+            <input type="text" pInputText id="requirement" [(ngModel)]="checklist.requirement" required/>
+            <small *ngIf="submitted && (!checklist.requirement || checklist.requirement.trim() === '')" class="p-error">
+              Requirement is required.
+            </small>
+          </div>
+          <div class="field">
+            <label for="status">Status</label>
+            <p-dropdown [(ngModel)]="checklist.status" inputId="status" [options]="statuses" placeholder="Select Status"></p-dropdown>
+            <small *ngIf="submitted && !checklist.status" class="p-error">Status is required.</small>
+          </div>
+          <div class="field">
+            <label for="comments">Comments</label>
+            <textarea id="comments" pInputTextarea [(ngModel)]="checklist.comments" rows="3" cols="20"></textarea>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveChecklist()"></button>
+        </ng-template>
+      </p-dialog>
+  
+      <p-dialog [(visible)]="deleteChecklistDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span *ngIf="checklist">Are you sure you want to delete the checklist for requirement <b>{{ checklist.requirement }}</b>?</span>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteChecklistDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+        </ng-template>
+      </p-dialog>
+  
+      <p-dialog [(visible)]="deleteChecklistsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span>Are you sure you want to delete selected checklists?</span>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteChecklistsDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+        </ng-template>
+      </p-dialog>
+    </div>
+  </div>
+  

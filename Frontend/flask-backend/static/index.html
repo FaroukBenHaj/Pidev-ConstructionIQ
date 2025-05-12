@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Claim Urgency Prediction</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    #featured-title {
+      background-color: #f8f9fa;
+      padding: 30px 0;
+      border-bottom: 1px solid #e1e1e1;
+    }
+    
+    .featured-title-inner-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .featured-title-heading {
+      margin: 0;
+      font-size: 28px;
+      color: #ef8b0c;
+    }
+    
+    #breadcrumbs {
+      font-size: 14px;
+    }
+    
+    #main-content {
+      padding: 40px 0;
+      min-height: calc(100vh - 200px);
+    }
+    
+    .prediction-form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .prediction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .prediction-header h2 {
+      margin: 0;
+      color: #2c3e50;
+    }
+    
+    .prediction-icon {
+      font-size: 32px;
+      color: #3498db;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .form-group label i {
+      margin-right: 8px;
+      color: #7f8c8d;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+    
+    .form-group input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+    }
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+    }
+    
+    .select-wrapper {
+      position: relative;
+    }
+    
+    .select-wrapper i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #7f8c8d;
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .btn-submit {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-submit:hover {
+      background-color: #27ae60;
+    }
+    
+    .btn-submit i {
+      margin-right: 8px;
+    }
+    
+    .btn-cancel {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-cancel:hover {
+      background-color: #c0392b;
+    }
+    
+    .btn-cancel i {
+      margin-right: 8px;
+    }
+    
+    #predictionResult {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border-left: 4px solid #3498db;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .is-invalid {
+      border-color: #e74c3c !important;
+    }
+    
+    .loading-spinner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #7f8c8d;
+    }
+    
+    .spinner-border {
+      width: 1rem;
+      height: 1rem;
+      border: 0.15em solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spinner-border 0.75s linear infinite;
+    }
+    
+    @keyframes spinner-border {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="featured-title" class="clearfix featured-title-left">
+    <div id="featured-title-inner" class="container clearfix">
+      <div class="featured-title-inner-wrap">
+        <div class="featured-title-heading-wrap">
+          <h1 class="featured-title-heading">Claim Urgency Prediction</h1>
+          <p>Predict the urgency level of insurance claims</p>
+        </div>
+        <div id="breadcrumbs">
+          <div class="breadcrumbs-inner">
+            <div class="breadcrumb-trail">
+              <a href="/" title="Home" rel="home" class="trail-begin">Home</a>
+              <span class="sep">/</span>
+              <span class="trail-end">Prediction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-content" class="site-main clearfix">
+    <div id="content-wrap">
+      <div id="site-content" class="site-content clearfix">
+        <div id="inner-content" class="inner-content-wrap">
+          <div class="page-content">
+            <div class="prediction-form-container">
+              <div class="prediction-header">
+                <h2><i class="fa fa-chart-line"></i> Urgency Prediction</h2>
+                <div class="prediction-icon">
+                  <i class="fa fa-clock"></i>
+                </div>
+              </div>
+              
+              <form id="claimForm">
+                <div class="form-group">
+                  <label for="sender"><i class="fa fa-user"></i> Sender</label>
+                  <input type="text" id="sender" required placeholder="Enter sender name">
+                </div>
+                
+                <div class="form-group">
+                  <label for="receiver"><i class="fa fa-user-tie"></i> Receiver</label>
+                  <input type="text" id="receiver" required placeholder="Enter receiver name">
+                </div>
+                
+                <div class="form-group">
+                  <label for="number_of_characters"><i class="fa fa-text-width"></i> Number of Characters</label>
+                  <input type="number" id="number_of_characters" required placeholder="Enter character count">
+                </div>
+                
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="contains_urgent">
+                    <i class="fa fa-exclamation"></i> Contains Urgent
+                  </label>
+                </div>
+                
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="contains_important">
+                    <i class="fa fa-star"></i> Contains Important
+                  </label>
+                </div>
+                
+                <div class="form-group">
+                  <label for="urgency_text"><i class="fa fa-flag"></i> Urgency Text</label>
+                  <div class="select-wrapper">
+                    <select id="urgency_text" required>
+                      <option value="" disabled selected hidden>Select urgency level</option>
+                      <option value="not urgent and important">Not Urgent and Important</option>
+                      <option value="not urgent and not important">Not Urgent and Not Important</option>
+                      <option value="urgent and important">Urgent and Important</option>
+                      <option value="urgent and not important">Urgent and Not Important</option>
+                    </select>
+                    <i class="fa fa-chevron-down"></i>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="send_date"><i class="fa fa-calendar"></i> Send Date</label>
+                  <input type="date" id="send_date" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="send_time"><i class="fa fa-clock"></i> Send Time</label>
+                  <input type="time" id="send_time" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="claim_type"><i class="fa fa-tag"></i> Claim Type</label>
+                  <input type="text" id="claim_type" required placeholder="Enter claim type">
+                </div>
+                
+                <div class="form-group">
+                  <label for="initial_priority"><i class="fa fa-list-ol"></i> Initial Priority</label>
+                  <input type="text" id="initial_priority" required placeholder="Enter initial priority">
+                </div>
+                
+                <div class="form-group">
+                  <label for="number_of_attachments"><i class="fa fa-paperclip"></i> Number of Attachments</label>
+                  <input type="number" id="number_of_attachments" required placeholder="Enter attachment count">
+                </div>
+                
+                <div class="form-group">
+                  <label for="message_language"><i class="fa fa-language"></i> Message Language</label>
+                  <input type="text" id="message_language" required placeholder="Enter message language">
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fa fa-check"></i> Predict Urgency
+                  </button>
+                  <a href="/" class="btn-cancel">
+                    <i class="fa fa-times"></i> Cancel
+                  </a>
+                </div>
+              </form>
+              
+              <h3><i class="fa fa-chart-pie"></i> Prediction Result:</h3>
+              <div id="predictionResult"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("claimForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById("submitBtn");
+      
+      // Show loading state
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+      submitBtn.disabled = true;
+      
+      const data = {
+        sender: document.getElementById("sender").value,
+        receiver: document.getElementById("receiver").value,
+        number_of_characters: parseInt(document.getElementById("number_of_characters").value),
+        contains_urgent: document.getElementById("contains_urgent").checked,
+        contains_important: document.getElementById("contains_important").checked,
+        urgency_text: document.getElementById("urgency_text").value,
+        send_date: document.getElementById("send_date").value,
+        send_time: document.getElementById("send_time").value,
+        claim_type: document.getElementById("claim_type").value,
+        initial_priority: document.getElementById("initial_priority").value,
+        number_of_attachments: parseInt(document.getElementById("number_of_attachments").value),
+        message_language: document.getElementById("message_language").value
+      };
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.predicted_urgence) {
+          document.getElementById("predictionResult").innerHTML = `
+            <div class="alert alert-success">
+              <strong>Predicted Urgency:</strong> ${result.predicted_urgence}<br>
+              <strong>Probabilities:</strong><br>
+              <ul>
+                ${Object.entries(result.probabilities).map(([k, v]) => `<li>${k}: ${(v * 100).toFixed(2)}%</li>`).join("")}
+              </ul>
+            </div>
+          `;
+        } else {
+          throw new Error(result.error || "Prediction failed.");
+        }
+      } catch (error) {
+        document.getElementById("predictionResult").innerHTML = `
+          <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i> Error: ${error.message}
+          </div>
+        `;
+      } finally {
+        // Reset button state
+        submitBtn.innerHTML = '<i class="fa fa-check"></i> Predict Urgency';
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

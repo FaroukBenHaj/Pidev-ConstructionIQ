@@ -1,0 +1,143 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="incidents" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['incidentID','project_id','description','severity','status','location']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedIncidents" selectionMode="multiple" [rowHover]="true" dataKey="incidentID">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Manage Incidents</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="incidentID">ID <p-sortIcon field="incidentID"></p-sortIcon></th>
+                        <th pSortableColumn="project_id">Project ID <p-sortIcon field="project_id"></p-sortIcon></th>
+                        <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+                        <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                        <th pSortableColumn="severity">Severity <p-sortIcon field="severity"></p-sortIcon></th>
+                        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="location">Location <p-sortIcon field="location"></p-sortIcon></th>
+                        <th pSortableColumn="resolutionDate">Resolution Date <p-sortIcon field="resolutionDate"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-incident>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="incident"></p-tableCheckbox>
+                        </td>
+                        <td><span class="p-column-title">ID</span>{{ incident.incidentID }}</td>
+                        <td><span class="p-column-title">Project ID</span>{{ incident.project_id }}</td>
+                        <td><span class="p-column-title">Date</span>{{ incident.date | date:'short' }}</td>
+                        <td><span class="p-column-title">Description</span>{{ incident.description }}</td>
+                        <td><span class="p-column-title">Severity</span>{{ incident.severity }}</td>
+                        <td><span class="p-column-title">Status</span>{{ incident.status }}</td>
+                        <td><span class="p-column-title">Location</span>{{ incident.location }}</td>
+                        <td><span class="p-column-title">Resolution Date</span>{{ incident.resolutionDate | date:'short' }}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editIncident(incident)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteIncident(incident)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="incidentDialog" [style]="{width: '450px'}" header="Incident Details" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="project_id">Project ID</label>
+                    <input type="number" pInputText id="project_id" [(ngModel)]="incident.project_id" required autofocus/>
+                    <small *ngIf="submitted && (!incident.project_id)" class="p-error">Project ID is required.</small>
+
+                </div>
+                <div class="field">
+                    <label for="date">Date</label>
+                    <input type="datetime-local" pInputText id="date" [(ngModel)]="incident.date" required/>
+                    <small *ngIf="submitted && (!incident.date)" class="p-error">Date is required.</small>
+
+                </div>
+                <div class="field">
+                    <label for="description">Description</label>
+                    <textarea id="description" pInputTextarea [(ngModel)]="incident.description" required rows="3" cols="20"></textarea>
+                    <small *ngIf="submitted && (!incident.description || incident.description.trim() === '')" class="p-error">
+                        Description is required.
+                      </small>
+                </div>
+                <!--<div class="field">
+                    <label for="severity">Severity</label>
+                    <p-dropdown [(ngModel)]="incident.severity" inputId="severity" [options]="severities" placeholder="Select Severity"></p-dropdown>
+                    
+                </div>-->
+                <div class="field">
+                    <label for="status">Status</label>
+                    <p-dropdown [(ngModel)]="incident.status" inputId="status" [options]="statuses" placeholder="Select Status"></p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="location">Location</label>
+                    <input type="text" pInputText id="location" [(ngModel)]="incident.location" required/>
+                    <small *ngIf="submitted && (!incident.location || incident.location.trim() === '')" class="p-error">
+                        Location is required.
+                      </small>
+                </div>
+                <div *ngIf="incident.incidentID">
+                    <div class="field">
+                        <label for="resolutionDate">Resolution Date</label>
+                        <input type="datetime-local" pInputText id="resolutionDate" [(ngModel)]="incident.resolutionDate"/>
+                    </div>
+                    <div class="field">
+                        <label for="actionsTaken">Actions Taken</label>
+                        <textarea id="actionsTaken" pInputTextarea [(ngModel)]="incident.actionsTaken" rows="3" cols="20"></textarea>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveIncident()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteIncidentDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="incident">Are you sure you want to delete <b>{{ incident.description }}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteIncidentDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteIncidentsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected incidents?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteIncidentsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

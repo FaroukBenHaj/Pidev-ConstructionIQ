@@ -1,0 +1,197 @@
+.payment-list-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 2rem;
+  border-radius: 15px;
+  background-color: rgba(247, 249, 252, 0.9);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.payment-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.payment-list-header h2 {
+  color: #2e3a59;
+  margin: 0;
+}
+
+.new-payment-btn {
+  padding: 10px 20px;
+  background-color: #ef8b0c;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.new-payment-btn:hover {
+  background-color: #e07a0c;
+  transform: translateY(-2px);
+}
+
+.payment-filters {
+  margin-bottom: 25px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-select, .date-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  background-color: white;
+}
+
+.date-filters {
+  display: flex;
+  gap: 15px;
+  flex: 2;
+}
+
+.loading-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  color: #2e3a59;
+}
+
+.no-results {
+  padding: 20px;
+  text-align: center;
+  color: #2e3a59;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.payment-table-container {
+  overflow-x: auto;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.payment-table th {
+  background-color: #2e3a59;
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.payment-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.payment-table tr:hover {
+  background-color: #f5f9fd;
+}
+
+.payment-type-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.invoice-link, .budget-link {
+  color: #42a5f5;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.invoice-link:hover, .budget-link:hover {
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-action {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  color: white;
+}
+
+.btn-view {
+  background-color: #42a5f5;
+}
+
+.btn-edit {
+  background-color: #ffa726;
+}
+
+.btn-delete {
+  background-color: #ef5350;
+}
+
+.btn-action:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .payment-list-container {
+    margin: 30px 15px;
+    padding: 1.5rem;
+  }
+  
+  .payment-list-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .filter-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .date-filters {
+    flex-direction: column;
+  }
+  
+  .filter-select, .date-input {
+    min-width: 100%;
+  }
+}

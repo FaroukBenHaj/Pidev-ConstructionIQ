@@ -1,0 +1,131 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+    <div id="featured-title-inner" class="container clearfix">
+        <div class="featured-title-inner-wrap">
+            <div class="featured-title-heading-wrap">
+                <h1 class="featured-title-heading">Modifier un paiement</h1>
+            </div>
+            <div id="breadcrumbs">
+                <div class="breadcrumbs-inner">
+                    <div class="breadcrumb-trail">
+                        <a href="/" class="trail-begin">Accueil</a>
+                        <span class="sep">/</span>
+                        <a href="/paiements" class="trail-begin">Paiements</a>
+                        <span class="sep">/</span>
+                        <span class="trail-end">Modifier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-content" class="site-main clearfix">
+    <div id="content-wrap" class="container">
+        <div id="site-content" class="site-content clearfix">
+            <div id="inner-content" class="inner-content-wrap">
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+                
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="wprt-content-box style-1">
+                            <h2 class="text-center">Modifier le paiement #{{id}}</h2>
+                            <div class="wprt-spacer" data-desktop="30" data-mobi="20" data-smobi="20"></div>
+                            
+                            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                            
+                            <div *ngIf="!payment && !error" class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Chargement...</span>
+                                </div>
+                                <p>Chargement des données...</p>
+                            </div>
+                            
+                            <form *ngIf="payment" [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="montant">Montant</label>
+                                    <input type="number" formControlName="montant" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
+                                    <div *ngIf="submitted && f['montant'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montant'].errors['required']">Le montant est requis</div>
+                                        <div *ngIf="f['montant'].errors['min']">Le montant doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="type">Type de paiement</label>
+                                    <select formControlName="type" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['type'].errors }">
+                                        <option *ngFor="let type of typePaiements" [value]="type">
+                                            {{type}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['type'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['type'].errors['required']">Le type de paiement est requis</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="invoiceId">Facture</label>
+                                    <div *ngIf="loadingInvoices" class="loading-spinner-sm">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="sr-only">Chargement...</span>
+                                        </div>
+                                        <span>Chargement des factures...</span>
+                                    </div>
+                                    <select formControlName="invoiceId" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['invoiceId'].errors }"
+                                        [disabled]="loadingInvoices">
+                                        <option value="">Sélectionner une facture</option>
+                                        <option *ngFor="let invoice of invoices" [value]="invoice.id">
+                                            #{{invoice.id}} - {{invoice.montant}} € ({{invoice.statut}})
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['invoiceId'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['invoiceId'].errors['required']">La facture est requise</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="budgetId">Budget</label>
+                                    <div *ngIf="loadingBudgets" class="loading-spinner-sm">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="sr-only">Chargement...</span>
+                                        </div>
+                                        <span>Chargement des budgets...</span>
+                                    </div>
+                                    <select formControlName="budgetId" class="form-control" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['budgetId'].errors }"
+                                        [disabled]="loadingBudgets">
+                                        <option value="">Sélectionner un budget</option>
+                                        <option *ngFor="let budget of budgets" [value]="budget.id">
+                                            #{{budget.id}} - {{budget.projet.nom}} ({{budget.montantRestant}} € restant)
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['budgetId'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['budgetId'].errors['required']">Le budget est requis</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="wprt-spacer" data-desktop="20" data-mobi="20" data-smobi="20"></div>
+                                
+                                <div class="form-group text-center">
+                                    <button type="submit" class="wprt-button" [disabled]="loading">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Enregistrer
+                                    </button>
+                                    <a routerLink="/paiements" class="wprt-button outline">Annuler</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wprt-spacer" data-desktop="80" data-mobi="60" data-smobi="60"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

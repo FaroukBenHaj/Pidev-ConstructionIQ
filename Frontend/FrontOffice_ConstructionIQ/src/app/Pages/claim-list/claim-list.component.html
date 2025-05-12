@@ -1,0 +1,167 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+  <div id="featured-title-inner" class="container clearfix">
+    <div class="featured-title-inner-wrap">
+      <div class="featured-title-heading-wrap">
+        <h1 class="featured-title-heading" style="color: #ef8b0c">Gestion des Réclamations</h1>
+        <p>Suivi et traitement des réclamations</p>
+      </div>
+      <div id="breadcrumbs">
+        <div class="breadcrumbs-inner">
+          <div class="breadcrumb-trail">
+            <a href="/" title="Accueil" rel="home" class="trail-begin">Accueil</a>
+            <span class="sep">/</span>
+            <span class="trail-end">Réclamations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply
+">
+  <div id="content-wrap">
+    <div id="site-content" class="site-content clearfix">
+      <div id="inner-content" class="inner-content-wrap">
+        <div class="page-content">
+          <div class="claim-dashboard">
+            <!-- Action Bar -->
+            <div class="action-bar">
+              <div class="search-box">
+                <i class="fa fa-search"></i>
+                <input
+                  type="text"
+                  [(ngModel)]="searchText"
+                  (ngModelChange)="filterClaims()"
+                  placeholder="Rechercher par ID, expéditeur..."
+                />
+              </div>
+              
+              <div class="action-buttons">
+                <a routerLink="/claims/add" class="primary-button">
+                  <i class="fa fa-plus"></i> Nouvelle Réclamation
+                </a>
+              </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+              <select [(ngModel)]="claimTypeFilter" (ngModelChange)="filterClaims()">
+                <option value="">Tous les types</option>
+                <option *ngFor="let type of claimTypes" [value]="type">{{ type }}</option>
+              </select>
+              
+              <select [(ngModel)]="priorityFilter" (ngModelChange)="filterClaims()">
+                <option value="">Toutes priorités</option>
+                <option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</option>
+              </select>
+              
+              <div class="date-range">
+                <input
+                  type="date"
+                  [(ngModel)]="dateFrom"
+                  (ngModelChange)="filterClaims()"
+                  placeholder="De"
+                />
+                <span>à</span>
+                <input
+                  type="date"
+                  [(ngModel)]="dateTo"
+                  (ngModelChange)="filterClaims()"
+                  placeholder="À"
+                />
+              </div>
+            </div>
+
+            <!-- Status Messages -->
+            <div *ngIf="error" class="alert alert-danger">
+              <i class="fa fa-exclamation-circle"></i> {{ error }}
+            </div>
+            
+            <div *ngIf="loading" class="loading-message">
+              <div class="spinner"></div>
+              <span>Chargement des réclamations...</span>
+            </div>
+            
+            <div *ngIf="!loading && filteredClaims.length === 0" class="empty-message">
+              <i class="fa fa-exclamation-triangle"></i> Aucune réclamation trouvée
+            </div>
+
+            <!-- Claim Cards -->
+            <div *ngIf="!loading && filteredClaims.length > 0" class="claim-cards">
+              <div *ngFor="let claim of filteredClaims" class="claim-card" [ngClass]="'priority-' + claim.initialPriority.toLowerCase()">
+                <div class="card-header">
+                  <div class="claim-id">#{{ claim.id }}</div>
+                  <div class="claim-date">{{ claim.sendDate| date:'dd/MM/yyyy' }}</div>
+                </div>
+                
+                <div class="card-body">
+                  <div class="claim-parties">
+                    <div class="claim-sender">
+                      <i class="fa fa-user"></i> {{ claim.sender }}
+                    </div>
+                    <div class="claim-receiver">
+                      <i class="fa fa-building"></i> {{ claim.receiver }}
+                    </div>
+                  </div>
+                  
+                  <div class="claim-details">
+                    <div class="claim-type">
+                      <i class="fa fa-tag"></i> {{ claim.claimType }}
+                    </div>
+                    <div class="claim-priority">
+                      <span [ngClass]="'priority-badge-' + claim.initialPriority.toLowerCase()">
+                        {{ claim.initialPriority }}
+                      </span>
+                    </div>
+                    <div class="claim-urgency">
+                      <i class="fa fa-clock"></i> {{ claim.urgencyClassification }}
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card-actions">
+                  <a [routerLink]="['/claims', claim.id]" class="action-btn view">
+                    <i class="fa fa-eye"></i> Voir
+                  </a>
+                  <a [routerLink]="['/claims/edit', claim.id]" class="action-btn edit">
+                    <i class="fa fa-edit"></i> Modifier
+                  </a>
+                  <button (click)="deleteClaim(claim.id)" class="action-btn delete">
+                    <i class="fa fa-trash"></i> Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary Footer -->
+            <div *ngIf="!loading && filteredClaims.length > 0" class="summary-footer">
+              <div class="summary-item">
+                <span>Total réclamations:</span>
+                <span>{{ filteredClaims.length }}</span>
+              </div>
+              <div class="summary-item">
+                <span>En cours:</span>
+                <span>{{ getStatusCount('In Progress') }}</span>
+              </div>
+              <div class="summary-item highlight">
+                <span>Urgentes:</span>
+                <span>{{ getPriorityCount('High') }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

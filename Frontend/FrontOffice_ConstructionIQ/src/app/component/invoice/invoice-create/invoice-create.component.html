@@ -1,0 +1,124 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+  <div id="featured-title-inner" class="container clearfix">
+    <div class="featured-title-inner-wrap">
+      <div class="featured-title-heading-wrap">
+        <h1 class="featured-title-heading" style="color: #ef8b0c">Créer une nouvelle facture</h1>
+        <p>Gestion des factures de commandes</p>
+      </div>
+      <div id="breadcrumbs">
+        <div class="breadcrumbs-inner">
+          <div class="breadcrumb-trail">
+            <a href="/" title="Accueil" rel="home" class="trail-begin">Accueil</a>
+            <span class="sep">/</span>
+            <a href="/factures" class="trail-begin">Factures</a>
+            <span class="sep">/</span>
+            <span class="trail-end">Créer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply
+">
+  <div id="content-wrap">
+    <div id="site-content" class="site-content clearfix">
+      <div id="inner-content" class="inner-content-wrap">
+        <div class="page-content">
+          <div class="invoice-form-container">
+            <div class="invoice-header">
+              <h2><i class="fa fa-file-text-o"></i> Nouvelle Facture</h2>
+              <div class="invoice-icon">
+                <i class="fa fa-file-invoice-dollar"></i>
+              </div>
+            </div>
+            
+            <div *ngIf="error" class="alert alert-danger">
+              <i class="fa fa-exclamation-circle"></i> {{error}}
+            </div>
+            
+            <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="montant">
+                  <i class="fa fa-euro-sign"></i> Montant
+                </label>
+                <div class="input-with-icon">
+                  <input type="number" id="montant" formControlName="montant" placeholder="Ex: 250"
+                    [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
+                  <span class="input-suffix">€</span>
+                </div>
+                <div *ngIf="submitted && f['montant'].errors" class="error-message">
+                  <div *ngIf="f['montant'].errors['required']"><i class="fa fa-exclamation-triangle"></i> Le montant est requis</div>
+                  <div *ngIf="f['montant'].errors['min']"><i class="fa fa-exclamation-triangle"></i> Le montant doit être supérieur à 0</div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="statut">
+                  <i class="fa fa-info-circle"></i> Statut
+                </label>
+                <div class="select-wrapper">
+                  <select id="statut" formControlName="statut" 
+                    [ngClass]="{ 'is-invalid': submitted && f['statut'].errors }">
+                    <option value="" disabled selected hidden>Choisir un statut</option>
+                    <option *ngFor="let statut of statutsInvoice" [value]="statut">
+                      {{statut}}
+                    </option>
+                  </select>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+                <div *ngIf="submitted && f['statut'].errors" class="error-message">
+                  <div *ngIf="f['statut'].errors['required']"><i class="fa fa-exclamation-triangle"></i> Le statut est requis</div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="commandeId">
+                  <i class="fa fa-shopping-cart"></i> Commande associée
+                </label>
+                <div *ngIf="loadingCommandes" class="loading-spinner-sm">
+                  <div class="spinner-border spinner-border-sm" role="status"></div>
+                  <span>Chargement des commandes...</span>
+                </div>
+                <div class="select-wrapper" *ngIf="!loadingCommandes">
+                  <select id="commandeId" formControlName="commandeId" 
+                    [ngClass]="{ 'is-invalid': submitted && f['commandeId'].errors }">
+                    <option value="" disabled selected hidden>Sélectionner une commande</option>
+                    <option *ngFor="let commande of commandes" [value]="commande.id">
+                      #{{commande.id}} - {{commande.fournisseur}} ({{commande.montant}} €)
+                    </option>
+                  </select>
+                  <i class="fa fa-chevron-down"></i>
+                </div>
+                <div *ngIf="submitted && f['commandeId'].errors" class="error-message">
+                  <div *ngIf="f['commandeId'].errors['required']"><i class="fa fa-exclamation-triangle"></i> La commande est requise</div>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn-submit" [disabled]="loading">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                  <i class="fa fa-check"></i> Créer la facture
+                </button>
+                <a routerLink="/factures" class="btn-cancel">
+                  <i class="fa fa-times"></i> Annuler
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

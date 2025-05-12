@@ -1,0 +1,126 @@
+<div class="material-list-container">
+  <div class="flex justify-content-between flex-column sm:flex-row">
+    <!-- Champ de recherche global -->
+    <span class="p-input-icon-left mb-2">
+      <i class="pi pi-search"></i>
+      <input 
+        pInputText 
+        type="text" 
+        [(ngModel)]="searchName" 
+        (input)="onGlobalFilter(dt1, $event)" 
+        placeholder="Rechercher un matériau" 
+        class="w-full"
+      />
+    </span>
+    
+    <!-- Filtre pour l'unité -->
+    <span class="p-input-icon-left mb-2">
+      <i class="pi pi-filter"></i>
+      <p-dropdown
+        styleClass="dropdown1"
+        [options]="unitOptions" 
+        [(ngModel)]="selectedUnit"
+        (onChange)="filterByUnit(dt1)"
+        placeholder="Filtrer par unité"
+        [showClear]="true"
+        [filter]="true"
+        filterPlaceholder="Rechercher une unité"
+      ></p-dropdown>
+    </span>
+    
+    <span class="mb-2">
+      <button 
+      pButton 
+      type="button" 
+      icon="pi pi-file-excel" 
+      label="Exporter Excel" 
+      class="p-button-info p-button-rounded p-button-outlined mr-2"
+      (click)="exportToExcel()"
+    ></button>
+      <button 
+        pButton 
+        type="button" 
+        icon="pi pi-plus" 
+        label="Ajouter Matériau" 
+        class="p-button-success p-button-rounded p-button-outlined"
+        (click)="navigateToAddMaterial()"
+      ></button>
+    </span>
+  </div>
+
+  <p-table #dt1 
+    [value]="materials" 
+    [loading]="loading" 
+    [rows]="5" 
+    [paginator]="true" 
+    [globalFilterFields]="['materialName', 'cost', 'materialUnit']" 
+    responsiveLayout="scroll"
+    styleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="materialName" style="min-width: 12rem">
+          <div class="flex justify-content-between align-items-center">
+            Nom du Matériau
+            <p-sortIcon field="materialName"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="cost" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            Coût
+            <p-sortIcon field="cost"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="materialUnit" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            Unité
+            <p-sortIcon field="materialUnit"></p-sortIcon>
+          </div>
+        </th>
+        <th style="min-width: 12rem">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-material>
+      <tr>
+        <td>{{ material.materialName }}</td>
+        <td>{{ material.cost | currency:'EUR':'symbol':'1.2-2' }}</td>
+        <td>{{ material.materialUnit }}</td>
+        <td>
+          <div class="action-buttons">
+            <button 
+              pButton 
+              icon="pi pi-pencil" 
+              label="Éditer" 
+              class="p-button-warning p-button-outlined"
+              (click)="editMaterial(material)"
+            ></button>
+            <button 
+              pButton 
+              icon="pi pi-trash" 
+              label="Supprimer" 
+              class="p-button-danger p-button-outlined"
+              (click)="deleteMaterial(material.materialID)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" class="text-center py-4">
+          <div class="flex flex-column align-items-center">
+            <i class="pi pi-search" style="font-size: 2rem; color: #6c757d;"></i>
+            <p class="mt-2">Aucun matériau trouvé</p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Graphique avec les données filtrées -->
+  <div class="p-mt-4">
+    <app-chart-material [materials]="filteredMaterials"></app-chart-material>
+  </div>
+</div>

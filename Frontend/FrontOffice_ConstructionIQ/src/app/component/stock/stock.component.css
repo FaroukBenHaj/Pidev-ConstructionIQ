@@ -1,0 +1,581 @@
+/* Container Styles */
+/* Style global unifié et premium */
+.stock-management-container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Section de filtre - Design premium */
+.filter-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #6a11cb, #2575fc);
+}
+
+.filter-control {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-input-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.input-icon {
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  border-radius: 8px 0 0 8px;
+  z-index: 2;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.month-picker {
+  flex: 1;
+  border: 1px solid #e0e3e7;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  padding: 0.85rem 1rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-size: 0.95rem;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.month-picker:hover {
+  border-color: #c9d0d8;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.clear-filter-btn {
+  background: white;
+  border: none;
+  color: #6c757d;
+  margin-left: 0.75rem;
+  cursor: pointer;
+  padding: 0.65rem;
+  border-radius: 50%;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-filter-btn:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+  transform: rotate(90deg);
+}
+
+/* Tableau - Design premium */
+.stock-table-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.stock-table-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #6a11cb, #2575fc);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  padding: 0.5rem;
+}
+
+.stock-data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.stock-data-table th, 
+.stock-data-table td {
+  padding: 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.stock-data-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(5px);
+  z-index: 10;
+}
+
+.sortable-header {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sortable-header:hover {
+  background-color: rgba(106, 17, 203, 0.03);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sort-icon {
+  color: #adb5bd;
+  margin-left: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.sortable-header:hover .sort-icon {
+  color: #6a11cb;
+}
+
+.stock-row {
+  transition: all 0.3s ease;
+}
+
+.stock-row:hover {
+  background-color: rgba(106, 17, 203, 0.03);
+  transform: translateX(3px);
+}
+
+/* Cell Styles - Typographie améliorée */
+.quantity-cell {
+  font-weight: 600;
+  color: #2c3e50;
+  font-family: 'Inter', sans-serif;
+}
+
+.date-cell {
+  color: #5a6b7c;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Boutons d'action - Design premium */
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  letter-spacing: 0.3px;
+}
+
+.action-btn .btn-label {
+  margin-left: 0.65rem;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.2) 100%);
+  color: #dc3545;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(220, 53, 69, 0.2);
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.2) 100%);
+  color: #d39e00;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+  color: #2c3e50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 193, 7, 0.2);
+}
+
+.details-btn {
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 110, 253, 0.2) 100%);
+  color: #0d6efd;
+}
+
+.details-btn:hover {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(13, 110, 253, 0.2);
+}
+
+/* Message aucune donnée */
+.no-data-message {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-data-message i {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #adb5bd;
+}
+
+/* Pagination - Style premium */
+.custom-paginator {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .stock-management-container {
+    padding: 0 1.5rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .stock-data-table th, 
+  .stock-data-table td {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-section {
+    padding: 1.25rem;
+  }
+  
+  .calendar-input-group {
+    max-width: 100%;
+  }
+  
+  .btn-label {
+    display: none;
+  }
+  
+  .action-btn {
+    padding: 0.75rem;
+    justify-content: center;
+  }
+  
+  .action-btn i {
+    margin-right: 0;
+  }
+}
+
+
+/* Style global unifié et professionnel */
+.stock-details {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 2rem auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet de bordure décorative */
+.stock-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #6a11cb, #2575fc);
+}
+
+/* Titres avec dégradé de couleur */
+.stock-details h3 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+}
+
+.stock-details h3::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+.stock-details h4 {
+  color: #3d4e60;
+  font-size: 1.3rem;
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.stock-details h4::before {
+  content: '▹';
+  color: #6a11cb;
+  margin-right: 10px;
+  font-size: 1.1em;
+}
+
+/* Textes et paragraphes */
+.stock-details p {
+  color: #5a6b7c;
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.stock-details strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Liste des matériaux - style moderne */
+.stock-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.stock-details li {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.stock-details li:hover {
+  background-color: rgba(106, 17, 203, 0.03);
+  transform: translateX(5px);
+}
+
+.stock-details li:last-child {
+  border-bottom: none;
+}
+
+/* Section coût total - mise en valeur */
+.stock-details div[class*="p-mt-2"] {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-top: 1.5rem !important;
+  font-size: 1.15rem;
+  border-left: 4px solid #6a11cb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.stock-details div[class*="p-mt-2"] strong {
+  font-size: 1.1em;
+}
+
+/* Boutons - Design premium */
+.stock-details .p-button {
+  margin-right: 1rem;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+}
+
+.stock-details .p-button-help {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+}
+
+.stock-details .p-button-help:hover {
+  background: linear-gradient(135deg, #5a0db5 0%, #1a6ae6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(106, 17, 203, 0.2);
+}
+
+.stock-details .p-button-secondary {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #4a5568 !important;
+}
+
+.stock-details .p-button-secondary:hover {
+  background: linear-gradient(135deg, #e6ebf1 0%, #b8c4d9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(195, 207, 226, 0.3);
+}
+
+/* Lien de téléchargement - style cohérent */
+.stock-details .pdf-download-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  color: white !important;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.stock-details .pdf-download-link:hover {
+  background: linear-gradient(135deg, #5a0db5 0%, #1a6ae6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(106, 17, 203, 0.2);
+}
+
+.stock-details .pdf-download-link i {
+  margin-right: 0.75rem;
+  font-size: 1.1em;
+}
+
+/* Groupe de boutons */
+.stock-details .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stock-details {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .stock-details .button-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .stock-details .p-button,
+  .stock-details .pdf-download-link {
+    width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
+  
+  .stock-details h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animation subtile */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stock-details {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+.p-calendar {
+  width: 100%;
+}
+
+.p-calendar .p-inputtext {
+  padding-left: 2.5rem;
+}
+
+.p-calendar .p-datepicker-trigger {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+}
+/* Style pour le groupe de filtrage */
+.p-inputgroup {
+  margin-bottom: 1rem;
+}
+
+/* Style pour le tableau */
+.p-table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.p-table th {
+  background-color: #f8f9fa;
+}
+
+/* Message quand aucun résultat */
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+} 

@@ -1,0 +1,149 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+  <div id="featured-title-inner" class="container clearfix">
+    <div class="featured-title-inner-wrap">
+      <div class="featured-title-heading-wrap">
+        <h1 class="featured-title-heading" style="color: #ef8b0c">Liste des Paiements</h1>
+        <p>Gestion des transactions financières</p>
+      </div>
+      <div id="breadcrumbs">
+        <div class="breadcrumbs-inner">
+          <div class="breadcrumb-trail">
+            <a href="/" class="trail-begin">Accueil</a>
+            <span class="sep">/</span>
+            <span class="trail-end">Paiements</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply">
+  
+  <div id="content-wrap">
+    <div id="site-content" class="site-content clearfix">
+      <div id="inner-content" class="inner-content-wrap">
+        <div class="page-content">
+          <div class="payment-list-container">
+            <div class="payment-list-header">
+              <h2>Historique des Paiements</h2>
+              
+              <a routerLink="/paiements/create" class="new-payment-btn">
+                <i class="fa fa-plus"></i> Nouveau Paiement
+              </a>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="payment-filters">
+              <input
+                type="text"
+                [(ngModel)]="paymentSearchText"
+                (ngModelChange)="filterPayments()"
+                placeholder="Rechercher..."
+                class="search-input"
+              />
+              
+              <div class="filter-group">
+                <select
+                  [(ngModel)]="paymentType"
+                  (ngModelChange)="filterPayments()"
+                  class="filter-select"
+                >
+                  <option value="">Tous types</option>
+                  <option *ngFor="let t of paymentTypeList" [value]="t">{{ t }}</option>
+                </select>
+                
+                <div class="date-filters">
+                  <input
+                    type="date"
+                    [(ngModel)]="paymentDateFrom"
+                    (ngModelChange)="filterPayments()"
+                    class="date-input"
+                    placeholder="De"
+                  />
+                  <input
+                    type="date"
+                    [(ngModel)]="paymentDateTo"
+                    (ngModelChange)="filterPayments()"
+                    class="date-input"
+                    placeholder="À"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Messages -->
+            <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+            <div *ngIf="loading" class="loading-message">
+              <div class="spinner-border" role="status"></div>
+              <span>Chargement des données...</span>
+            </div>
+            <div *ngIf="!loading && filteredPayments.length === 0" class="no-results">
+              <i class="fa fa-info-circle"></i> Aucun paiement trouvé.
+            </div>
+
+            <!-- Payments Table -->
+            <div *ngIf="!loading && filteredPayments.length > 0" class="payment-table-container">
+              <table class="payment-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Montant</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Facture</th>
+                    <th>Budget</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let payment of filteredPayments">
+                    <td>{{ payment.id }}</td>
+                    <td>{{ payment.montant }} €</td>
+                    <td>{{ payment.datePaiement | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>
+                      <span class="payment-type-badge" [ngClass]="getPaymentTypeClass(payment.type)">
+                        {{ payment.type }}
+                      </span>
+                    </td>
+                    <td>
+                      <a [routerLink]="['/factures/show', payment.invoice.id]" class="invoice-link">
+                        #{{ payment.invoice.id }}
+                      </a>
+                    </td>
+                    <td>
+                      <a [routerLink]="['/budgets/show', payment.budget.id]" class="budget-link">
+                        {{ payment.budget.projet.nom }}
+                      </a>
+                    </td>
+                    <td class="actions">
+                      <a [routerLink]="['/paiements/show', payment.id]" class="btn-action btn-view" title="Voir">
+                        <i class="fa fa-eye"></i>
+                      </a>
+                      <a [routerLink]="['/paiements/edit', payment.id]" class="btn-action btn-edit" title="Modifier">
+                        <i class="fa fa-pencil"></i>
+                      </a>
+                      <button (click)="deletePayment(payment.id)" class="btn-action btn-delete" title="Supprimer">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

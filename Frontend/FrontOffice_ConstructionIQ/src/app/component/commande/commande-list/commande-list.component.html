@@ -1,0 +1,159 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+  <div id="featured-title-inner" class="container clearfix">
+    <div class="featured-title-inner-wrap">
+      <div class="featured-title-heading-wrap">
+        <h1 class="featured-title-heading" style="color: #ef8b0c">Commandes Fournisseurs</h1>
+        <p>Gestion de vos commandes</p>
+      </div>
+      <div id="breadcrumbs">
+        <div class="breadcrumbs-inner">
+          <div class="breadcrumb-trail">
+            <a href="/" title="Accueil" rel="home" class="trail-begin">Accueil</a>
+            <span class="sep">/</span>
+            <span class="trail-end">Commandes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply
+">
+  <div id="content-wrap">
+    <div id="site-content" class="site-content clearfix">
+      <div id="inner-content" class="inner-content-wrap">
+        <div class="page-content">
+          <div class="order-dashboard">
+            <!-- Action Bar -->
+            <div class="action-bar">
+              <div class="search-box">
+                <i class="fa fa-search"></i>
+                <input
+                  type="text"
+                  [(ngModel)]="searchText"
+                  (ngModelChange)="filterCommandes()"
+                  placeholder="Rechercher par ID, fournisseur..."
+                />
+              </div>
+              
+              <div class="action-buttons">
+                <a routerLink="/commandes/create" class="primary-button">
+                  <i class="fa fa-plus"></i> Nouvelle Commande
+                </a>
+              </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+              <select
+                [(ngModel)]="searchStatus"
+                (ngModelChange)="filterCommandes()"
+              >
+                <option value="">Tous statuts</option>
+                <option *ngFor="let s of statusList" [value]="s">{{ s }}</option>
+              </select>
+              
+              <div class="date-range">
+                <input
+                  type="date"
+                  [(ngModel)]="dateFrom"
+                  (ngModelChange)="filterCommandes()"
+                  placeholder="De"
+                />
+                <span>à</span>
+                <input
+                  type="date"
+                  [(ngModel)]="dateTo"
+                  (ngModelChange)="filterCommandes()"
+                  placeholder="À"
+                />
+              </div>
+            </div>
+
+            <!-- Status Messages -->
+            <div *ngIf="error" class="alert alert-danger">
+              <i class="fa fa-exclamation-circle"></i> {{ error }}
+            </div>
+            
+            <div *ngIf="loading" class="loading-message">
+              <div class="spinner"></div>
+              <span>Chargement des commandes...</span>
+            </div>
+            
+            <div *ngIf="!loading && filteredCommandes.length === 0" class="empty-message">
+              <i class="fa fa-box-open"></i> Aucune commande trouvée
+            </div>
+
+            <!-- Order Cards -->
+            <div *ngIf="!loading && filteredCommandes.length > 0" class="order-cards">
+              <div *ngFor="let commande of filteredCommandes" class="order-card">
+                <div class="card-header">
+                  <div class="order-id">#{{ commande.id }}</div>
+                  <div class="order-date">{{ commande.dateCommande | date:'dd/MM/yyyy' }}</div>
+                </div>
+                
+                <div class="card-body">
+                  <div class="order-supplier">
+                    <i class="fa fa-building"></i> {{ commande.fournisseur }}
+                  </div>
+                  
+                  <div class="order-details">
+                    <div class="order-material">
+                      <i class="fa fa-cube"></i> {{ commande.matiere }}
+                    </div>
+                    <div class="order-quantity">
+                      <i class="fa fa-boxes"></i> {{ commande.quantiteDemandee }} unités
+                    </div>
+                  </div>
+                  
+                  <div class="order-amount">{{ commande.montant }} €</div>
+                  
+                  <div class="order-status">
+                    <span [ngClass]="'status-' + commande.status.toLowerCase()">
+                      {{ commande.status }}
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="card-actions">
+                  <a [routerLink]="['/commandes/show', commande.id]" class="action-btn view">
+                    <i class="fa fa-eye"></i> Voir
+                  </a>
+                  <a *ngIf="commande.status" [routerLink]="['/commandes/edit', commande.id]" class="action-btn edit">
+                    <i class="fa fa-edit"></i> Modifier
+                  </a>
+                  <a routerLink="/factures/create" [queryParams]="{commandeId: commande.id}" class="action-btn invoice">
+                    <i class="fa fa-file-invoice"></i> Facturer
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary Footer -->
+            <div *ngIf="!loading && filteredCommandes.length > 0" class="summary-footer">
+              <div class="summary-item">
+                <span>Total commandes:</span>
+                <span>{{ filteredCommandes.length }}</span>
+              </div>
+              <div class="summary-item">
+                <span>Montant total:</span>
+                <span>{{ getTotalAmount() }} €</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

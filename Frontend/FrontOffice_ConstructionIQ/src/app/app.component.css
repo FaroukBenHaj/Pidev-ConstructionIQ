@@ -1,0 +1,9 @@
+/* Espacement entre le header et le contenu */
+#site-header-wrap {
+    margin-bottom: 50px; /* Espacement entre le header et le contenu */
+  }
+  
+  .liste-material-container {
+    padding-top: 30px; /* Ajouter du padding-top pour espacer la liste du header */
+  }
+  

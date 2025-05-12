@@ -1,0 +1,106 @@
+<app-header></app-header>
+
+<div class="page-header">
+  <div class="container">
+    <div class="header-content">
+      <h1 class="page-title">Nouvelle Commande</h1>
+      <p class="page-subtitle">Création d'une commande fournisseur</p>
+      <nav class="breadcrumbs">
+        <a href="/">Accueil</a>
+        <span>/</span>
+        <a href="/commandes">Commandes</a>
+        <span>/</span>
+        <span>Créer</span>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="page-content">
+  <div class="container">
+    <div class="content-card">
+      <!-- Error Message -->
+      <div *ngIf="error" class="error-message">
+        <i class="fas fa-exclamation-circle"></i> {{error}}
+      </div>
+
+      <!-- Create Form -->
+      <form [formGroup]="commandeForm" (ngSubmit)="onSubmit()" class="create-form">
+        <h2>Informations de la commande</h2>
+        
+        <div class="form-group">
+          <label for="fournisseur">Fournisseur</label>
+          <input type="text" id="fournisseur" formControlName="fournisseur" placeholder="Nom du fournisseur"
+            [ngClass]="{ 'is-invalid': submitted && f['fournisseur'].errors }" />
+          <div *ngIf="submitted && f['fournisseur'].errors" class="invalid-feedback">
+            <div *ngIf="f['fournisseur'].errors['required']">Le fournisseur est requis</div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="montant">Montant (€)</label>
+            <input type="number" id="montant" formControlName="montant" placeholder="Ex: 250"
+              [ngClass]="{ 'is-invalid': submitted && f['montant'].errors }" />
+            <div *ngIf="submitted && f['montant'].errors" class="invalid-feedback">
+              <div *ngIf="f['montant'].errors['required']">Le montant est requis</div>
+              <div *ngIf="f['montant'].errors['min']">Le montant doit être supérieur à 0</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="quantiteDemandee">Quantité</label>
+            <input type="number" id="quantiteDemandee" formControlName="quantiteDemandee" placeholder="Ex: 50"
+              [ngClass]="{ 'is-invalid': submitted && f['quantiteDemandee'].errors }" />
+            <div *ngIf="submitted && f['quantiteDemandee'].errors" class="invalid-feedback">
+              <div *ngIf="f['quantiteDemandee'].errors['required']">La quantité est requise</div>
+              <div *ngIf="f['quantiteDemandee'].errors['min']">La quantité doit être supérieure à 0</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="status">Statut</label>
+            <select id="status" formControlName="status"
+              [ngClass]="{ 'is-invalid': submitted && f['status'].errors }">
+              <option value="" disabled selected>Sélectionner un statut</option>
+              <option *ngFor="let status of commandeStatuses" [value]="status">
+                {{status}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f['status'].errors" class="invalid-feedback">
+              <div *ngIf="f['status'].errors['required']">Le statut est requis</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="matiere">Matière</label>
+            <select id="matiere" formControlName="matiere"
+              [ngClass]="{ 'is-invalid': submitted && f['matiere'].errors }">
+              <option value="" disabled selected>Sélectionner une matière</option>
+              <option *ngFor="let matiere of matieres" [value]="matiere">
+                {{matiere}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f['matiere'].errors" class="invalid-feedback">
+              <div *ngIf="f['matiere'].errors['required']">La matière est requise</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn-create" [disabled]="loading">
+            <span *ngIf="loading" class="btn-spinner"></span>
+            <i class="fas fa-plus-circle"></i> Créer la commande
+          </button>
+          <a routerLink="/commandes" class="btn-cancel">
+            <i class="fas fa-times"></i> Annuler
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

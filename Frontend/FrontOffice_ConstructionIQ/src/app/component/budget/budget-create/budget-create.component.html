@@ -1,0 +1,117 @@
+<app-header></app-header>
+
+<div id="featured-title" class="clearfix featured-title-left">
+    <div id="featured-title-inner" class="container clearfix">
+        <div class="featured-title-inner-wrap">
+            <div class="featured-title-heading-wrap">
+                <h1 class="featured-title-heading" style="color: #ef8b0c">Création de Budget</h1>
+                <p>Gestion des budgets projets</p>
+            </div>
+            <div id="breadcrumbs">
+                <div class="breadcrumbs-inner">
+                    <div class="breadcrumb-trail">
+                        <a href="/" title="Accueil" rel="home" class="trail-begin">Accueil</a>
+                        <span class="sep">/</span>
+                        <a href="/budgets" title="Budgets" class="trail-begin">Budgets</a>
+                        <span class="sep">/</span>
+                        <span class="trail-end">Créer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main-content" class="site-main clearfix" style="
+    background-image: url('../../../assets/img/gallery/p-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-blend-mode: multiply
+">
+    <div id="content-wrap" class="container">
+        <div id="site-content" class="site-content clearfix">
+            <div id="inner-content" class="inner-content-wrap">
+                <div class="page-content">
+                    <div class="budget-form-container">
+                        <!-- Error Message -->
+                        <div *ngIf="error" class="alert alert-danger">
+                            <i class="fa fa-exclamation-circle"></i> {{error}}
+                        </div>
+                        
+                        <!-- Budget Form Card -->
+                        <div class="budget-form-card">
+                            <div class="card-header">
+                                <h2><i class="fa fa-chart-pie"></i> Nouveau Budget</h2>
+                            </div>
+                            
+                            <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="montantTotal">
+                                        <i class="fa fa-money-bill-wave"></i> Montant Total
+                                    </label>
+                                    <div class="input-with-icon">
+                                        <input type="number" formControlName="montantTotal" 
+                                            [ngClass]="{ 'is-invalid': submitted && f['montantTotal'].errors }" 
+                                            placeholder="Entrez le montant total"/>
+                                        <span class="input-suffix">DT</span>
+                                    </div>
+                                    <div *ngIf="submitted && f['montantTotal'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montantTotal'].errors['required']">Le montant total est requis</div>
+                                        <div *ngIf="f['montantTotal'].errors['min']">Le montant doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="montantRestant">
+                                        <i class="fa fa-wallet"></i> Montant Restant
+                                    </label>
+                                    <div class="input-with-icon">
+                                        <input type="number" formControlName="montantRestant"
+                                            [ngClass]="{ 'is-invalid': submitted && f['montantRestant'].errors }" 
+                                            placeholder="Entrez le montant restant"/>
+                                        <span class="input-suffix">DT</span>
+                                    </div>
+                                    <div *ngIf="submitted && f['montantRestant'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['montantRestant'].errors['required']">Le montant restant est requis</div>
+                                        <div *ngIf="f['montantRestant'].errors['min']">Le montant doit être supérieur à 0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="projetId">
+                                        <i class="fa fa-project-diagram"></i> Projet Associé
+                                    </label>
+                                    <select formControlName="projetId" 
+                                        [ngClass]="{ 'is-invalid': submitted && f['projetId'].errors }">
+                                        <option value="">Sélectionnez un projet</option>
+                                        <option *ngFor="let projet of projets" [value]="projet.id">
+                                            {{projet.nom}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted && f['projetId'].errors" class="invalid-feedback">
+                                        <div *ngIf="f['projetId'].errors['required']">Veuillez sélectionner un projet</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="primary-button" [disabled]="loading">
+                                        <i class="fa fa-plus-circle"></i>
+                                        <span *ngIf="!loading">Créer Budget</span>
+                                        <span *ngIf="loading" class="spinner"></span>
+                                    </button>
+                                    <a routerLink="/budgets" class="secondary-button">
+                                        <i class="fa fa-times"></i> Annuler
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
