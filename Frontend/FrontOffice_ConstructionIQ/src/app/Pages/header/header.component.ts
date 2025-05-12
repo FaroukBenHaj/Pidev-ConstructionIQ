@@ -17,12 +17,10 @@ export class HeaderComponent {
     this.router.navigate(['/home']);
   }
 
-<<<<<<< HEAD:Frontend/FrontOffice_ConstructionIQ/src/app/component/header/header.component.ts
   goToUploadProject() {
     this.router.navigate(['/upload-project']);
-=======
+  }
   logout() {
     this.keycloak.logout();
->>>>>>> main:Frontend/FrontOffice_ConstructionIQ/src/app/Pages/header/header.component.ts
   }
 }

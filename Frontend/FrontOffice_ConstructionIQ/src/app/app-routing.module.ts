@@ -1,26 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-<<<<<<< HEAD
-import { HomePageComponent } from './component/home-page/home-page.component';
 import { UploadProjectComponent } from './upload-project/upload-project.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { EditProjectComponent } from './edit-project/edit-project.component';
 import { GranttChartComponent } from './grantt-chart/grantt-chart.component';
 import { WeatherInfoComponent } from './weather-info/weather-info.component';
 import { PredictionComponent } from './prediction/prediction.component';
-
-const routes: Routes = [
-  { path: 'prediction', component: PredictionComponent },
-  
-  { path: 'home', component: HomePageComponent }, 
-  { path: 'upload-project', component: UploadProjectComponent }, 
-  { path: 'project-list', component: ProjectListComponent },
-  { path: 'edit-project/:id', component: EditProjectComponent },
-  { path: 'gantt', component: GranttChartComponent},
- {path: 'weather/:projectId',
-  component: WeatherInfoComponent},
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-=======
 import { StockComponent } from './component/stock/stock.component'; // Import StockComponent
 import { AddStockComponent } from './component/stock/add-stock/add-stock.component';
 import { HomePageComponent } from './Pages/home-page/home-page.component';
@@ -58,7 +43,14 @@ import { PaymentShowComponent } from './component/payment/payment-show/payment-s
 const routes: Routes = [
   // Home
   { path: 'home', component: HomePageComponent },
-  
+  { path: 'prediction', component: PredictionComponent },
+    { path: 'upload-project', component: UploadProjectComponent }, 
+  { path: 'project-list', component: ProjectListComponent },
+  { path: 'edit-project/:id', component: EditProjectComponent },
+  { path: 'gantt', component: GranttChartComponent},
+ {path: 'weather/:projectId',
+  component: WeatherInfoComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   // Budget routes
   { path: 'budgets/create', component: BudgetCreateComponent },
   { path: 'budgets/edit/:id', component: BudgetEditComponent },
@@ -103,7 +95,6 @@ const routes: Routes = [
   { path : '' , redirectTo: '/home' , pathMatch:'full'},
   { path: '**', redirectTo: '/home' } // Si aucune route ne correspond, rediriger vers /home
 
->>>>>>> main
 ];
 
 @NgModule({

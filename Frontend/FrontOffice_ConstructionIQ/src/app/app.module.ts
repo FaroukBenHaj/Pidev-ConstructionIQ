@@ -5,43 +5,27 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 
-<<<<<<< HEAD
-import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './component/header/header.component';
-import { FooterComponent } from './component/footer/footer.component';
-import { HomePageComponent } from './component/home-page/home-page.component';
 import { UploadProjectComponent } from './upload-project/upload-project.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http'; 
 import { MatButtonModule } from '@angular/material/button'; 
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { ProjectListComponent } from './project-list/project-list.component'; 
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { EditProjectComponent } from './edit-project/edit-project.component';
-import { ReactiveFormsModule } from '@angular/forms'; 
-import { FormsModule } from '@angular/forms'; 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GranttChartComponent } from './grantt-chart/grantt-chart.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { MessageService } from 'primeng/api';
-import { DropdownModule } from 'primeng/dropdown';
+
 import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { SliderModule } from 'primeng/slider';
+
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MessageModule } from 'primeng/message';
@@ -52,7 +36,6 @@ import { ProjectStatisticsComponent } from './project-statistics/project-statist
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PredictionComponent } from './prediction/prediction.component';
-=======
 // PrimeNG Modules
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -126,7 +109,6 @@ import { CodeInputModule } from 'angular-code-input';
 export function kcFactory(kcService: KeycloakService) {
   return () => kcService.init();
 }
->>>>>>> main
 
 @NgModule({
   declarations: [
@@ -134,7 +116,7 @@ export function kcFactory(kcService: KeycloakService) {
     HeaderComponent,
     FooterComponent,
     HomePageComponent,
-<<<<<<< HEAD
+    LoginComponent,
     UploadProjectComponent,
     ProjectListComponent,
     EditProjectComponent,
@@ -142,9 +124,38 @@ export function kcFactory(kcService: KeycloakService) {
     WeatherInfoComponent,
     ProjectStatisticsComponent,
     PredictionComponent,
+    RegisterComponent,
+    ActivateAccountComponent,
+    HeroSectionComponent,
+    DivisionsComponent,
+    ServicesComponent,
+    SafetyDashboardComponent,
+    ClaimListComponent,
+    AddClaimComponent,
+    ClaimDetailComponent,
+    ListeMaterialComponent,
+    MaterialComponent,
+    StockComponent,
+    AddStockComponent,
+    ChartMaterialComponent,
+    BudgetCreateComponent,
+    BudgetEditComponent,
+    BudgetShowComponent,
+    CommandeListComponent,
+    CommandeCreateComponent,
+    CommandeEditComponent,
+    CommandeShowComponent,
+    InvoiceListComponent,
+    InvoiceCreateComponent,
+    InvoiceEditComponent,
+    InvoiceShowComponent,
+    PaymentListComponent,
+    PaymentCreateComponent,
+    PaymentEditComponent,
+    PaymentShowComponent
   ],
   imports: [
-    BrowserModule,
+      BrowserModule,
     RouterModule, 
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -185,49 +196,7 @@ export function kcFactory(kcService: KeycloakService) {
     MatProgressSpinnerModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatButtonModule
-
-
-
-
-
-  ],
-  providers: [    MessageService,  ConfirmationService
-],
-  bootstrap: [AppComponent]
-=======
-    LoginComponent,
-    RegisterComponent,
-    ActivateAccountComponent,
-    HeroSectionComponent,
-    DivisionsComponent,
-    ServicesComponent,
-    SafetyDashboardComponent,
-    ClaimListComponent,
-    AddClaimComponent,
-    ClaimDetailComponent,
-    ListeMaterialComponent,
-    MaterialComponent,
-    StockComponent,
-    AddStockComponent,
-    ChartMaterialComponent,
-    BudgetCreateComponent,
-    BudgetEditComponent,
-    BudgetShowComponent,
-    CommandeListComponent,
-    CommandeCreateComponent,
-    CommandeEditComponent,
-    CommandeShowComponent,
-    InvoiceListComponent,
-    InvoiceCreateComponent,
-    InvoiceEditComponent,
-    InvoiceShowComponent,
-    PaymentListComponent,
-    PaymentCreateComponent,
-    PaymentEditComponent,
-    PaymentShowComponent
-  ],
-  imports: [
+    MatButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
@@ -251,6 +220,7 @@ export function kcFactory(kcService: KeycloakService) {
     ToggleButtonModule
   ],
   providers: [
+    ConfirmationService,
     MessageService,
     StockService,
     KeycloakService,
@@ -272,7 +242,6 @@ export function kcFactory(kcService: KeycloakService) {
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
->>>>>>> main
 })
 export class AppModule { 
   

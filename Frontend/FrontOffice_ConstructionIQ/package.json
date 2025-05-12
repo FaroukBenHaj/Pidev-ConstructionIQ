@@ -21,7 +21,6 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
-<<<<<<< HEAD
     "@fullcalendar/angular": "^6.1.9",
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.9",
@@ -36,7 +35,6 @@
     "ngx-file-drop": "^16.0.0",
     "primeicons": "^6.0.0",
     "primeng": "^16.2.0",
-=======
     "leaflet": "^1.9.4",
 
     "html2canvas": "^1.4.1",
@@ -57,7 +55,6 @@
     "ng-openapi-gen": "^0.52.0",
     "primeicons": "^7.0.0",
     "primeng": "^16.4.1",
->>>>>>> main
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",

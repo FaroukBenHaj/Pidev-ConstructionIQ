@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="edit-project-container">
   <h2>Edit Project</h2>
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
@@ -53,3 +55,4 @@
     <button type="button" (click)="router.navigate(['/project-list'])" class="btn btn-secondary">Cancel</button>
   </form>
 </div>
+<app-footer></app-footer>
