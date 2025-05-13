@@ -57,7 +57,7 @@ To enhance risk management, the system integrates a Machine Learning component t
 
 📈 Output: Binary prediction (on-time ,delayed or In progress) along with a probability score
 - 🟢 **On-time**  
-- 🟡 **Risk**  
+- 🟡 **In Progress**  
 - 🔴 **Delayed** 
 ---
 **Additional Tools**
