@@ -1,98 +1,53 @@
-# 🏗️ ConstructionIQ
+# 🏗️ Project Management – ConstructionIQ
 
-**ConstructionIQ** is a modular, full-stack platform designed to streamline and optimize construction site management. It leverages microservice architecture for scalability and maintainability. Each microservice focuses on a core domain of the construction lifecycle, and the frontend offers both administrative and user-facing interfaces.
-
----
-
-## 🚀 Tech Stack
-
-### 🧠 Backend
-
-* **Java 17**, **Spring Boot**
-* **Spring Cloud**, **Spring Security**
-* **Keycloak** for Identity and Access Management
-* **MySQL**, **JPA/Hibernate**
-* **Eureka Server**, **Spring Cloud Gateway**
-
-### 🎨 Frontend
-
-* **Angular 16**
-* Tailored dashboards for Admin and Users
+The **ConstructionIQ** system empowers teams to manage construction projects efficiently. Track progress, assign tasks, visualize timelines via Gantt charts, and receive smart alerts for delays (e.g., weather disruptions). Generate detailed reports on budgets, progress, and more—all with automated email notifications.
 
 ---
 
-## 🧩 Microservices
-
-| Microservice       | Description                                             |
-| ------------------ | ------------------------------------------------------- |
-| `User-Domain`      | Handles user management & authentication using Keycloak |
-| `Project-Domain`   | Manages projects, tasks, and deadlines                  |
-| `Complaint-Domain` | Users can file and track site complaints                |
-| `Finance-Domain`   | Manages budgeting and financial operations              |
-| `Inventory-Domain` | Tracks stock, tools, and inventory                      |
-| `Safety-Domain`    | Provides real-time safety dashboards                    |
-| `Meeting-Domain`   | Schedules meetings, agendas, and participants           |
-
+## 🚀 **Overview**
+This microservice enables teams to:  
+✅ **Manage projects/tasks** via RESTful APIs  
+📅 **Visualize timelines** with interactive Gantt charts  
+🌦️ Get **weather-aware alerts** (OpenWeather API)  
+📧 Receive **SMTP-powered personalized email notifications**  
+📊 **Generate analytics** with dynamic charts
 ---
 
-## 🔐 Authentication
+## 🧠 **Features**
 
-* Centralized authentication and role-based access via **Keycloak**.
-* Integrated with the User-Domain microservice.
-* Uses JWT tokens for secure communication between services.
+### 1. **Project Management**
+- Upload, edit, or archive projects
+- Assign teams, budgets, and deadlines
+- Monitor overall progress via charts
 
----
+### 2. **Task & Timeline Tracking**
+- Break projects into tasks with dependencies
+- **Gantt chart visualization** for scheduling
+- Mark tasks as *Completed/In Progress/Blocked*
 
-## 🖥️ How to Run
+### 3. **Smart Alerts**
+- Weather-based delay predictions (API-integrated)
+- OpenWeather API integration for delay forecasts
+- Notifications for overdue tasks or budget overruns
 
-1. **Clone the repository**
+### 4. **Reporting & Analytics**
+- **PDF reports** with:
+    - Budget vs. actual spending
+    - Task completion rates
+    - Risk assessments (delays, resource gaps)
+- Charts for visual progress tracking
 
-   ```bash
-   git clone https://github.com/your-username/ConstructionIQ.git
-   ```
+### 5. **Automated Emails**
+- Daily/weekly project summaries
+- Custom alerts for stakeholders
 
-2. **Run Keycloak Server**
+--
 
-   * Set up a realm, client, and roles (`ADMIN`, `USER`, etc.).
-   * Import initial config if needed.
-
-3. **Start Eureka & Gateway**
-
-   ```bash
-   cd Backend/Server
-   ./mvnw spring-boot:run
-   ```
-
-4. **Start each Microservice**
-   Navigate into each microservice directory and run:
-
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-5. **Run Frontend**
-
-   ```bash
-   cd Frontend/Dashboard
-   npm install
-   ng serve
-   ```
+-### **Additional Tools**
+- **Apache PDFBox** (report generation)
+- **SendGrid/MailChimp** (email automation)
 
 ---
-
-## 📂 Folder Structure (Simplified)
-
-```
-
-```
-
----
-
-## 🛠️ Contributors
-
-* 👷 Project Lead: \[Your Name]
-* 🧑‍💻 Backend Devs: \[Names]
-* 🎨 Frontend Devs: \[Names]
-
----
+## 🧑💻 **Developed By**
+**Daghfous Zeineb**  
 
