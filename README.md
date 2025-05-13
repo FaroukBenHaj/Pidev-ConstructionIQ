@@ -42,8 +42,9 @@ This microservice enables teams to:
 - Daily/weekly project summaries
 - Custom alerts for stakeholders
 
+---
 
-##🤖 ML-Based Delay Prediction
+##🤖** ML-Based Delay Prediction**
 To enhance risk management, the system integrates a Machine Learning component that predicts whether a project is likely to be delayed based on historical and contextual data.
 
 ✅ Model Used: Random Forest Classifier
