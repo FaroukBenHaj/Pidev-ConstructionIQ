@@ -10,7 +10,8 @@ This microservice enables teams to:
 📅 **Visualize timelines** with interactive Gantt charts  
 🌦️ Get **weather-aware alerts** (OpenWeather API)  
 📧 Receive **SMTP-powered personalized email notifications**  
-📊 **Generate analytics** with dynamic charts
+📊 Generate analytics with dynamic charts
+🤖 Predict project delays using a trained ML model
 ---
 
 ## 🧠 **Features**
@@ -42,7 +43,20 @@ This microservice enables teams to:
 - Custom alerts for stakeholders
 
 --
+🤖 ML-Based Delay Prediction
+To enhance risk management, the system integrates a Machine Learning component that predicts whether a project is likely to be delayed based on historical and contextual data.
 
+✅ Model Used: Random Forest Classifier
+
+🧠 Training Data: Historical construction project metrics ('quality_rating', 'delay_reason', 'conditions_meteo','estimated_budget', 'complexity',   'num_tasks', 'num_resources', ‘safety_incidents','planned_duration_days', 'cost_overrun' )
+
+📦 Deployment: Implemented using Flask (Python) and exposed via a simple REST API
+
+🔗 Integration: The main application sends project/task data to the prediction endpoint (/predict-delay)
+
+📈 Output: Binary prediction (on-time ,delayed or In progress) along with a probability score
+
+---
 -### **Additional Tools**
 - **Apache PDFBox** (report generation)
 - **SendGrid/MailChimp** (email automation)
