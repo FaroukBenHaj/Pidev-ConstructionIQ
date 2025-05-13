@@ -44,7 +44,7 @@ This microservice enables teams to:
 
 ---
 
-##🤖** ML-Based Delay Prediction**
+## 🤖 **ML-Based Delay Prediction** 
 To enhance risk management, the system integrates a Machine Learning component that predicts whether a project is likely to be delayed based on historical and contextual data.
 
 ✅ Model Used: Random Forest Classifier
@@ -53,10 +53,12 @@ To enhance risk management, the system integrates a Machine Learning component t
 
 📦 Deployment: Implemented using Flask (Python) and exposed via a simple REST API
 
-🔗 Integration: The main application sends project/task data to the prediction endpoint (/predict-delay)
+🔗 Integration: The main application sends project/task data to the prediction endpoint (/predict)
 
 📈 Output: Binary prediction (on-time ,delayed or In progress) along with a probability score
-
+- 🟢 **On-time**  
+- 🟡 **Risk**  
+- 🔴 **Delayed** 
 ---
 **Additional Tools**
 - **Apache PDFBox** (report generation)
